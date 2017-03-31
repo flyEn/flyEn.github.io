@@ -80,7 +80,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="metaclass," />
+  <meta name="keywords" content="django-render, ajax-post," />
 
 
 
@@ -96,16 +96,22 @@
 
 
 
-<meta name="description" content="尝试编写一个ORM框架。github地址">
+<meta name="description" content="重定向1.1234# 类视图表单跳转urlreverse_lazy(&amp;apos;news:manage_list&amp;apos;)+&amp;apos;?type=&amp;apos;+article_type# 方法视图跳转urlHttpResponseRedirect(reverse(&amp;apos;news:manage_list&amp;apos;)+&amp;apos;?type=&amp;apos;+article_type)
+
+由">
 <meta property="og:type" content="article">
-<meta property="og:title" content="python元类(metaclass)ORM框架实践">
-<meta property="og:url" content="http://yoursite.com/2017/01/19/metaclass/index.html">
+<meta property="og:title" content="django重定向&ajax-post">
+<meta property="og:url" content="http://yoursite.com/2017/03/31/render-ajax/index.html">
 <meta property="og:site_name" content="flyEn'blog">
-<meta property="og:description" content="尝试编写一个ORM框架。github地址">
-<meta property="og:updated_time" content="2017-01-19T03:56:06.683Z">
+<meta property="og:description" content="重定向1.1234# 类视图表单跳转urlreverse_lazy(&amp;apos;news:manage_list&amp;apos;)+&amp;apos;?type=&amp;apos;+article_type# 方法视图跳转urlHttpResponseRedirect(reverse(&amp;apos;news:manage_list&amp;apos;)+&amp;apos;?type=&amp;apos;+article_type)
+
+由">
+<meta property="og:updated_time" content="2017-03-31T12:30:43.424Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="python元类(metaclass)ORM框架实践">
-<meta name="twitter:description" content="尝试编写一个ORM框架。github地址">
+<meta name="twitter:title" content="django重定向&ajax-post">
+<meta name="twitter:description" content="重定向1.1234# 类视图表单跳转urlreverse_lazy(&amp;apos;news:manage_list&amp;apos;)+&amp;apos;?type=&amp;apos;+article_type# 方法视图跳转urlHttpResponseRedirect(reverse(&amp;apos;news:manage_list&amp;apos;)+&amp;apos;?type=&amp;apos;+article_type)
+
+由">
 
 
 
@@ -133,13 +139,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2017/01/19/metaclass/"/>
+  <link rel="canonical" href="http://yoursite.com/2017/03/31/render-ajax/"/>
 
 
 
 
 
-  <title> python元类(metaclass)ORM框架实践 | flyEn'blog </title>
+  <title> django重定向&ajax-post | flyEn'blog </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -272,7 +278,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/01/19/metaclass/">
+  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/31/render-ajax/">
 
   <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
     <meta itemprop="name" content="Iwhale">
@@ -296,7 +302,7 @@
             
             
               
-                python元类(metaclass)ORM框架实践
+                django重定向&ajax-post
               
             
           </h1>
@@ -311,8 +317,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-01-19T11:52:04+08:00">
-                2017-01-19
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-03-31T20:28:49+08:00">
+                2017-03-31
               </time>
             
 
@@ -334,8 +340,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/python/" itemprop="url" rel="index">
-                    <span itemprop="name">python</span>
+                  <a href="/categories/django/" itemprop="url" rel="index">
+                    <span itemprop="name">django</span>
                   </a>
                 </span>
 
@@ -369,32 +375,31 @@
       
 
       
-        <p>尝试编写一个ORM框架。<br><a href="https://github.com/michaelliao/learn-python/blob/master/metaclass/simple_orm.py" target="_blank" rel="external">github地址</a></p>
+        <h4 id="重定向"><a href="#重定向" class="headerlink" title="重定向"></a>重定向</h4><p>1.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"># 类视图表单跳转url</div><div class="line">reverse_lazy(&apos;news:manage_list&apos;)+&apos;?type=&apos;+article_type</div><div class="line"># 方法视图跳转url</div><div class="line">HttpResponseRedirect(reverse(&apos;news:manage_list&apos;)+&apos;?type=&apos;+article_type)</div></pre></td></tr></table></figure></p>
+<blockquote>
+<p>由于是一个相对路径所以可以拼接字符串</p>
+</blockquote>
 <a id="more"></a>
+<p>2.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"># 跳转url传入关键字参数</div><div class="line">HttpResponseRedirect(reverse(&apos;home:banner_index&apos;, kwargs=&#123;&apos;type&apos;: type&#125;))</div></pre></td></tr></table></figure></p>
+<p>3.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">redirect(&apos;house:manage_index&apos;)</div></pre></td></tr></table></figure></p>
 <blockquote>
-<p>ORM全称“Object Relational Mapping”，即对象-关系映射，就是把关系数据库的一行映射为一个对象，也就是一个类对应一个表，这样，写代码更简单，不用直接操作SQL语句。</p>
+<p>HttpResponseRedirect第一个参数只能是一个url, , redirect更灵活, 可接受view,model,和url</p>
 </blockquote>
-<p>编写底层模块的第一步，就是先把调用接口写出来。比如，使用者如果使用这个ORM框架，想定义一个User类来操作对应的数据库表User。<br>理想的调用接口<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">class User(Model):</div><div class="line">    # 定义类的属性到列的映射：</div><div class="line">    id = IntegerFied(&apos;id&apos;)</div><div class="line">    name = StringField(&apos;username&apos;)</div><div class="line">    pwd = StringField(&apos;password&apos;)</div><div class="line">    </div><div class="line"># 创建一个实例：</div><div class="line">u = User(id=12345, name=&apos;Michael&apos;, password=&apos;my-pwd&apos;)</div><div class="line"># 保存到数据库：</div><div class="line">u.save()</div></pre></td></tr></table></figure></p>
-<p>具体实现<br>首先定义Field类，它负责保存数据库表的字段名和字段类型：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">class Field(object):</div><div class="line">    def __init__(self, name, column_type):</div><div class="line">        self.name = name</div><div class="line">        self.column_type = column_type</div><div class="line">    def __str__(self):</div><div class="line">        return &apos;&lt;%s:%s&gt;&apos; % (self.__class__.__name__, self.name)</div></pre></td></tr></table></figure></p>
-<p>在Field的基础上，进一步定义各种类型的Field，比如StringField，IntegerField等等：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">class StringField(Field):</div><div class="line">    def __init__(self, name):</div><div class="line">        super(StringField, self).__init__(name, &apos;varchar(100)&apos;)</div><div class="line"></div><div class="line">class IntegerField(Field):</div><div class="line">    def __init__(self, name):</div><div class="line">        super(IntegerField, self).__init__(name, &apos;bigint&apos;)</div></pre></td></tr></table></figure></p>
+<p>4.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">return render(self.request, &apos;charge/preview.html&apos;, locals())</div></pre></td></tr></table></figure></p>
 <blockquote>
-<p>super(StringField, self)与直接写父类Field名实现一样，但super()的好处就是可以避免直接使用父类的名字</p>
+<p>类视图里get方法必须返回一个url<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">return render(request, self.template_name, context)</div></pre></td></tr></table></figure></p>
 </blockquote>
-<p>编写元类 <code>ModelMetaclass</code>：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">class ModelMetaclass(type):</div><div class="line">    def __new__(cls, name, bases, attrs):</div><div class="line">        if name==&apos;Model&apos;:</div><div class="line">            return type.__new__(cls, name, bases, attrs)</div><div class="line">        mappings = dict()</div><div class="line">        for k, v in attrs.iteritems():</div><div class="line">            if isinstance(v, Field):</div><div class="line">                print(&apos;Found mapping: %s==&gt;%s&apos; % (k, v))</div><div class="line">                mappings[k] = v</div><div class="line">        for k in mappings.iterkeys():</div><div class="line">            attrs.pop(k)</div><div class="line">        attrs[&apos;__table__&apos;] = name # 假设表名和类名一致</div><div class="line">        attrs[&apos;__mappings__&apos;] = mappings # 保存属性和列的映射关系</div><div class="line">        return type.__new__(cls, name, bases, attrs)</div></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">return render_to_response(self.get_context_data(form=form))</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">return render_to_response(template_name,&#123;&apos;message_list&apos;: message_list, &#125;,</div><div class="line">                              context_instance=RequestContext(request))</div></pre></td></tr></table></figure>
+<p>5.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">return redirect(request.GET.get(&apos;next&apos;, reverse(&apos;account:index&apos;)))</div></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"># post.ajax</div><div class="line">class ManageCreateTagAjax(View):</div><div class="line">    def post(self, request, *args, **kwargs):</div><div class="line">        name = request.POST.get(&apos;tag&apos;)</div><div class="line">        if Tag.objects.filter(name=name, user=None).exists():</div><div class="line">            # 如果已经存在该tag则在前台弹出框报错</div><div class="line">            return JsonResponse(&#123;&#125;)</div><div class="line">        else:</div><div class="line">            tag = Tag.objects.create(name=name)</div><div class="line">            return JsonResponse(&#123;&apos;name&apos;: tag.name, &apos;id&apos;: tag.id&#125;)</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">$(&apos;#create&apos;).click(function () &#123;</div><div class="line">    var tag_name = $(&apos;#name&apos;);</div><div class="line">    $.ajax(&#123;</div><div class="line">        type: &apos;POST&apos;,</div><div class="line">        url: &quot;&#123;% url &apos;house:manager_create_tag&apos; %&#125;&quot;,</div><div class="line">        data: &#123;</div><div class="line">            tag: tag_name.val()</div><div class="line">        &#125;,</div><div class="line">        success: function (data) &#123;</div><div class="line">            tag_name.val(&apos;&apos;);</div><div class="line">            if (data.name) &#123;</div><div class="line">                window.location.reload();</div><div class="line">            &#125; else &#123;</div><div class="line">                alert(&quot;同名通用标签已经存在&quot;);</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;)</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
 <blockquote>
-<p>cls: 当前准备创建的类的对象<br>name: 类的名字<br>bases: 类继承的父类集合<br>attrs: 类的方法集合(字典类里的方法和它本身自定义的)</p>
+<p>JsonResponse返回给前台json数据, if (data.name) {window.location.reload()}else{…}; 如果得到name数据则加载页面没有得到即报错<br>如果url为空, 则是在当前类视图下post方法里处理<br>? : <code>HttpResponse(json.dumps({&quot;re_statue&quot;: 1}))</code><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">if(count==0)&#123;</div><div class="line">    var yes = function (val, index, elem) &#123;</div><div class="line">        var data= &#123;&quot;check_status&quot;:1,&quot;object_id&quot;: object_id&#125;;</div><div class="line">        $.post(url, data, function (data) &#123;</div><div class="line">            if (data.status == 1) &#123;</div><div class="line">                showAlertMsg(&quot;操作成功&quot;, 6);</div><div class="line">                location.href = &apos;&#123;% url &apos;user:manage_developer_verify&apos; %&#125;&apos;;</div><div class="line">            &#125; else &#123;</div><div class="line">                showAlertMsg(&quot;后台错误&quot;, 5);</div><div class="line">            &#125;</div><div class="line">        &#125;);</div><div class="line">    &#125;;</div><div class="line">    showYesorNo(&quot;是否通过审核&quot;, yes);</div><div class="line">&#125;else&#123;...&#125;</div></pre></td></tr></table></figure></p>
+<p> 另一种ajax.post写法</p>
 </blockquote>
-<p>基类Model<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line">class Model(dict):</div><div class="line">    __metaclass__ = ModelMetaclass</div><div class="line"></div><div class="line">    def __init__(self, **kw):</div><div class="line">        super(Model, self).__init__(**kw)</div><div class="line"></div><div class="line">    def __getattr__(self, key):</div><div class="line">        try:</div><div class="line">            return self[key]</div><div class="line">        except KeyError:</div><div class="line">            raise AttributeError(r&quot;&apos;Model&apos; object has no attribute &apos;%s&apos;&quot; % key)</div><div class="line"></div><div class="line">    def __setattr__(self, key, value):</div><div class="line">        self[key] = value</div><div class="line"></div><div class="line">    def save(self):</div><div class="line">        fields = []</div><div class="line">        params = []</div><div class="line">        args = []</div><div class="line">        for k, v in self.__mappings__.iteritems():</div><div class="line">            fields.append(v.name)</div><div class="line">            params.append(&apos;?&apos;)</div><div class="line">            args.append(getattr(self, k, None))</div><div class="line">        sql = &apos;insert into %s (%s) values (%s)&apos; % (self.__table__, &apos;,&apos;.join(fields), &apos;,&apos;.join(params))</div><div class="line">        print(&apos;SQL: %s&apos; % sql)</div><div class="line">        print(&apos;ARGS: %s&apos; % str(args))</div></pre></td></tr></table></figure></p>
-<p>当用户定义一个class User(Model)时，Python解释器首先在当前类User的定义中查找<code>__metaclass__</code>，如果没有找到，就继续在父类Model中查找<code>__metaclass__</code>，找到了，就使用Model中定义的<code>__metaclass__</code>的ModelMetaclass来创建User类，也就是说，metaclass可以隐式地继承到子类，但子类自己却感觉不到。</p>
-<p>在ModelMetaclass中，一共做了几件事情：</p>
-<ol>
-<li>排除掉对Model类的修改；</li>
-<li>在当前类（比如User）中查找定义的类的所有属性，如果找到一个Field属性，就把它保存到一个<code>__mappings__</code>的dict中，同时从类属性中删除该Field属性，否则，容易造成运行时错误；</li>
-<li>把表名保存到<code>__table__</code>中，这里简化为表名默认为类名。</li>
-</ol>
-<p>在Model类中，就可以定义各种操作数据库的方法，比如save()，delete()，find()，update等等。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">u = User(id=12345, name=&apos;Michael&apos;, email=&apos;test@orm.org&apos;, password=&apos;my-pwd&apos;)</div><div class="line">u.save()</div></pre></td></tr></table></figure>
-<p>输出如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">Found model: User</div><div class="line">Found mapping: email ==&gt; &lt;StringField:email&gt;</div><div class="line">Found mapping: password ==&gt; &lt;StringField:password&gt;</div><div class="line">Found mapping: id ==&gt; &lt;IntegerField:uid&gt;</div><div class="line">Found mapping: name ==&gt; &lt;StringField:username&gt;</div><div class="line">SQL: insert into User (password,email,username,uid) values (?,?,?,?)</div><div class="line">ARGS: [&apos;my-pwd&apos;, &apos;test@orm.org&apos;, &apos;Michael&apos;, 12345]</div></pre></td></tr></table></figure></p>
+<p>如果有个数据需要在很多模板页运用,可自定义一个模板页标签<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">from django.template import Library</div><div class="line"></div><div class="line">register = Library()</div><div class="line">register.tag(&apos;inbox_count&apos;, do_print_inbox_count)</div></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">&#123;% inbox_count as my_num %&#125;</div><div class="line">&#123;% if my_num &gt; 0 %&#125;</div><div class="line">&lt;span class=&quot;label label-important badge&quot;&gt;</div><div class="line">&#123;&#123; my_num &#125;&#125;</div><div class="line">&lt;/span&gt;</div><div class="line">&#123;% endif %&#125;</div></pre></td></tr></table></figure>
 
       
     </div>
@@ -418,7 +423,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/metaclass/" rel="tag"># metaclass</a>
+            <a href="/tags/django-render-ajax-post/" rel="tag"># django-render, ajax-post</a>
           
         </div>
       
@@ -427,8 +432,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/01/19/python2-7/" rel="next" title="寥雪峰python2.7学习笔记">
-                <i class="fa fa-chevron-left"></i> 寥雪峰python2.7学习笔记
+              <a href="/2017/01/20/django-queryset/" rel="next" title="django文档—queryset">
+                <i class="fa fa-chevron-left"></i> django文档—queryset
               </a>
             
           </div>
@@ -436,10 +441,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2017/01/20/django-queryset/" rel="prev" title="django文档—queryset">
-                django文档—queryset <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -486,8 +487,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel sidebar-panel-active">
+      <section class="site-overview sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/images/avatar.png"
@@ -563,6 +573,22 @@
 
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#重定向"><span class="nav-number">1.</span> <span class="nav-text">重定向</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
     </div>
