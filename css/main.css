@@ -216,7 +216,7 @@ h6 {
   padding: 0;
   font-weight: bold;
   line-height: 1.5;
-  font-family: 'Microsoft YaHei', "PingFang SC", "Microsoft YaHei", sans-serif;
+  font-family: 'Roboto Slab', 'Microsoft YaHei', "PingFang SC", "Microsoft YaHei", sans-serif;
 }
 h2,
 h3,
@@ -1680,7 +1680,7 @@ pre .javascript .function {
   width: 4px;
   height: 4px;
   border-radius: 50%;
-  background: #063432;
+  background: #beccff;
 }
 .links-of-blogroll {
   font-size: 13px;

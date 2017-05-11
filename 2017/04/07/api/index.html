@@ -45,6 +45,12 @@
   
 
   
+    
+      
+    
+
+    
+  
 
   
 
@@ -67,7 +73,7 @@
   
     
     
-    <link href="//fonts.googleapis.com/css?family=Microsoft YaHei:300,300italic,400,400italic,700,700italic|Lobster Two:300,300italic,400,400italic,700,700italic|PT Mono:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+    <link href="//fonts.googleapis.com/css?family=Microsoft YaHei:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|Lobster Two:300,300italic,400,400italic,700,700italic|PT Mono:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
   
 
 
@@ -102,7 +108,7 @@
 <meta property="og:url" content="http://yoursite.com/2017/04/07/api/index.html">
 <meta property="og:site_name" content="flyEn'blog">
 <meta property="og:description" content="如果不需要序列化类，可在长注释里写参数（不同api文档写法不同，以下为swagger）12345678910&amp;quot;&amp;quot;&amp;quot;&amp;lt;描述&amp;gt; --- parameters:     - name: mobile_phone       required: true       type: string       description: 手机号&amp;quot;&amp;quot;&amp;q">
-<meta property="og:updated_time" content="2017-04-07T07:31:19.028Z">
+<meta property="og:updated_time" content="2017-04-14T08:26:30.068Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="django-rest-framework的API视图">
 <meta name="twitter:description" content="如果不需要序列化类，可在长注释里写参数（不同api文档写法不同，以下为swagger）12345678910&amp;quot;&amp;quot;&amp;quot;&amp;lt;描述&amp;gt; --- parameters:     - name: mobile_phone       required: true       type: string       description: 手机号&amp;quot;&amp;quot;&amp;q">
@@ -390,34 +396,26 @@
 <p>PATCH 部分更新，即如果有内容参数没有传，就不会被更新</p>
 </blockquote>
 <h3 id="API视图"><a href="#API视图" class="headerlink" title="API视图"></a>API视图</h3><h4 id="ViewSet"><a href="#ViewSet" class="headerlink" title="ViewSet"></a>ViewSet</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">viewsets.ModelViewSet(mixins.CreateModelMixin,</div><div class="line">                   mixins.RetrieveModelMixin,</div><div class="line">                   mixins.UpdateModelMixin,</div><div class="line">                   mixins.DestroyModelMixin,</div><div class="line">                   mixins.ListModelMixin,</div><div class="line">                   GenericViewSet):</div></pre></td></tr></table></figure>
-<p>默认包括创建、查看、更新、删除、列表<br>create(), retrieve(), update(), partial_update(), destroy() and list()<br>perform_create创建方法<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">viewsets.ReadOnlyModelViewSet(mixins.RetrieveModelMixin,</div><div class="line">                           mixins.ListModelMixin,</div><div class="line">                           GenericViewSet):</div><div class="line">```  </div><div class="line">只读，默认包括retrieve()和list()方法</div></pre></td></tr></table></figure></p>
-<p>viewsets.GenericViewSet(ViewSetMixin, generics.GenericAPIView):<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">默认不提供任何操作，需自己编写，但包括基本的通用视图行为，例如 `get_object`和`get_queryset`方法。（通常会使用提供默认行为的现有基类，而不是自己编写）</div></pre></td></tr></table></figure></p>
-<p>viewsets.ViewSet(ViewSetMixin, views.APIView):<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">默认不提供任何操作</div><div class="line"></div><div class="line">ViewSet视图如果需要可以绑定到单独的视图当中去</div></pre></td></tr></table></figure></p>
-<p>user_list = UserViewSet.as_view({‘get’: ‘list’})<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">但通常不这样用，而是用用路由器注册视图，并允许自动生成urlconf</div></pre></td></tr></table></figure></p>
-<p>router = DefaultRouter()<br>router.register(r’users’, UserViewSet)<br>url(r’^api/‘, include(router.urls)), # 可在注定url下包括进去<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">&gt; REST框架附带的默认路由器将为标准的create / retrieve / update / destroy样式操作提供路由</div><div class="line">&gt; 如果您需要路由到特殊方法，则可以使用@detail_route或@list_route装饰器将其标记为需要路由。@detail_route装饰器在其URL模式中包含pk，旨在用于需要单个实例的方法。 @list_route装饰器适用于在对象列表上操作的方法。</div><div class="line"></div><div class="line">比如：</div></pre></td></tr></table></figure></p>
-<p>class UserViewSet(viewsets.ModelViewSet):<br>    queryset = User.objects.all()<br>    serializer_class = UserSerializer</p>
-<pre><code>@detail_route(methods=[&apos;post&apos;])
-def set_password(self, request, pk=None):
-    user = self.get_object()
-    serializer = PasswordSerializer(data=request.data)
-    if serializer.is_valid():
-        user.set_password(serializer.data[&apos;password&apos;])
-        user.save()
-        return Response({&apos;status&apos;: &apos;password set&apos;})
-    else:
-        return Response(serializer.errors,
-                        status=status.HTTP_400_BAD_REQUEST)
-
-
-@list_route()
-def recent_users(self, request):
-    recent_users = User.objects.all().order(&apos;-last_login&apos;)
-    ...
-</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">装饰器也可额外设置仅为路由视图设置的额外参</div></pre></td></tr></table></figure>
-<pre><code>@detail_route(methods=[&apos;post&apos;], permission_classes=[IsAdminOrIsSelf])
-def set_password(self, request, pk=None):
-   ...
-</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">装饰器默认路由GET请求，但也可以通过使用methods参数来接受其他http方法</div><div class="line">```	</div><div class="line">	@detail_route(methods=[&apos;post&apos;, &apos;delete&apos;])</div><div class="line">    def unset_password(self, request, pk=None):</div><div class="line">       ...</div></pre></td></tr></table></figure>
+<p>默认包括创建、查看、更新、删除、列表<br>create(), retrieve(), update(), partial_update(), destroy() and list()<br>perform_create创建方法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">viewsets.ReadOnlyModelViewSet(mixins.RetrieveModelMixin,</div><div class="line">                           mixins.ListModelMixin,</div><div class="line">                           GenericViewSet):</div></pre></td></tr></table></figure>
+<p>只读，默认包括retrieve()和list()方法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">viewsets.GenericViewSet(ViewSetMixin, generics.GenericAPIView):</div></pre></td></tr></table></figure>
+<p>默认不提供任何操作，需自己编写，但包括基本的通用视图行为，例如 <code>get_object</code>和<code>get_queryset</code>方法。（通常会使用提供默认行为的现有基类，而不是自己编写）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">viewsets.ViewSet(ViewSetMixin, views.APIView):</div></pre></td></tr></table></figure>
+<p>默认不提供任何操作</p>
+<p>ViewSet视图如果需要可以绑定到单独的视图当中去</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">user_list = UserViewSet.as_view(&#123;&apos;get&apos;: &apos;list&apos;&#125;)</div></pre></td></tr></table></figure>
+<p>但通常不这样用，而是用用路由器注册视图，并允许自动生成urlconf</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">router = DefaultRouter()</div><div class="line">router.register(r&apos;users&apos;, UserViewSet)</div><div class="line">url(r&apos;^api/&apos;, include(router.urls)), # 可在注定url下包括进去</div></pre></td></tr></table></figure>
+<blockquote>
+<p>REST框架附带的默认路由器将为标准的create / retrieve / update / destroy样式操作提供路由<br>如果您需要路由到特殊方法，则可以使用@detail_route或@list_route装饰器将其标记为需要路由。@detail_route装饰器在其URL模式中包含pk，旨在用于需要单个实例的方法。 @list_route装饰器适用于在对象列表上操作的方法。</p>
+</blockquote>
+<p>比如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">class UserViewSet(viewsets.ModelViewSet):</div><div class="line">	queryset = User.objects.all()</div><div class="line">    serializer_class = UserSerializer</div><div class="line"></div><div class="line">    @detail_route(methods=[&apos;post&apos;])</div><div class="line">    def set_password(self, request, pk=None):</div><div class="line">        user = self.get_object()</div><div class="line">        serializer = PasswordSerializer(data=request.data)</div><div class="line">        if serializer.is_valid():</div><div class="line">            user.set_password(serializer.data[&apos;password&apos;])</div><div class="line">            user.save()</div><div class="line">            return Response(&#123;&apos;status&apos;: &apos;password set&apos;&#125;)</div><div class="line">        else:</div><div class="line">            return Response(serializer.errors,</div><div class="line">                            status=status.HTTP_400_BAD_REQUEST)</div><div class="line">                           </div><div class="line">                          </div><div class="line">    @list_route()</div><div class="line">    def recent_users(self, request):</div><div class="line">        recent_users = User.objects.all().order(&apos;-last_login&apos;)</div><div class="line">		...</div></pre></td></tr></table></figure>
+<p>装饰器也可额外设置仅为路由视图设置的额外参数</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">@detail_route(methods=[&apos;post&apos;], permission_classes=[IsAdminOrIsSelf])</div><div class="line">def set_password(self, request, pk=None):</div><div class="line">   ...</div></pre></td></tr></table></figure>
+<p>装饰器默认路由GET请求，但也可以通过使用methods参数来接受其他http方法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">@detail_route(methods=[&apos;post&apos;, &apos;delete&apos;])</div><div class="line">   def unset_password(self, request, pk=None):</div><div class="line">      ...</div></pre></td></tr></table></figure>
 <blockquote>
 <p>有俩新操作将可用<code>^users/{pk}/set_password$</code>/<code>and ^users/{pk}/unset_password/$</code></p>
 </blockquote>
@@ -507,6 +505,10 @@ def set_password(self, request, pk=None):
 
           <div class="post-nav-prev post-nav-item">
             
+              <a href="/2017/05/11/ueditor/" rel="prev" title="ueditor">
+                ueditor <i class="fa fa-chevron-right"></i>
+              </a>
+            
           </div>
         </div>
       
@@ -575,7 +577,7 @@ def set_password(self, request, pk=None):
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">11</span>
+                <span class="site-state-item-count">12</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -593,7 +595,7 @@ def set_password(self, request, pk=None):
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">11</span>
+                <span class="site-state-item-count">12</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
