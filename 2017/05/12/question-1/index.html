@@ -86,7 +86,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="question," />
 
 
 
@@ -102,15 +102,16 @@
 
 
 
-<meta name="description" content="Dream, Such as whales to the sea.">
-<meta property="og:type" content="website">
-<meta property="og:title" content="flyEn'blog">
-<meta property="og:url" content="http://yoursite.com/tags/cache/index.html">
+<meta name="description" content="多对多关系123456class Blog(StatusModel):	title = models.CharField(verbose_name=&amp;apos;标题&amp;apos;, max_length=50)	tag = models.ManyToManyField(Tag, related_name=&amp;apos;under_tag_blog&amp;apos;, verbose_name=&amp;apos;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="所遇问题与解决方案（一）">
+<meta property="og:url" content="http://yoursite.com/2017/05/12/question-1/index.html">
 <meta property="og:site_name" content="flyEn'blog">
-<meta property="og:description" content="Dream, Such as whales to the sea.">
+<meta property="og:description" content="多对多关系123456class Blog(StatusModel):	title = models.CharField(verbose_name=&amp;apos;标题&amp;apos;, max_length=50)	tag = models.ManyToManyField(Tag, related_name=&amp;apos;under_tag_blog&amp;apos;, verbose_name=&amp;apos;">
+<meta property="og:updated_time" content="2017-05-12T07:43:46.753Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="flyEn'blog">
-<meta name="twitter:description" content="Dream, Such as whales to the sea.">
+<meta name="twitter:title" content="所遇问题与解决方案（一）">
+<meta name="twitter:description" content="多对多关系123456class Blog(StatusModel):	title = models.CharField(verbose_name=&amp;apos;标题&amp;apos;, max_length=50)	tag = models.ManyToManyField(Tag, related_name=&amp;apos;under_tag_blog&amp;apos;, verbose_name=&amp;apos;">
 
 
 
@@ -138,13 +139,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/tags/cache/"/>
+  <link rel="canonical" href="http://yoursite.com/2017/05/12/question-1/"/>
 
 
 
 
 
-  <title> 标签: cache | flyEn'blog </title>
+  <title> 所遇问题与解决方案（一） | flyEn'blog </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -165,7 +166,7 @@
     
   
 
-  <div class="container one-collumn sidebar-position-left  ">
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -267,46 +268,177 @@
           <div id="content" class="content">
             
 
-  <div id="posts" class="posts-collapse">
-    <div class="collection-title">
-      <h2 >
-        cache
-        <small>标签</small>
-      </h2>
-    </div>
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/05/12/question-1/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="Iwhale">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/avatar.png">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="flyEn'blog">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="flyEn'blog" src="">
+    </span>
+  </span>
 
     
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                所遇问题与解决方案（一）
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-05-12T15:34:48+08:00">
+                2017-05-12
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/程序猿/" itemprop="url" rel="index">
+                    <span itemprop="name">程序猿</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
       
 
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
+      
+        <hr>
+<p>多对多关系<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">class Blog(StatusModel):</div><div class="line">	title = models.CharField(verbose_name=&apos;标题&apos;, max_length=50)</div><div class="line">	tag = models.ManyToManyField(Tag, related_name=&apos;under_tag_blog&apos;, verbose_name=&apos;标签&apos;)</div><div class="line"></div><div class="line">class Tag(models.Model):</div><div class="line">    tag_name = models.CharField(verbose_name=&apos;分类名称&apos;, max_length=10)</div></pre></td></tr></table></figure></p>
+<p>增加：</p>
+<blockquote>
+<p>因为 多对多会生成单个的一个表，所以其实不用 null=True, blank=True<br>假如tag表里有数据<br>b1 = Blog()<br>b1.title =  ‘aaa’<br>b1.save()  # 需要先保存对象才能再给tag值<br>tags = Tag.objects.all<br><code>b1.tag.add(tags[1]) # 保存单个tag对象用add</code><br><code>b1.tag =  tags # 保存多个querset对象可直接赋值</code><br>b1.save()  # 最后再保存 </p>
+</blockquote>
+<p>查询：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"># 某博客的全部标签</div><div class="line">b1 = Blog.objects.get(title=&apos;aaa&apos;)</div><div class="line">b1.tags.all()</div><div class="line">t1 = ...</div><div class="line">t1.blog_set.all() </div><div class="line"># 也可以用设置的反向查询属性查</div><div class="line">t1.under_tag_blog.all()</div></pre></td></tr></table></figure></p>
 
-      <h1 class="post-title">
+      
+    </div>
+
+    <div>
+      
         
-            <a class="post-title-link" href="/2017/05/12/cache/" itemprop="url">
-              
-                <span itemprop="name">django缓存机制</span>
-              
-            </a>
+
+      
+    </div>
+
+    <div>
+      
         
-      </h1>
 
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2017-05-12T15:30:29+08:00"
-              content="2017-05-12" >
-          05-12
-        </time>
-      </div>
+      
+    </div>
 
-    </header>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/question/" rel="tag"># question</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/05/12/cache/" rel="next" title="django缓存机制">
+                <i class="fa fa-chevron-left"></i> django缓存机制
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
   </article>
 
 
-    
-  </div>
 
-  
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -314,6 +446,10 @@
 
 
           
+  <div class="comments" id="comments">
+    
+  </div>
+
 
         </div>
         
@@ -508,6 +644,10 @@
   
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
 
   
 
