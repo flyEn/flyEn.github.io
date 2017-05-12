@@ -102,16 +102,22 @@
 
 
 
-<meta name="description" content="多对多关系123456class Blog(StatusModel):	title = models.CharField(verbose_name=&amp;apos;标题&amp;apos;, max_length=50)	tag = models.ManyToManyField(Tag, related_name=&amp;apos;under_tag_blog&amp;apos;, verbose_name=&amp;apos;">
+<meta name="description" content="dict2.pop(&amp;#39;name&amp;#39;) 删除并返回键为“name”的条目
+api视图里，request.data里包括request.POST and request.FILES
+api视图里request.query_params是request.GET更正确的表达（推荐）。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="所遇问题与解决方案（一）">
 <meta property="og:url" content="http://yoursite.com/2017/05/12/question-1/index.html">
 <meta property="og:site_name" content="flyEn'blog">
-<meta property="og:description" content="多对多关系123456class Blog(StatusModel):	title = models.CharField(verbose_name=&amp;apos;标题&amp;apos;, max_length=50)	tag = models.ManyToManyField(Tag, related_name=&amp;apos;under_tag_blog&amp;apos;, verbose_name=&amp;apos;">
-<meta property="og:updated_time" content="2017-05-12T07:43:46.753Z">
+<meta property="og:description" content="dict2.pop(&amp;#39;name&amp;#39;) 删除并返回键为“name”的条目
+api视图里，request.data里包括request.POST and request.FILES
+api视图里request.query_params是request.GET更正确的表达（推荐）。">
+<meta property="og:updated_time" content="2017-05-12T07:44:30.196Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="所遇问题与解决方案（一）">
-<meta name="twitter:description" content="多对多关系123456class Blog(StatusModel):	title = models.CharField(verbose_name=&amp;apos;标题&amp;apos;, max_length=50)	tag = models.ManyToManyField(Tag, related_name=&amp;apos;under_tag_blog&amp;apos;, verbose_name=&amp;apos;">
+<meta name="twitter:description" content="dict2.pop(&amp;#39;name&amp;#39;) 删除并返回键为“name”的条目
+api视图里，request.data里包括request.POST and request.FILES
+api视图里request.query_params是request.GET更正确的表达（推荐）。">
 
 
 
@@ -375,7 +381,16 @@
       
 
       
-        <hr>
+        <ol>
+<li><code>dict2.pop(&#39;name&#39;)</code> 删除并返回键为“name”的条目</li>
+<li>api视图里，<code>request.data</code>里包括<code>request.POST</code> and <code>request.FILES</code></li>
+<li>api视图里<code>request.query_params</code>是request.GET更正确的表达（推荐）。<a id="more"></a></li>
+<li>netstat -anp<br>netstat -tunlp<br>ps -aux<br>ps -aux|grep python</li>
+</ol>
+<p>序列化器嵌套实现：</p>
+<p>比如，pdf报告、与其项目指标各为都单独一张表，一个pdf报告里对应多个项目指标。<br>那么序列化器想输出pdf项目详情（内含其对应项目指标库）<br>方法一：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">class PDFItemsSerializers(serializers.ModelSerializer):</div><div class="line">    class Meta:</div><div class="line">        model = PDFItems</div><div class="line">        fields = __all__</div><div class="line"></div><div class="line">class PDFItemsDetailSerializers(serializers.ModelSerializer):</div><div class="line">    pdf_items = serializers.SerializerMethodField()</div><div class="line"></div><div class="line">    class Meta:</div><div class="line">        model = PersonalHealth</div><div class="line">        fields = (&quot;pdf_items&quot;,)</div><div class="line">        </div><div class="line">	def get_pdf_items(self, obj):</div><div class="line">        query = PDFItems.objects.filter(status=0, personal_health=self.instance)</div><div class="line">        serializer = PDFItemsSerializers(query, many=True)</div><div class="line">        return serializer.data</div></pre></td></tr></table></figure></p>
+<p>方法二：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">class FilteredListSerializer(serializers.ListSerializer):</div><div class="line"></div><div class="line">   def to_representation(self, data):</div><div class="line">       data = data.filter(status=0)</div><div class="line">       return super(FilteredListSerializer, self).to_representation(data)</div><div class="line"></div><div class="line">class PDFItemsSerializers(serializers.ModelSerializer):</div><div class="line"></div><div class="line">    class Meta:</div><div class="line">        model = PDFItems</div><div class="line">        list_serializer_class = FilteredListSerializer</div><div class="line">        fields = __all__</div><div class="line"></div><div class="line">class PDFItemsDetailSerializers(serializers.ModelSerializer):</div><div class="line">    pdf_items = PDFItemsSerializers()</div></pre></td></tr></table></figure></p>
+<hr>
 <p>多对多关系<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">class Blog(StatusModel):</div><div class="line">	title = models.CharField(verbose_name=&apos;标题&apos;, max_length=50)</div><div class="line">	tag = models.ManyToManyField(Tag, related_name=&apos;under_tag_blog&apos;, verbose_name=&apos;标签&apos;)</div><div class="line"></div><div class="line">class Tag(models.Model):</div><div class="line">    tag_name = models.CharField(verbose_name=&apos;分类名称&apos;, max_length=10)</div></pre></td></tr></table></figure></p>
 <p>增加：</p>
 <blockquote>

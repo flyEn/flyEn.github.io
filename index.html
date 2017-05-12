@@ -380,16 +380,17 @@
 
       
         
-          
-            <hr>
-<p>多对多关系<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">class Blog(StatusModel):</div><div class="line">	title = models.CharField(verbose_name=&apos;标题&apos;, max_length=50)</div><div class="line">	tag = models.ManyToManyField(Tag, related_name=&apos;under_tag_blog&apos;, verbose_name=&apos;标签&apos;)</div><div class="line"></div><div class="line">class Tag(models.Model):</div><div class="line">    tag_name = models.CharField(verbose_name=&apos;分类名称&apos;, max_length=10)</div></pre></td></tr></table></figure></p>
-<p>增加：</p>
-<blockquote>
-<p>因为 多对多会生成单个的一个表，所以其实不用 null=True, blank=True<br>假如tag表里有数据<br>b1 = Blog()<br>b1.title =  ‘aaa’<br>b1.save()  # 需要先保存对象才能再给tag值<br>tags = Tag.objects.all<br><code>b1.tag.add(tags[1]) # 保存单个tag对象用add</code><br><code>b1.tag =  tags # 保存多个querset对象可直接赋值</code><br>b1.save()  # 最后再保存 </p>
-</blockquote>
-<p>查询：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"># 某博客的全部标签</div><div class="line">b1 = Blog.objects.get(title=&apos;aaa&apos;)</div><div class="line">b1.tags.all()</div><div class="line">t1 = ...</div><div class="line">t1.blog_set.all() </div><div class="line"># 也可以用设置的反向查询属性查</div><div class="line">t1.under_tag_blog.all()</div></pre></td></tr></table></figure></p>
-
-          
+          <ol>
+<li><code>dict2.pop(&#39;name&#39;)</code> 删除并返回键为“name”的条目</li>
+<li>api视图里，<code>request.data</code>里包括<code>request.POST</code> and <code>request.FILES</code></li>
+<li>api视图里<code>request.query_params</code>是request.GET更正确的表达（推荐）。
+          <!--noindex-->
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2017/05/12/question-1/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
