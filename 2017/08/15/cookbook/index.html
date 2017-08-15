@@ -1,0 +1,771 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Microsoft YaHei:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|Lobster Two:300,300italic,400,400italic,700,700italic|PT Mono:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="python," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="此文仅为学习python cookbook书籍时候记的笔记，记录过程权当加深记忆，无任何主观内容，若需参考可直接至此在线文档学习。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="python cookbook学习笔记（一）">
+<meta property="og:url" content="http://yoursite.com/2017/08/15/cookbook/index.html">
+<meta property="og:site_name" content="flyEn'blog">
+<meta property="og:description" content="此文仅为学习python cookbook书籍时候记的笔记，记录过程权当加深记忆，无任何主观内容，若需参考可直接至此在线文档学习。">
+<meta property="og:updated_time" content="2017-08-15T10:24:34.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="python cookbook学习笔记（一）">
+<meta name="twitter:description" content="此文仅为学习python cookbook书籍时候记的笔记，记录过程权当加深记忆，无任何主观内容，若需参考可直接至此在线文档学习。">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/08/15/cookbook/"/>
+
+
+
+
+
+  <title> python cookbook学习笔记（一） | flyEn'blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">flyEn'blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+    
+      <p class="site-subtitle"></p>
+    
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/08/15/cookbook/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="Iwhale">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/avatar.png">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="flyEn'blog">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="flyEn'blog" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                python cookbook学习笔记（一）
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-08-15T18:15:16+08:00">
+                2017-08-15
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>此文仅为学习python cookbook书籍时候记的笔记，记录过程权当加深记忆，无任何主观内容，若需参考可直接至此<a href="http://python3-cookbook.readthedocs.io/zh_CN/latest/chapters/p01_data_structures_algorithms.html" target="_blank" rel="external">在线文档</a>学习。</p>
+<a id="more"></a>
+<p>——<a href="http://python3-cookbook.readthedocs.io/zh_CN/latest/chapters/p01_data_structures_algorithms.html" target="_blank" rel="external">数据结构和算法</a></p>
+<h3 id="解压序列赋值给多个变量"><a href="#解压序列赋值给多个变量" class="headerlink" title="解压序列赋值给多个变量"></a>解压序列赋值给多个变量</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; data = [ &apos;ACME&apos;, 50, 91.1, (2012, 12, 21) ]</div><div class="line">&gt;&gt;&gt; name, shares, price, date = data</div></pre></td></tr></table></figure>
+<blockquote>
+<p>前提是变量数量必须和序列元素数量一样。</p>
+</blockquote>
+<p>否则异常：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">Traceback (most recent call last):</div><div class="line">File &quot;&lt;stdin&gt;&quot;, line 1, in &lt;module&gt;</div><div class="line">ValueError: need more than 2 values to unpack</div></pre></td></tr></table></figure></p>
+<p>适用对象：任何可迭代对象（列表、元组、<em>字符串、文件对象、迭代器、生成器</em>）<br>解压一部分，可用任意变量名去占位。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; data = [ &apos;ACME&apos;, 50, 91.1, (2012, 12, 21) ]</div><div class="line">&gt;&gt;&gt; _, shares, price, _ = data</div></pre></td></tr></table></figure></p>
+<h4 id="星号表达式"><a href="#星号表达式" class="headerlink" title="星号表达式"></a>星号表达式</h4><p>可迭代对象的元素个数超出变量个数，抛出<code>ValueError</code>，解决方式：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">def drop_first_last(grades):</div><div class="line">    first, *middle, last = grades</div><div class="line">    return avg(middle)</div></pre></td></tr></table></figure></p>
+<blockquote>
+<p>middle变量是一个列表类型。</p>
+</blockquote>
+<p>可用于for循环时：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">records = [</div><div class="line">    (&apos;foo&apos;, 1, 2),</div><div class="line">    (&apos;bar&apos;, &apos;hello&apos;),</div><div class="line">    (&apos;foo&apos;, 3, 4),</div><div class="line">]</div><div class="line"></div><div class="line">def do_foo(x, y):</div><div class="line">    print(&apos;foo&apos;, x, y)</div><div class="line"></div><div class="line">def do_bar(s):</div><div class="line">    print(&apos;bar&apos;, s)</div><div class="line"></div><div class="line">for tag, *args in records:</div><div class="line">    if tag == &apos;foo&apos;:</div><div class="line">        do_foo(*args)</div><div class="line">    elif tag == &apos;bar&apos;:</div><div class="line">        do_bar(*args)</div></pre></td></tr></table></figure></p>
+<p>可用于字符串分割时：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; line = &apos;nobody:*:-2:-2:Unprivileged User:/var/empty:/usr/bin/false&apos;</div><div class="line">&gt;&gt;&gt; uname, *fields, homedir, sh = line.split(&apos;:&apos;)</div></pre></td></tr></table></figure></p>
+<p>如果想解压后就丢弃，可使用一个废弃名称，比如 _ 或者 ign 。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; record = (&apos;ACME&apos;, 50, 123.45, (12, 18, 2012))</div><div class="line">&gt;&gt;&gt; name, *_, (*_, year) = record</div></pre></td></tr></table></figure></p>
+<h4 id="保留最后N个元素：collections-deque"><a href="#保留最后N个元素：collections-deque" class="headerlink" title="保留最后N个元素：collections.deque"></a>保留最后N个元素：collections.deque</h4><p>保留最后n个元素deque(maxlen=n)<br>使用 deque(maxlen=N) 构造函数会新建一个固定大小的队列。当新的元素加入并且这个队列已满的时候， 最老的元素会自动被移除掉。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">from collections import deque</div><div class="line"></div><div class="line"></div><div class="line">def search(lines, pattern, history=5):</div><div class="line">    previous_lines = deque(maxlen=history)</div><div class="line">    for li in lines:</div><div class="line">        if pattern in li:</div><div class="line">            yield li, previous_lines</div><div class="line">        previous_lines.append(li)</div><div class="line"></div><div class="line"># Example use on a file</div><div class="line">if __name__ == &apos;__main__&apos;:</div><div class="line">    with open(r&apos;../../cookbook/somefile.txt&apos;) as f:</div><div class="line">        for line, prevlines in search(f, &apos;python&apos;, 5):</div><div class="line">            for pline in prevlines:</div><div class="line">                print(pline, end=&apos;&apos;)</div><div class="line">            print(line, end=&apos;&apos;)</div><div class="line">            print(&apos;-&apos; * 20)</div></pre></td></tr></table></figure></p>
+<p>添加和弹出<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; q = deque()</div><div class="line">&gt;&gt;&gt; q.append(1)</div><div class="line">&gt;&gt;&gt; q.append(2)</div><div class="line">&gt;&gt;&gt; q.append(3)</div><div class="line">&gt;&gt;&gt; q</div><div class="line">deque([1, 2, 3])</div><div class="line">&gt;&gt;&gt; q.appendleft(4)</div><div class="line">&gt;&gt;&gt; q</div><div class="line">deque([4, 1, 2, 3])</div><div class="line">&gt;&gt;&gt; q.pop()</div><div class="line">3</div><div class="line">&gt;&gt;&gt; q</div><div class="line">deque([4, 1, 2])</div><div class="line">&gt;&gt;&gt; q.popleft()</div><div class="line">4</div></pre></td></tr></table></figure></p>
+<h4 id="查找最大或最小元素：heapq"><a href="#查找最大或最小元素：heapq" class="headerlink" title="查找最大或最小元素：heapq"></a>查找最大或最小元素：heapq</h4><p>heapq模块有两个函数：nlargest() 和 nsmallest()<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">import heapq</div><div class="line">nums = [1, 8, 2, 23, 7, -4, 18, 23, 42, 37, 2]</div><div class="line">print(heapq.nlargest(3, nums)) # Prints [42, 37, 23]</div><div class="line">print(heapq.nsmallest(3, nums)) # Prints [-4, 1, 2]</div></pre></td></tr></table></figure></p>
+<h4 id="字典中的键映射多个值：defaultdict"><a href="#字典中的键映射多个值：defaultdict" class="headerlink" title="字典中的键映射多个值：defaultdict"></a>字典中的键映射多个值：defaultdict</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">from collections import defaultdict</div><div class="line"></div><div class="line">d = defaultdict(list)</div><div class="line">d[&apos;a&apos;].append(1)</div><div class="line">d[&apos;a&apos;].append(2)</div><div class="line">d[&apos;b&apos;].append(4)</div><div class="line"></div><div class="line">d = defaultdict(set)</div><div class="line">d[&apos;a&apos;].add(1)</div><div class="line">d[&apos;a&apos;].add(2)</div><div class="line">d[&apos;b&apos;].add(4)</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">d = &#123;</div><div class="line">	&apos;a&apos;:[1,2]</div><div class="line">	&apos;b&apos;:[4]</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>普通字典：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">d = &#123;&#125; # A regular dictionary</div><div class="line">d.setdefault(&apos;a&apos;, []).append(1)</div><div class="line">d.setdefault(&apos;a&apos;, []).append(2)</div></pre></td></tr></table></figure></p>
+<h4 id="字典排序-OrderedDict"><a href="#字典排序-OrderedDict" class="headerlink" title="字典排序: OrderedDict"></a>字典排序: OrderedDict</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">d = OrderedDict()</div><div class="line">d[&apos;foo&apos;] = 1</div><div class="line">d[&apos;bar&apos;] = 2</div><div class="line">d[&apos;spam&apos;] = 3</div><div class="line">d[&apos;grok&apos;] = 4</div></pre></td></tr></table></figure>
+<blockquote>
+<p>需要注意：orderedDict的大小是一个普通字典的两倍，因为它内部维护着另一个链表。</p>
+<h4 id="字典运算"><a href="#字典运算" class="headerlink" title="字典运算"></a>字典运算</h4><p>zip()<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">prices = &#123;</div><div class="line">    &apos;ACME&apos;: 45.23,</div><div class="line">    &apos;AAPL&apos;: 612.78,</div><div class="line">    &apos;IBM&apos;: 205.55,</div><div class="line">    &apos;HPQ&apos;: 37.20,</div><div class="line">    &apos;FB&apos;: 10.75</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+</blockquote>
+<p><code>zip(prices.values(), prices.keys())</code>，用min()、max()、sorted()函数对其操作。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">min_price = min(zip(prices.values(), prices.keys()))</div><div class="line"># min_price is (10.75, &apos;FB&apos;)</div><div class="line">max_price = max(zip(prices.values(), prices.keys()))</div><div class="line"># max_price is (612.78, &apos;AAPL&apos;)</div><div class="line">prices_sorted = sorted(zip(prices.values(), prices.keys()))</div><div class="line"># prices_sorted is [(10.75, &apos;FB&apos;), (37.2, &apos;HPQ&apos;),</div><div class="line">#                   (45.23, &apos;ACME&apos;), (205.55, &apos;IBM&apos;),</div><div class="line">#                   (612.78, &apos;AAPL&apos;)]</div></pre></td></tr></table></figure></p>
+<blockquote>
+<p>注意：zip()函数创建的是一个只能访问一次的迭代器。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">prices_and_names = zip(prices.values(), prices.keys())</div><div class="line">print(min(prices_and_names)) # OK</div><div class="line">print(max(prices_and_names)) # ValueError: max() arg is an empty sequence</div></pre></td></tr></table></figure></p>
+</blockquote>
+<h4 id="查找两字典的相同点"><a href="#查找两字典的相同点" class="headerlink" title="查找两字典的相同点"></a>查找两字典的相同点</h4><p>a = { ‘x’ : 1, ‘y’ : 2, ‘z’ : 3}<br>b = { ‘w’ : 10, ‘x’ : 11, ‘y’ : 2}<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"># 相同的key</div><div class="line">a.keys() &amp; b.keys() # &#123; &apos;x&apos;, &apos;y&apos; &#125;</div><div class="line"># 在a不在b的key</div><div class="line">a.keys() - b.keys() # &#123; &apos;z&apos; &#125;</div><div class="line"># 相同的元素</div><div class="line">a.items() &amp; b.items() # &#123; (&apos;y&apos;, 2) &#125;</div></pre></td></tr></table></figure></p>
+<h4 id="去重复值：dedupe"><a href="#去重复值：dedupe" class="headerlink" title="去重复值：dedupe"></a>去重复值：dedupe</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">def dedupe(items):</div><div class="line">    seen = set()</div><div class="line">    for item in items:</div><div class="line">        if item not in seen:</div><div class="line">            yield item</div><div class="line">        seen.add(item)</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; a = [1, 5, 2, 1, 9, 1, 5, 10]</div><div class="line">&gt;&gt;&gt; list(dedupe(a))</div><div class="line">[1, 5, 2, 9, 10]</div><div class="line">&gt;&gt;&gt;</div></pre></td></tr></table></figure>
+<blockquote>
+<p>前提：序列上的值都是<code>hashable</code>类型<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; a = [ &#123;&apos;x&apos;:1, &apos;y&apos;:2&#125;, &#123;&apos;x&apos;:1, &apos;y&apos;:3&#125;, &#123;&apos;x&apos;:1, &apos;y&apos;:2&#125;, &#123;&apos;x&apos;:2, &apos;y&apos;:4&#125;]</div><div class="line">&gt;&gt;&gt; list(dedupe(a, key=lambda d: (d[&apos;x&apos;],d[&apos;y&apos;])))</div><div class="line">[&#123;&apos;x&apos;: 1, &apos;y&apos;: 2&#125;, &#123;&apos;x&apos;: 1, &apos;y&apos;: 3&#125;, &#123;&apos;x&apos;: 2, &apos;y&apos;: 4&#125;]</div><div class="line">&gt;&gt;&gt; list(dedupe(a, key=lambda d: d[&apos;x&apos;]))</div><div class="line">[&#123;&apos;x&apos;: 1, &apos;y&apos;: 2&#125;, &#123;&apos;x&apos;: 2, &apos;y&apos;: 4&#125;]</div><div class="line">&gt;&gt;&gt;</div></pre></td></tr></table></figure></p>
+</blockquote>
+<p>简单的消除重复元素，也可简单构造一个集合<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; a</div><div class="line">[1, 5, 2, 1, 9, 1, 5, 10]</div><div class="line">&gt;&gt;&gt; set(a)</div><div class="line">&#123;1, 2, 10, 5, 9&#125;</div><div class="line">&gt;&gt;&gt;</div></pre></td></tr></table></figure></p>
+<blockquote>
+<p>不能维护元素的顺序</p>
+<h4 id="命名切片-slice"><a href="#命名切片-slice" class="headerlink" title="命名切片: slice()"></a>命名切片: slice()</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">record = &apos;....................100 .......513.25 ..........&apos; </div><div class="line"># 从记录字符串中几个固定位置取出特定数据字段。</div><div class="line"># 一:</div><div class="line">cost = int(record[20:23]) * float(record[31:37])</div><div class="line"># 二:</div><div class="line">SHARES = slice(20, 23)</div><div class="line">PRICE = slice(31, 37)</div><div class="line">cost = int(record[SHARES]) * float(record[PRICE])</div></pre></td></tr></table></figure>
+</blockquote>
+<p>第二种方式避免了大量无法理解的硬编码下标。<br>内置的<code>slice()</code>函数创建了一个切片对象，可以被用在任何切片允许使用的地方。</p>
+<h4 id="序列中出现次数最多的元素：Counter-most-common"><a href="#序列中出现次数最多的元素：Counter-most-common" class="headerlink" title="序列中出现次数最多的元素：Counter.most_common()"></a>序列中出现次数最多的元素：Counter.most_common()</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">words = [...]</div><div class="line">from collections import Counter</div><div class="line">word_counts = Counter(words)</div><div class="line"># 出现频率最高的3个单词</div><div class="line">top_three = word_counts.most_common(3)</div><div class="line">print(top_three)</div><div class="line"># Outputs [(&apos;eyes&apos;, 8), (&apos;the&apos;, 5), (&apos;look&apos;, 4)]</div></pre></td></tr></table></figure>
+<blockquote>
+<p>在底层实现上，一个 Counter 对象就是一个字典，将元素映射到它出现的次数上。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">word_counts[&apos;eyes&apos;] </div><div class="line">&gt;&gt;&gt;8</div></pre></td></tr></table></figure></p>
+</blockquote>
+<p>Counter 实例可以很容易的跟数学运算操作相结合。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; a = Counter(words)</div><div class="line">&gt;&gt;&gt; b = Counter(morewords)</div><div class="line">&gt;&gt;&gt; a</div><div class="line">Counter(&#123;&apos;eyes&apos;: 8, &apos;the&apos;: 5, &apos;look&apos;: 4, &apos;into&apos;: 3, &apos;my&apos;: 3, &apos;around&apos;: 2,</div><div class="line">&quot;you&apos;re&quot;: 1, &quot;don&apos;t&quot;: 1, &apos;under&apos;: 1, &apos;not&apos;: 1&#125;)</div><div class="line">&gt;&gt;&gt; b</div><div class="line">Counter(&#123;&apos;eyes&apos;: 1, &apos;looking&apos;: 1, &apos;are&apos;: 1, &apos;in&apos;: 1, &apos;not&apos;: 1, &apos;you&apos;: 1,</div><div class="line">&apos;my&apos;: 1, &apos;why&apos;: 1&#125;)</div><div class="line">&gt;&gt;&gt; # Combine counts</div><div class="line">&gt;&gt;&gt; c = a + b</div><div class="line">&gt;&gt;&gt; c</div><div class="line">Counter(&#123;&apos;eyes&apos;: 9, &apos;the&apos;: 5, &apos;look&apos;: 4, &apos;my&apos;: 4, &apos;into&apos;: 3, &apos;not&apos;: 2,</div><div class="line">&apos;around&apos;: 2, &quot;you&apos;re&quot;: 1, &quot;don&apos;t&quot;: 1, &apos;in&apos;: 1, &apos;why&apos;: 1,</div><div class="line">&apos;looking&apos;: 1, &apos;are&apos;: 1, &apos;under&apos;: 1, &apos;you&apos;: 1&#125;)</div><div class="line">&gt;&gt;&gt; # Subtract counts</div></pre></td></tr></table></figure></p>
+<h4 id="通过某个关键字排序一个字典列表-operator-itemgetter"><a href="#通过某个关键字排序一个字典列表-operator-itemgetter" class="headerlink" title="通过某个关键字排序一个字典列表 operator.itemgetter"></a>通过某个关键字排序一个字典列表 operator.itemgetter</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">rows_by_fname = sorted(rows, key=itemgetter(&apos;fname&apos;))</div><div class="line">rows_by_uid = sorted(rows, key=itemgetter(&apos;uid&apos;))</div></pre></td></tr></table></figure>
+<h4 id="排序不支持比较的对象"><a href="#排序不支持比较的对象" class="headerlink" title="排序不支持比较的对象"></a>排序不支持比较的对象</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">users = [User(23), User(3), User(99)]</div><div class="line"> print(sorted(users, key=lambda u: u.user_id))</div></pre></td></tr></table></figure>
+<p>另外一种方式是使用 <code>operator.attrgetter()</code>来代替lambda函数：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; from operator import attrgetter</div><div class="line">&gt;&gt;&gt; sorted(users, key=attrgetter(&apos;user_id&apos;))</div><div class="line">[User(3), User(23), User(99)]</div></pre></td></tr></table></figure></p>
+<blockquote>
+<p>attrgetter() 函数通常会运行的快点，并且还能同时允许多个字段进行比较。<br>也同样适用于min()和max()之类的函数。</p>
+</blockquote>
+<h4 id="通过某个字段将记录分组-itertools-groupby"><a href="#通过某个字段将记录分组-itertools-groupby" class="headerlink" title="通过某个字段将记录分组: itertools.groupby()"></a>通过某个字段将记录分组: itertools.groupby()</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">from operator import itemgetter</div><div class="line">from itertools import groupby</div><div class="line"></div><div class="line">rows = [</div><div class="line">    &#123;&apos;address&apos;: &apos;5412 N CLARK&apos;, &apos;date&apos;: &apos;07/01/2012&apos;&#125;,</div><div class="line">    &#123;&apos;address&apos;: &apos;5148 N CLARK&apos;, &apos;date&apos;: &apos;07/04/2012&apos;&#125;,</div><div class="line">    &#123;&apos;address&apos;: &apos;5800 E 58TH&apos;, &apos;date&apos;: &apos;07/02/2012&apos;&#125;,</div><div class="line">    ...</div><div class="line">]</div><div class="line"># Sort by the desired field first</div><div class="line">rows.sort(key=itemgetter(&apos;date&apos;))</div><div class="line"># Iterate in groups</div><div class="line">for date, items in groupby(rows, key=itemgetter(&apos;date&apos;)):</div><div class="line">    print(date)</div><div class="line">    for i in items:</div><div class="line">        print(&apos; &apos;, i)</div></pre></td></tr></table></figure>
+<blockquote>
+<p>首先需要按照指定的字段(这里就是 date )排序</p>
+</blockquote>
+<p>结果：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">07/01/2012</div><div class="line">  &#123;&apos;date&apos;: &apos;07/01/2012&apos;, &apos;address&apos;: &apos;5412 N CLARK&apos;&#125;</div><div class="line">  &#123;&apos;date&apos;: &apos;07/01/2012&apos;, &apos;address&apos;: &apos;4801 N BROADWAY&apos;&#125;</div><div class="line">07/02/2012</div><div class="line">  &#123;&apos;date&apos;: &apos;07/02/2012&apos;, &apos;address&apos;: &apos;5800 E 58TH&apos;&#125;</div><div class="line">  ...</div></pre></td></tr></table></figure></p>
+<p>如果将数据分组到一个大的数据结构中去，并允许随机访问，<code>defaultdict()</code>。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">from collections import defaultdict</div><div class="line">rows_by_date = defaultdict(list)</div><div class="line">for row in rows:</div><div class="line">    rows_by_date[row[&apos;date&apos;]].append(row)</div><div class="line">    </div><div class="line">&gt;&gt;&gt; for r in rows_by_date[&apos;07/01/2012&apos;]:</div><div class="line">... print(r)</div><div class="line">...</div><div class="line">&#123;&apos;date&apos;: &apos;07/01/2012&apos;, &apos;address&apos;: &apos;5412 N CLARK&apos;&#125;</div><div class="line">&#123;&apos;date&apos;: &apos;07/01/2012&apos;, &apos;address&apos;: &apos;4801 N BROADWAY&apos;&#125;</div><div class="line">&gt;&gt;&gt;</div></pre></td></tr></table></figure></p>
+<blockquote>
+<p>如果对内存占用不是很关心， 这种方式会比先排序然后再通过 groupby() 函数迭代的方式运行得快一些。</p>
+</blockquote>
+<h4 id="过滤序列元素"><a href="#过滤序列元素" class="headerlink" title="过滤序列元素"></a>过滤序列元素</h4><p>一：使用列表推导。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; mylist = [1, 4, -5, 10, -7, 2, 3, -1]</div><div class="line">&gt;&gt;&gt; [n for n in mylist if n &gt; 0]</div><div class="line">[1, 4, 10, 2, 3]</div></pre></td></tr></table></figure></p>
+<blockquote>
+<p>潜在缺陷就是如果输入非常大的时候会产生一个非常大的结果集，占用大量内存。<br>二：如果对内存比较敏感，可使用生成器表达式迭代过滤的元素。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; pos = (n for n in mylist if n &gt; 0)</div><div class="line">&gt;&gt;&gt; pos</div><div class="line">&lt;generator object &lt;genexpr&gt; at 0x1006a0eb0&gt;</div><div class="line">&gt;&gt;&gt; for x in pos:</div><div class="line">... print(x)</div></pre></td></tr></table></figure></p>
+</blockquote>
+<h4 id="从字典里提取子集"><a href="#从字典里提取子集" class="headerlink" title="从字典里提取子集:"></a>从字典里提取子集:</h4><p>使用字典推导：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">prices = &#123;</div><div class="line">    &apos;ACME&apos;: 45.23,</div><div class="line">    &apos;AAPL&apos;: 612.78,</div><div class="line">    &apos;IBM&apos;: 205.55,</div><div class="line">    &apos;HPQ&apos;: 37.20,</div><div class="line">    &apos;FB&apos;: 10.75</div><div class="line">&#125;</div><div class="line"># Make a dictionary of all prices over 200</div><div class="line">p1 = &#123;key: value for key, value in prices.items() if value &gt; 200&#125;</div><div class="line"># Make a dictionary of tech stocks</div><div class="line">tech_names = &#123;&apos;AAPL&apos;, &apos;IBM&apos;, &apos;HPQ&apos;, &apos;MSFT&apos;&#125;</div><div class="line">p2 = &#123;key: value for key, value in prices.items() if key in tech_names&#125;</div></pre></td></tr></table></figure></p>
+<h4 id="映射名称到序列元素-collections-namedtuple"><a href="#映射名称到序列元素-collections-namedtuple" class="headerlink" title="映射名称到序列元素: collections.namedtuple()"></a>映射名称到序列元素: collections.namedtuple()</h4><p>通过下标访问列表或者元组中元素的代码，但这样有时候会使得你的代码难以阅读，可用此通过名称来访问元素。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; Subscriber = namedtuple(&apos;Subscriber&apos;, [&apos;addr&apos;, &apos;joined&apos;])</div><div class="line">&gt;&gt;&gt; sub = Subscriber(&apos;jonesy@example.com&apos;, &apos;2012-10-19&apos;)</div><div class="line">&gt;&gt;&gt; sub.addr</div><div class="line">&apos;jonesy@example.com&apos;</div><div class="line">&gt;&gt;&gt; sub.joined</div><div class="line">&apos;2012-10-19&apos;</div></pre></td></tr></table></figure></p>
+<p>nametuple和元组类型是可交换的，支持所有的普通元组操作，比如索引和解压。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; len(sub)</div><div class="line">2</div><div class="line">&gt;&gt;&gt; addr, joined = sub</div><div class="line">&gt;&gt;&gt; addr</div><div class="line">&apos;jonesy@example.com&apos;</div><div class="line">&gt;&gt;&gt; joined</div><div class="line">&apos;2012-10-19&apos;</div><div class="line">&gt;&gt;&gt;</div></pre></td></tr></table></figure></p>
+<p>命名元组的一个主要用途是将你的代码从下标操作中解脱出来。<br>命名元组另一个用途就是作为字典的替代，因为字典存储需要更多的内存空间。。 如果你需要构建一个非常大的包含字典的数据结构，那么使用命名元组会更加高效。 但是需要注意的是，不像字典那样，一个命名元组是不可更改的。</p>
+<h4 id="转换并同时计算数据"><a href="#转换并同时计算数据" class="headerlink" title="转换并同时计算数据"></a>转换并同时计算数据</h4><p>一个非常优雅的方式去结合数据计算与转换就是使用一个生成器表达式参数。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">nums = [1, 2, 3, 4, 5]</div><div class="line">s = sum(x * x for x in nums)</div></pre></td></tr></table></figure></p>
+<h4 id="合并多个字典或映射：collections-ChainMap"><a href="#合并多个字典或映射：collections-ChainMap" class="headerlink" title="合并多个字典或映射：collections.ChainMap"></a>合并多个字典或映射：collections.ChainMap</h4><p>现在有多个字典或者映射，你想将它们从逻辑上合并为一个单一的映射后执行某些操作。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">a = &#123;&apos;x&apos;: 1, &apos;z&apos;: 3 &#125;</div><div class="line">b = &#123;&apos;y&apos;: 2, &apos;z&apos;: 4 &#125;</div></pre></td></tr></table></figure></p>
+<p>在两个字典中执行查找操作（比如先从a中找，如果找不到再在b中找）<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">from collections import ChainMap</div><div class="line">c = ChainMap(a,b)</div><div class="line">print(c[&apos;x&apos;]) # Outputs 1 (from a)</div><div class="line">print(c[&apos;y&apos;]) # Outputs 2 (from b)</div></pre></td></tr></table></figure></p>
+<p>一个 ChainMap 接受多个字典并将它们在逻辑上变为一个字典。 然后，这些字典并不是真的合并在一起了， ChainMap 类只是在内部创建了一个容纳这些字典的列表 并重新定义了一些常见的字典操作来遍历这个列表。大部分字典操作都是可以正常使用的。</p>
+<blockquote>
+<p>如果出现重复键，那么第一次出现的映射值会被返回。对于字典的更新或删除操作总是影响的是列表中第一个字典。<br>作为 <code>ChainMap</code>的替代，你可能会考虑使用 <code>update()</code> 方法将两个字典合并。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; a = &#123;&apos;x&apos;: 1, &apos;z&apos;: 3 &#125;</div><div class="line">&gt;&gt;&gt; b = &#123;&apos;y&apos;: 2, &apos;z&apos;: 4 &#125;</div><div class="line">&gt;&gt;&gt; merged = dict(b)</div><div class="line">&gt;&gt;&gt; merged.update(a)</div><div class="line">&gt;&gt;&gt; merged[&apos;x&apos;]</div><div class="line">1</div></pre></td></tr></table></figure></p>
+</blockquote>
+<p>这样也能行得通，但是它需要你创建一个完全不同的字典对象(或者是破坏现有字典结构)。 同时，如果原字典做了更新，这种改变不会反应到新的合并字典中去。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/python/" rel="tag"># python</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/08/14/question-2/" rel="next" title="所遇问题与解决方案（二）">
+                <i class="fa fa-chevron-left"></i> 所遇问题与解决方案（二）
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/08/15/cookbook2/" rel="prev" title="python cookbook学习笔记（二）">
+                python cookbook学习笔记（二） <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.png"
+               alt="Iwhale" />
+          <p class="site-author-name" itemprop="name">Iwhale</p>
+          <p class="site-description motion-element" itemprop="description">Dream, Such as whales to the sea.</p>
+        </div>
+        <nav class="site-state motion-element">
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">20</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">10</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">17</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/flyEn" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/p/1005055406757796/home" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#解压序列赋值给多个变量"><span class="nav-number">1.</span> <span class="nav-text">解压序列赋值给多个变量</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#星号表达式"><span class="nav-number">1.1.</span> <span class="nav-text">星号表达式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#保留最后N个元素：collections-deque"><span class="nav-number">1.2.</span> <span class="nav-text">保留最后N个元素：collections.deque</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#查找最大或最小元素：heapq"><span class="nav-number">1.3.</span> <span class="nav-text">查找最大或最小元素：heapq</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#字典中的键映射多个值：defaultdict"><span class="nav-number">1.4.</span> <span class="nav-text">字典中的键映射多个值：defaultdict</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#字典排序-OrderedDict"><span class="nav-number">1.5.</span> <span class="nav-text">字典排序: OrderedDict</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#字典运算"><span class="nav-number">1.6.</span> <span class="nav-text">字典运算</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#查找两字典的相同点"><span class="nav-number">1.7.</span> <span class="nav-text">查找两字典的相同点</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#去重复值：dedupe"><span class="nav-number">1.8.</span> <span class="nav-text">去重复值：dedupe</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#命名切片-slice"><span class="nav-number">1.9.</span> <span class="nav-text">命名切片: slice()</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#序列中出现次数最多的元素：Counter-most-common"><span class="nav-number">1.10.</span> <span class="nav-text">序列中出现次数最多的元素：Counter.most_common()</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#通过某个关键字排序一个字典列表-operator-itemgetter"><span class="nav-number">1.11.</span> <span class="nav-text">通过某个关键字排序一个字典列表 operator.itemgetter</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#排序不支持比较的对象"><span class="nav-number">1.12.</span> <span class="nav-text">排序不支持比较的对象</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#通过某个字段将记录分组-itertools-groupby"><span class="nav-number">1.13.</span> <span class="nav-text">通过某个字段将记录分组: itertools.groupby()</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#过滤序列元素"><span class="nav-number">1.14.</span> <span class="nav-text">过滤序列元素</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#从字典里提取子集"><span class="nav-number">1.15.</span> <span class="nav-text">从字典里提取子集:</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#映射名称到序列元素-collections-namedtuple"><span class="nav-number">1.16.</span> <span class="nav-text">映射名称到序列元素: collections.namedtuple()</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#转换并同时计算数据"><span class="nav-number">1.17.</span> <span class="nav-text">转换并同时计算数据</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#合并多个字典或映射：collections-ChainMap"><span class="nav-number">1.18.</span> <span class="nav-text">合并多个字典或映射：collections.ChainMap</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  Thu Jan 05 2017 08:00:00 GMT+0800 (CST) - 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Iwhale</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+
+</body>
+</html>

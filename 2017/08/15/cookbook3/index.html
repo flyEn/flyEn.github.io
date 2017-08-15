@@ -1,0 +1,779 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Microsoft YaHei:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|Lobster Two:300,300italic,400,400italic,700,700italic|PT Mono:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="python," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="此文仅为学习python cookbook书籍时候记的笔记，记录过程权当加深记忆，无任何主观内容，若需参考可直接至此在线文档学习。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="python cookbook学习笔记（三）">
+<meta property="og:url" content="http://yoursite.com/2017/08/15/cookbook3/index.html">
+<meta property="og:site_name" content="flyEn'blog">
+<meta property="og:description" content="此文仅为学习python cookbook书籍时候记的笔记，记录过程权当加深记忆，无任何主观内容，若需参考可直接至此在线文档学习。">
+<meta property="og:updated_time" content="2017-08-15T10:27:00.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="python cookbook学习笔记（三）">
+<meta name="twitter:description" content="此文仅为学习python cookbook书籍时候记的笔记，记录过程权当加深记忆，无任何主观内容，若需参考可直接至此在线文档学习。">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/08/15/cookbook3/"/>
+
+
+
+
+
+  <title> python cookbook学习笔记（三） | flyEn'blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">flyEn'blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+    
+      <p class="site-subtitle"></p>
+    
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/08/15/cookbook3/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="Iwhale">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/avatar.png">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="flyEn'blog">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="flyEn'blog" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                python cookbook学习笔记（三）
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-08-15T18:25:47+08:00">
+                2017-08-15
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>此文仅为学习python cookbook书籍时候记的笔记，记录过程权当加深记忆，无任何主观内容，若需参考可直接至此<a href="http://python3-cookbook.readthedocs.io/zh_CN/latest/chapters/p01_data_structures_algorithms.html" target="_blank" rel="external">在线文档</a>学习。</p>
+<a id="more"></a>
+<h3 id="数字的四舍五入"><a href="#数字的四舍五入" class="headerlink" title="数字的四舍五入"></a>数字的四舍五入</h3><p><code>round(value, ndigits)</code><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; round(1.23, 1)</div><div class="line">1.2</div><div class="line">&gt;&gt;&gt; round(1.27, 1)</div><div class="line">1.3</div><div class="line">&gt;&gt;&gt; round(-1.27, 1)</div><div class="line">-1.3</div><div class="line">&gt;&gt;&gt; round(1.25361,3)</div><div class="line">1.254</div><div class="line">&gt;&gt;&gt;</div></pre></td></tr></table></figure></p>
+<p>当一个值刚好在两个边界的中间的时候， round 函数返回离它最近的偶数。 也就是说，对1.5或者2.5的舍入运算都会得到2。</p>
+<p>传给 round() 函数的 ndigits 参数可以是负数<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; a = 1627731</div><div class="line">&gt;&gt;&gt; round(a, -1)</div><div class="line">1627730</div><div class="line">&gt;&gt;&gt; round(a, -2)</div><div class="line">1627700</div><div class="line">&gt;&gt;&gt; round(a, -3)</div><div class="line">1628000</div><div class="line">&gt;&gt;&gt;</div></pre></td></tr></table></figure></p>
+<p> 如果你的目的只是简单的输出一定宽度的数，你不需要使用 round() 函数。 而仅仅只需要在格式化的时候指定精度即可。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"> &gt;&gt;&gt; x = 1.23456</div><div class="line">&gt;&gt;&gt; format(x, &apos;0.2f&apos;)</div><div class="line">&apos;1.23&apos;</div><div class="line">&gt;&gt;&gt; format(x, &apos;0.3f&apos;)</div><div class="line">&apos;1.235&apos;</div><div class="line">&gt;&gt;&gt; &apos;value is &#123;:0.3f&#125;&apos;.format(x)</div><div class="line">&apos;value is 1.235&apos;</div><div class="line">&gt;&gt;&gt;</div></pre></td></tr></table></figure></p>
+<h3 id="执行精确的浮点数运算"><a href="#执行精确的浮点数运算" class="headerlink" title="执行精确的浮点数运算"></a>执行精确的浮点数运算</h3><p> 浮点数的一个普遍问题是它们并不能精确的表示十进制数。 并且，即使是最简单的数学运算也会产生小的误差。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"> &gt;&gt;&gt; a = 4.2</div><div class="line">&gt;&gt;&gt; b = 2.1</div><div class="line">&gt;&gt;&gt; a + b</div><div class="line">6.300000000000001</div><div class="line">&gt;&gt;&gt; (a + b) == 6.3</div><div class="line">False</div><div class="line">&gt;&gt;&gt;</div></pre></td></tr></table></figure></p>
+<p><code>decimal</code>模块<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"> &gt;&gt;&gt; from decimal import Decimal</div><div class="line">&gt;&gt;&gt; a = Decimal(&apos;4.2&apos;)</div><div class="line">&gt;&gt;&gt; b = Decimal(&apos;2.1&apos;)</div><div class="line">&gt;&gt;&gt; a + b</div><div class="line">Decimal(&apos;6.3&apos;)</div><div class="line">&gt;&gt;&gt; print(a + b)</div><div class="line">6.3</div><div class="line">&gt;&gt;&gt; (a + b) == Decimal(&apos;6.3&apos;)</div><div class="line">True</div></pre></td></tr></table></figure></p>
+<p>decimal 模块的一个主要特征是允许你控制计算的每一方面，包括数字位数和四舍五入运算。 为了这样做，你先得创建一个本地上下文并更改它的设置。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; from decimal import localcontext</div><div class="line">&gt;&gt;&gt; a = Decimal(&apos;1.3&apos;)</div><div class="line">&gt;&gt;&gt; b = Decimal(&apos;1.7&apos;)</div><div class="line">&gt;&gt;&gt; print(a / b)</div><div class="line">0.7647058823529411764705882353</div><div class="line">&gt;&gt;&gt; with localcontext() as ctx:</div><div class="line">...     ctx.prec = 3</div><div class="line">...     print(a / b)</div><div class="line">...</div><div class="line">0.765</div><div class="line">&gt;&gt;&gt; with localcontext() as ctx:</div><div class="line">...     ctx.prec = 50</div><div class="line">...     print(a / b)</div><div class="line">...</div><div class="line">0.76470588235294117647058823529411764705882352941176</div><div class="line">&gt;&gt;&gt;</div></pre></td></tr></table></figure></p>
+<p>浮点数运算也不能完全忽略误差，如：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; nums = [1.23e+18, 1, -1.23e+18]</div><div class="line">&gt;&gt;&gt; sum(nums) # Notice how 1 disappears</div><div class="line">0.0</div><div class="line">&gt;&gt;&gt;</div></pre></td></tr></table></figure></p>
+<p>可以用<code>math.fsum()</code>所提供的更精确计算能力来解决：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; import math</div><div class="line">&gt;&gt;&gt; math.fsum(nums)</div><div class="line">1.0</div><div class="line">&gt;&gt;&gt;</div></pre></td></tr></table></figure></p>
+<h3 id="数字的格式化输出"><a href="#数字的格式化输出" class="headerlink" title="数字的格式化输出"></a>数字的格式化输出</h3><p>格式化输出单个数字的时候，可以使用内置的 format() 函数<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; x = 1234.56789</div><div class="line"></div><div class="line">&gt;&gt;&gt; # Two decimal places of accuracy</div><div class="line">&gt;&gt;&gt; format(x, &apos;0.2f&apos;)</div><div class="line">&apos;1234.57&apos;</div><div class="line"></div><div class="line">&gt;&gt;&gt; # Right justified in 10 chars, one-digit accuracy</div><div class="line">&gt;&gt;&gt; format(x, &apos;&gt;10.1f&apos;)</div><div class="line">&apos;    1234.6&apos;</div><div class="line"></div><div class="line">&gt;&gt;&gt; # Left justified</div><div class="line">&gt;&gt;&gt; format(x, &apos;&lt;10.1f&apos;)</div><div class="line">&apos;1234.6    &apos;</div><div class="line"></div><div class="line">&gt;&gt;&gt; # Centered</div><div class="line">&gt;&gt;&gt; format(x, &apos;^10.1f&apos;)</div><div class="line">&apos;  1234.6  &apos;</div><div class="line"></div><div class="line">&gt;&gt;&gt; # Inclusion of thousands separator</div><div class="line">&gt;&gt;&gt; format(x, &apos;,&apos;)</div><div class="line">&apos;1,234.56789&apos;</div><div class="line">&gt;&gt;&gt; format(x, &apos;0,.1f&apos;)</div><div class="line">&apos;1,234.6&apos;</div><div class="line">&gt;&gt;&gt;</div></pre></td></tr></table></figure></p>
+<p>当指定数字的位数后，结果值会根据 round() 函数同样的规则进行四舍五入后返回。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; x</div><div class="line">1234.56789</div><div class="line">&gt;&gt;&gt; format(x, &apos;0.1f&apos;)</div><div class="line">&apos;1234.6&apos;</div><div class="line">&gt;&gt;&gt; format(-x, &apos;0.1f&apos;)</div><div class="line">&apos;-1234.6&apos;</div><div class="line">&gt;&gt;&gt;</div></pre></td></tr></table></figure></p>
+<p>同时指定宽度和精度的一般形式是 ‘[&lt;&gt;^]?width[,]?(.digits)?’ ， 其中 width 和 digits 为整数，？代表可选部分。 同样的格式也被用在字符串的 format() 方法中。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; &apos;The value is &#123;:0,.2f&#125;&apos;.format(x)</div><div class="line">&apos;The value is 1,234.57&apos;</div><div class="line">&gt;&gt;&gt;</div></pre></td></tr></table></figure></p>
+<p>在很多Python代码中会看到使用%来格式化数字的<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; &apos;%0.2f&apos; % x</div><div class="line">&apos;1234.57&apos;</div><div class="line">&gt;&gt;&gt; &apos;%10.1f&apos; % x</div><div class="line">&apos;    1234.6&apos;</div><div class="line">&gt;&gt;&gt; &apos;%-10.1f&apos; % x</div><div class="line">&apos;1234.6    &apos;</div><div class="line">&gt;&gt;&gt;</div></pre></td></tr></table></figure></p>
+<h3 id="二八十六进制整数"><a href="#二八十六进制整数" class="headerlink" title="二八十六进制整数"></a>二八十六进制整数</h3><p> <code>bin()</code> , <code>oct()</code>或<code>hex()</code> 函数<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; x = 1234</div><div class="line">&gt;&gt;&gt; bin(x)</div><div class="line">&apos;0b10011010010&apos;</div><div class="line">&gt;&gt;&gt; oct(x)</div><div class="line">&apos;0o2322&apos;</div><div class="line">&gt;&gt;&gt; hex(x)</div><div class="line">&apos;0x4d2&apos;</div></pre></td></tr></table></figure></p>
+<p>另外，如果你不想输出 0b , 0o 或者 0x 的前缀的话，可以使用 format() 函数。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; format(x, &apos;b&apos;)</div><div class="line">&apos;10011010010&apos;</div><div class="line">&gt;&gt;&gt; format(x, &apos;o&apos;)</div><div class="line">&apos;2322&apos;</div><div class="line">&gt;&gt;&gt; format(x, &apos;x&apos;)</div><div class="line">&apos;4d2&apos;</div></pre></td></tr></table></figure></p>
+<p>整数是有符号的，所以如果你在处理负数的话，输出结果会包含一个负号。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; x = -1234</div><div class="line">&gt;&gt;&gt; format(x, &apos;b&apos;)</div><div class="line">&apos;-10011010010&apos;</div><div class="line">&gt;&gt;&gt; format(x, &apos;x&apos;)</div><div class="line">&apos;-4d2&apos;</div></pre></td></tr></table></figure></p>
+<h3 id="字节到大整数的打包与解包"><a href="#字节到大整数的打包与解包" class="headerlink" title="字节到大整数的打包与解包"></a>字节到大整数的打包与解包</h3><p><code>int.from_bytes()</code><br>data = b’\x00\x124V\x00x\x90\xab\x00\xcd\xef\x01\x00#\x004’</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; len(data)</div><div class="line">16</div><div class="line">&gt;&gt;&gt; int.from_bytes(data, &apos;little&apos;)</div><div class="line">69120565665751139577663547927094891008</div><div class="line">&gt;&gt;&gt; int.from_bytes(data, &apos;big&apos;)</div><div class="line">94522842520747284487117727783387188</div><div class="line">&gt;&gt;&gt;</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; x = 94522842520747284487117727783387188</div><div class="line">&gt;&gt;&gt; x.to_bytes(16, &apos;big&apos;)</div><div class="line">b&apos;\x00\x124V\x00x\x90\xab\x00\xcd\xef\x01\x00#\x004&apos;</div><div class="line">&gt;&gt;&gt; x.to_bytes(16, &apos;little&apos;)</div><div class="line">b&apos;4\x00#\x00\x01\xef\xcd\x00\xab\x90x\x00V4\x12\x00&apos;</div><div class="line">&gt;&gt;&gt;</div></pre></td></tr></table></figure>
+<p><code>complex(real, imag)</code><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; a = complex(2, 4)</div><div class="line">&gt;&gt;&gt; b = 3 - 5j</div><div class="line">&gt;&gt;&gt; a</div><div class="line">(2+4j)</div><div class="line">&gt;&gt;&gt; b</div><div class="line">(3-5j)</div><div class="line">&gt;&gt;&gt;</div></pre></td></tr></table></figure></p>
+<p>对应的实部、虚部和共轭复数可以很容易的获取。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; a.real</div><div class="line">2.0</div><div class="line">&gt;&gt;&gt; a.imag</div><div class="line">4.0</div><div class="line">&gt;&gt;&gt; a.conjugate()</div><div class="line">(2-4j)</div><div class="line">&gt;&gt;&gt;</div></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; a + b</div><div class="line">(5-1j)</div><div class="line">&gt;&gt;&gt; a * b</div><div class="line">(26+2j)</div><div class="line">&gt;&gt;&gt; a / b</div><div class="line">(-0.4117647058823529+0.6470588235294118j)</div><div class="line">&gt;&gt;&gt; abs(a)</div><div class="line">4.47213595499958</div><div class="line">&gt;&gt;&gt;</div></pre></td></tr></table></figure>
+<h3 id="复数的数学运算"><a href="#复数的数学运算" class="headerlink" title="复数的数学运算"></a>复数的数学运算</h3><p><code>complex(real, imag)</code><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; a = complex(2, 4)</div><div class="line">&gt;&gt;&gt; b = 3 - 5j</div><div class="line">&gt;&gt;&gt; a</div><div class="line">(2+4j)</div><div class="line">&gt;&gt;&gt; b</div><div class="line">(3-5j)</div><div class="line">&gt;&gt;&gt;</div></pre></td></tr></table></figure></p>
+<p>对应的实部、虚部和共轭复数可以很容易的获取。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; a.real</div><div class="line">2.0</div><div class="line">&gt;&gt;&gt; a.imag</div><div class="line">4.0</div><div class="line">&gt;&gt;&gt; a.conjugate()</div><div class="line">(2-4j)</div><div class="line">&gt;&gt;&gt;</div></pre></td></tr></table></figure></p>
+<p>另外，所有常见的数学运算都可以工作(+-*/)<br>如果要执行其他的复数函数比如正弦、余弦或平方根，使用 cmath 模块<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; import cmath</div><div class="line">&gt;&gt;&gt; cmath.sin(a)</div><div class="line">(24.83130584894638-11.356612711218174j)</div><div class="line">&gt;&gt;&gt; cmath.cos(a)</div><div class="line">(-11.36423470640106-24.814651485634187j)</div><div class="line">&gt;&gt;&gt; cmath.exp(a)</div><div class="line">(-4.829809383269385-5.5920560936409816j)</div><div class="line">&gt;&gt;&gt;</div></pre></td></tr></table></figure></p>
+<p>Python中大部分与数学相关的模块都能处理复数。 比如如果你使用 numpy ，可以很容易的构造一个复数数组并在这个数组上执行各种操作<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; import numpy as np</div><div class="line">&gt;&gt;&gt; a = np.array([2+3j, 4+5j, 6-7j, 8+9j])</div><div class="line">&gt;&gt;&gt; a</div><div class="line">array([ 2.+3.j, 4.+5.j, 6.-7.j, 8.+9.j])</div><div class="line">&gt;&gt;&gt; a + 2</div><div class="line">array([ 4.+3.j, 6.+5.j, 8.-7.j, 10.+9.j])</div><div class="line">&gt;&gt;&gt; np.sin(a)</div><div class="line">array([ 9.15449915 -4.16890696j, -56.16227422 -48.50245524j,</div><div class="line">        -153.20827755-526.47684926j, 4008.42651446-589.49948373j])</div></pre></td></tr></table></figure></p>
+<p>如果你想生成一个复数返回结果，你必须显示的使用 cmath 模块<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; import cmath</div><div class="line">&gt;&gt;&gt; cmath.sqrt(-1)</div><div class="line">1j</div></pre></td></tr></table></figure></p>
+<h3 id="无穷大与NaN"><a href="#无穷大与NaN" class="headerlink" title="无穷大与NaN"></a>无穷大与NaN</h3><p>创建或测试正无穷、负无穷或NaN(非数字)的浮点数。<br>Python并没有特殊的语法来表示这些特殊的浮点值，但是可以使用 float() 来创建它们。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; a = float(&apos;inf&apos;)</div><div class="line">&gt;&gt;&gt; b = float(&apos;-inf&apos;)</div><div class="line">&gt;&gt;&gt; c = float(&apos;nan&apos;)</div><div class="line">&gt;&gt;&gt; a</div><div class="line">inf</div><div class="line">&gt;&gt;&gt; b</div><div class="line">-inf</div><div class="line">&gt;&gt;&gt; c</div><div class="line">nan</div><div class="line">&gt;&gt;&gt;</div></pre></td></tr></table></figure></p>
+<p>为了测试这些值的存在，使用 math.isinf() 和 math.isnan() 函数。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; math.isinf(a)</div><div class="line">True</div><div class="line">&gt;&gt;&gt; math.isnan(c)</div><div class="line">True</div></pre></td></tr></table></figure></p>
+<p>无穷大数在执行数学计算的时候会传播<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; a = float(&apos;inf&apos;)</div><div class="line">&gt;&gt;&gt; a + 45</div><div class="line">inf</div><div class="line">&gt;&gt;&gt; a * 10</div><div class="line">inf</div><div class="line">&gt;&gt;&gt; 10 / a</div><div class="line">0.0</div><div class="line">&gt;&gt;&gt;</div></pre></td></tr></table></figure></p>
+<p>NaN值会在所有操作中传播，而不会产生异常。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; c = float(&apos;nan&apos;)</div><div class="line">&gt;&gt;&gt; c + 23</div><div class="line">nan</div><div class="line">&gt;&gt;&gt; c / 2</div><div class="line">nan</div><div class="line">&gt;&gt;&gt; c * 2</div><div class="line">nan</div><div class="line">&gt;&gt;&gt; math.sqrt(c)</div><div class="line">nan</div><div class="line">&gt;&gt;&gt;</div></pre></td></tr></table></figure></p>
+<p>测试: <code>math.isnan()</code></p>
+<h3 id="分数运算"><a href="#分数运算" class="headerlink" title="分数运算"></a>分数运算</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">&gt;&gt;&gt; from fractions import Fraction</div><div class="line">&gt;&gt;&gt; a = Fraction(5, 4)</div><div class="line">&gt;&gt;&gt; b = Fraction(7, 16)</div><div class="line">&gt;&gt;&gt; print(a + b)</div><div class="line">27/16</div><div class="line">&gt;&gt;&gt; print(a * b)</div><div class="line">35/64</div><div class="line"></div><div class="line">&gt;&gt;&gt; # Getting numerator/denominator</div><div class="line">&gt;&gt;&gt; c = a * b</div><div class="line">&gt;&gt;&gt; c.numerator</div><div class="line">35</div><div class="line">&gt;&gt;&gt; c.denominator</div><div class="line">64</div><div class="line"></div><div class="line">&gt;&gt;&gt; # 转换成浮点数</div><div class="line">&gt;&gt;&gt; float(c)</div><div class="line">0.546875</div><div class="line"></div><div class="line">&gt;&gt;&gt; # 限制分母一固定个值</div><div class="line">&gt;&gt;&gt; print(c.limit_denominator(8))</div><div class="line">4/7</div><div class="line"></div><div class="line">&gt;&gt;&gt; # 将浮点数转换成分数</div><div class="line">&gt;&gt;&gt; x = 3.75</div><div class="line">&gt;&gt;&gt; y = Fraction(*x.as_integer_ratio())</div><div class="line">&gt;&gt;&gt; y</div><div class="line">Fraction(15, 4)</div><div class="line">&gt;&gt;&gt;</div></pre></td></tr></table></figure>
+<h3 id="大型数组运算"><a href="#大型数组运算" class="headerlink" title="大型数组运算"></a>大型数组运算</h3><p>涉及到数组的重量级运算操作，可以使用 NumPy 库。 NumPy 的一个主要特征是它会给Python提供一个数组对象，相比标准的Python列表而已更适合用来做数学运算。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; # Python lists</div><div class="line">&gt;&gt;&gt; x = [1, 2, 3, 4]</div><div class="line">&gt;&gt;&gt; y = [5, 6, 7, 8]</div><div class="line">&gt;&gt;&gt; x * 2</div><div class="line">[1, 2, 3, 4, 1, 2, 3, 4]</div><div class="line">&gt;&gt;&gt; x + 10</div><div class="line">Traceback (most recent call last):</div><div class="line">    File &quot;&lt;stdin&gt;&quot;, line 1, in &lt;module&gt;</div><div class="line">TypeError: can only concatenate list (not &quot;int&quot;) to list</div><div class="line">&gt;&gt;&gt; x + y</div><div class="line">[1, 2, 3, 4, 5, 6, 7, 8]</div><div class="line"></div><div class="line">&gt;&gt;&gt; # Numpy arrays</div><div class="line">&gt;&gt;&gt; import numpy as np</div><div class="line">&gt;&gt;&gt; ax = np.array([1, 2, 3, 4])</div><div class="line">&gt;&gt;&gt; ay = np.array([5, 6, 7, 8])</div><div class="line">&gt;&gt;&gt; ax * 2</div><div class="line">array([2, 4, 6, 8])</div><div class="line">&gt;&gt;&gt; ax + 10</div><div class="line">array([11, 12, 13, 14])</div><div class="line">&gt;&gt;&gt; ax + ay</div><div class="line">array([ 6, 8, 10, 12])</div><div class="line">&gt;&gt;&gt; ax * ay</div><div class="line">array([ 5, 12, 21, 32])</div><div class="line">&gt;&gt;&gt;</div></pre></td></tr></table></figure></p>
+<p>NumPy 中的标量运算(比如 ax * 2 或 ax + 10 )会作用在每一个元素上。另外，当两个操作数都是数组的时候执行元素对等位置计算，并最终生成一个新的数组。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">```</div><div class="line">&gt;&gt;&gt; def f(x):</div><div class="line">... return 3*x**2 - 2*x + 7</div><div class="line">...</div><div class="line">&gt;&gt;&gt; f(ax)</div><div class="line">array([ 8, 15, 28, 47])</div><div class="line">&gt;&gt;&gt;</div><div class="line">NumPy 还为数组操作提供了大量的通用函数，这些函数可以作为 math 模块中类似函数的替代。</div></pre></td></tr></table></figure></p>
+<blockquote>
+<blockquote>
+<blockquote>
+<p>np.sqrt(ax)<br>array([ 1. , 1.41421356, 1.73205081, 2. ])<br>np.cos(ax)<br>array([ 0.54030231, -0.41614684, -0.9899925 , -0.65364362])</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">如果你想构造一个10,000*10,000的浮点数二维网格</div></pre></td></tr></table></figure>
+<p>grid = np.zeros(shape=(10000,10000), dtype=float)<br>grid<br>    array([[ 0., 0., 0., …, 0., 0., 0.],<br>    [ 0., 0., 0., …, 0., 0., 0.],<br>    [ 0., 0., 0., …, 0., 0., 0.],<br>    …,<br>    [ 0., 0., 0., …, 0., 0., 0.],<br>    [ 0., 0., 0., …, 0., 0., 0.],<br>    [ 0., 0., 0., …, 0., 0., 0.]])</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">所有的普通操作还是会同时作用在所有元素上：</div></pre></td></tr></table></figure>
+<p>a = np.array([[1, 2, 3, 4], [5, 6, 7, 8], [9, 10, 11, 12]])<br>a<br>array([[ 1, 2, 3, 4],<br>[ 5, 6, 7, 8],<br>[ 9, 10, 11, 12]])</p>
+<h1 id="Select-row-1"><a href="#Select-row-1" class="headerlink" title="Select row 1"></a>Select row 1</h1><p>a[1]<br>array([5, 6, 7, 8])</p>
+<h1 id="Select-column-1"><a href="#Select-column-1" class="headerlink" title="Select column 1"></a>Select column 1</h1><p>a[:,1]<br>array([ 2, 6, 10])</p>
+<h1 id="Select-a-subregion-and-change-it"><a href="#Select-a-subregion-and-change-it" class="headerlink" title="Select a subregion and change it"></a>Select a subregion and change it</h1><p>a[1:3, 1:3]<br>array([[ 6, 7],<br>        [10, 11]])<br>a[1:3, 1:3] += 10<br>a<br>array([[ 1, 2, 3, 4],<br>        [ 5, 16, 17, 8],<br>        [ 9, 20, 21, 12]])</p>
+<h1 id="Broadcast-a-row-vector-across-an-operation-on-all-rows"><a href="#Broadcast-a-row-vector-across-an-operation-on-all-rows" class="headerlink" title="Broadcast a row vector across an operation on all rows"></a>Broadcast a row vector across an operation on all rows</h1><p>a + [100, 101, 102, 103]<br>array([[101, 103, 105, 107],<br>        [105, 117, 119, 111],<br>        [109, 121, 123, 115]])<br>a<br>array([[ 1, 2, 3, 4],<br>        [ 5, 16, 17, 8],<br>        [ 9, 20, 21, 12]])</p>
+<h1 id="Conditional-assignment-on-an-array"><a href="#Conditional-assignment-on-an-array" class="headerlink" title="Conditional assignment on an array"></a>Conditional assignment on an array</h1><p>np.where(a &lt; 10, a, 10)<br>array([[ 1, 2, 3, 4],<br>        [ 5, 10, 10, 8],<br>        [ 9, 10, 10, 10]])</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">### 随机选择</div><div class="line">random 模块有大量的函数用来产生随机数和随机选择元素。</div></pre></td></tr></table></figure>
+<p>import random<br>values = [1, 2, 3, 4, 5, 6]<br>random.choice(values)<br>2<br>random.choice(values)<br>3<br>random.choice(values)<br>1<br>random.choice(values)<br>4<br>random.choice(values)<br>6</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">为了提取出N个不同元素的样本用来做进一步的操作，可以使用` random.sample()`</div></pre></td></tr></table></figure>
+<p>random.sample(values, 2)<br>[6, 2]<br>random.sample(values, 2)<br>[4, 3]<br>random.sample(values, 3)<br>[4, 3, 1]<br>random.sample(values, 3)<br>[5, 4, 1]</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">如果你仅仅只是想打乱序列中元素的顺序， 可以使用 `random.shuffle()`</div></pre></td></tr></table></figure>
+<p>random.shuffle(values)<br>values<br>[2, 4, 6, 5, 3, 1]<br>random.shuffle(values)<br>values<br>[3, 5, 2, 1, 6, 4]</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">生成随机整数，请使用 random.randint()</div></pre></td></tr></table></figure>
+<p>random.randint(0,10)<br>2<br>random.randint(0,10)<br>5<br>random.randint(0,10)<br>0<br>random.randint(0,10)<br>7<br>random.randint(0,10)<br>10<br>random.randint(0,10)<br>3</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">为了生成0到1范围内均匀分布的浮点数</div></pre></td></tr></table></figure>
+<p>random.random()<br>0.9406677561675867<br>random.random()<br>0.133129581343897<br>random.random()<br>0.4144991136919316</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">如果要获取N位随机位(二进制)的整数，使用 random.getrandbits()</div></pre></td></tr></table></figure>
+<p>random.getrandbits(200)<br>335837000776573622800628485064121869519521710558559406913275</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">random 模块使用 Mersenne Twister 算法来计算生成随机数。</div></pre></td></tr></table></figure>
+</blockquote>
+</blockquote>
+</blockquote>
+<p>random.seed() # Seed based on system time or os.urandom()<br>random.seed(12345) # Seed based on integer given<br>random.seed(b’bytedata’) # Seed based on byte data<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">random模块还包含基于均匀分布、高斯分布和其他分布的随机数生成函数。 比如， random.uniform() 计算均匀分布随机数， random.gauss() 计算正态分布随机数。 </div><div class="line">&gt; 在 random 模块中的函数不应该用在和密码学相关的程序中。如需，ssl.RAND_bytes() 可以用来生成一个安全的随机字节序列。</div><div class="line">### 基本的日期与时间转换</div><div class="line">为了执行不同时间单位的转换和计算，请使用 datetime 模块。 比如，为了表示一个时间段，可以创建一个 timedelta 实例。</div></pre></td></tr></table></figure></p>
+<blockquote>
+<blockquote>
+<blockquote>
+<p>from datetime import timedelta<br>a = timedelta(days=2, hours=6)<br>b = timedelta(hours=4.5)<br>c = a + b<br>c.days<br>2<br>c.seconds  # 包括小时数后的分数<br>37800<br>c.seconds / 3600  # 10.5小时<br>10.5<br>c.total_seconds() / 3600 #总小时数<br>58.5</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">如果你想表示指定的日期和时间，先创建一个 datetime 实例然后使用标准的数学运算来操作它们。</div></pre></td></tr></table></figure>
+<p>from datetime import datetime<br>a = datetime(2012, 9, 23)<br>print(a + timedelta(days=10))<br>2012-10-03 00:00:00</p>
+<p>b = datetime(2012, 12, 21)<br>d = b - a<br>d.days<br>89<br>now = datetime.today()<br>print(now)<br>2012-12-21 14:54:43.094063<br>print(now + timedelta(minutes=10))<br>2012-12-21 15:04:43.094063<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">在计算的时候，需要注意的是 datetime 会自动处理闰年。</div></pre></td></tr></table></figure></p>
+<p>a = datetime(2012, 3, 1)<br>b = datetime(2012, 2, 28)<br>a - b<br>datetime.timedelta(2)<br>(a - b).days<br>2<br>c = datetime(2013, 3, 1)<br>d = datetime(2013, 2, 28)<br>(c - d).days<br>1</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">对大多数基本的日期和时间处理问题， datetime 模块以及足够了。</div><div class="line">许多类似的时间计算可以使用`dateutil.relativedelta() `函数代替。但是，有一点需要注意的就是，它会在处理月份(还有它们的天数差距)的时候填充间隙。</div></pre></td></tr></table></figure>
+<p>a = datetime(2012, 9, 23)<br>a + timedelta(months=1)<br>Traceback (most recent call last):<br>File “<stdin>“, line 1, in <module><br>TypeError: ‘months’ is an invalid keyword argument for this function</module></stdin></p>
+<p>from dateutil.relativedelta import relativedelta<br>a + relativedelta(months=+1)<br>datetime.datetime(2012, 10, 23, 0, 0)<br>a + relativedelta(months=+4)<br>datetime.datetime(2013, 1, 23, 0, 0)</p>
+<h1 id="Time-between-two-dates"><a href="#Time-between-two-dates" class="headerlink" title="Time between two dates"></a>Time between two dates</h1><p>b = datetime(2012, 12, 21)<br>d = b - a<br>d<br>datetime.timedelta(89)<br>d = relativedelta(b, a)<br>d<br>relativedelta(months=+2, days=+28)<br>d.months<br>2<br>d.days<br>28</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">### 计算当前月份的日期范围</div><div class="line">使用 `calendar.monthrange`函数来找出该月的总天数。任何时候只要你想获得日历信息，那么 calendar 模块就非常有用了。</div></pre></td></tr></table></figure>
+</blockquote>
+</blockquote>
+</blockquote>
+<p>from datetime import datetime, date, timedelta<br>import calendar</p>
+<p>def get_month_range(start_date=None):<br>    if start_date is None:<br>        start<em>date = date.today().replace(day=1)
+    </em>, days_in_month = calendar.monthrange(start_date.year, start_date.month)<br>    end_date = start_date + timedelta(days=days_in_month)<br>    return (start_date, end_date)<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">```</div><div class="line">&gt;&gt;&gt; a_day = timedelta(days=1)</div><div class="line">&gt;&gt;&gt; first_day, last_day = get_month_range()</div><div class="line">&gt;&gt;&gt; while first_day &lt; last_day:</div><div class="line">...     print(first_day)</div><div class="line">...     first_day += a_day</div><div class="line">...</div><div class="line">2012-08-01</div><div class="line">2012-08-02</div><div class="line">2012-08-03</div><div class="line">2012-08-04</div><div class="line">2012-08-05</div><div class="line">2012-08-06</div><div class="line">2012-08-07</div><div class="line">2012-08-08</div><div class="line">2012-08-09</div><div class="line">#... and so on...</div></pre></td></tr></table></figure></p>
+<h3 id="字符串转换为日期"><a href="#字符串转换为日期" class="headerlink" title="字符串转换为日期"></a>字符串转换为日期</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; from datetime import datetime</div><div class="line">&gt;&gt;&gt; text = &apos;2012-09-20&apos;</div><div class="line">&gt;&gt;&gt; y = datetime.strptime(text, &apos;%Y-%m-%d&apos;)</div><div class="line">&gt;&gt;&gt; z = datetime.now()</div><div class="line">&gt;&gt;&gt; diff = z - y</div><div class="line">&gt;&gt;&gt; diff</div><div class="line">datetime.timedelta(3, 77824, 177393)</div><div class="line">&gt;&gt;&gt;</div></pre></td></tr></table></figure>
+<p>datetime.strptime() 方法支持很多的格式化代码， 比如 %Y 代表4位数年份， %m 代表两位数月份。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; z</div><div class="line">datetime.datetime(2012, 9, 23, 21, 37, 4, 177393)</div><div class="line">&gt;&gt;&gt; nice_z = datetime.strftime(z, &apos;%A %B %d, %Y&apos;)</div><div class="line">&gt;&gt;&gt; nice_z</div><div class="line">&apos;Sunday September 23, 2012&apos;</div><div class="line">&gt;&gt;&gt;</div></pre></td></tr></table></figure></p>
+<blockquote>
+<p> strptime() 的性能要比你想象中的差很多， 因为它是使用纯Python实现，并且必须处理所有的系统本地设置。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">from datetime import datetime</div><div class="line">def parse_ymd(s):</div><div class="line">    year_s, mon_s, day_s = s.split(&apos;-&apos;)</div><div class="line">    return datetime(int(year_s), int(mon_s), int(day_s))</div></pre></td></tr></table></figure></p>
+</blockquote>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/python/" rel="tag"># python</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/08/15/cookbook2/" rel="next" title="python cookbook学习笔记（二）">
+                <i class="fa fa-chevron-left"></i> python cookbook学习笔记（二）
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.png"
+               alt="Iwhale" />
+          <p class="site-author-name" itemprop="name">Iwhale</p>
+          <p class="site-description motion-element" itemprop="description">Dream, Such as whales to the sea.</p>
+        </div>
+        <nav class="site-state motion-element">
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">20</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">10</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">17</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/flyEn" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/p/1005055406757796/home" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#数字的四舍五入"><span class="nav-number">1.</span> <span class="nav-text">数字的四舍五入</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#执行精确的浮点数运算"><span class="nav-number">2.</span> <span class="nav-text">执行精确的浮点数运算</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#数字的格式化输出"><span class="nav-number">3.</span> <span class="nav-text">数字的格式化输出</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二八十六进制整数"><span class="nav-number">4.</span> <span class="nav-text">二八十六进制整数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#字节到大整数的打包与解包"><span class="nav-number">5.</span> <span class="nav-text">字节到大整数的打包与解包</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#复数的数学运算"><span class="nav-number">6.</span> <span class="nav-text">复数的数学运算</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#无穷大与NaN"><span class="nav-number">7.</span> <span class="nav-text">无穷大与NaN</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#分数运算"><span class="nav-number">8.</span> <span class="nav-text">分数运算</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#大型数组运算"><span class="nav-number">9.</span> <span class="nav-text">大型数组运算</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Select-row-1"><span class="nav-number"></span> <span class="nav-text">Select row 1</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Select-column-1"><span class="nav-number"></span> <span class="nav-text">Select column 1</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Select-a-subregion-and-change-it"><span class="nav-number"></span> <span class="nav-text">Select a subregion and change it</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Broadcast-a-row-vector-across-an-operation-on-all-rows"><span class="nav-number"></span> <span class="nav-text">Broadcast a row vector across an operation on all rows</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Conditional-assignment-on-an-array"><span class="nav-number"></span> <span class="nav-text">Conditional assignment on an array</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Time-between-two-dates"><span class="nav-number"></span> <span class="nav-text">Time between two dates</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#字符串转换为日期"><span class="nav-number">1.</span> <span class="nav-text">字符串转换为日期</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  Thu Jan 05 2017 08:00:00 GMT+0800 (CST) - 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Iwhale</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+
+</body>
+</html>
