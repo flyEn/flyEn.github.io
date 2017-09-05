@@ -1,0 +1,748 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Microsoft YaHei:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|Lobster Two:300,300italic,400,400italic,700,700italic|PT Mono:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="java," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="查看JDK版本：java -version查看java执行路径：which java查看JAVA_HOME路径：echo $JAVA_HOME插卡PATH内容：echo $PATH">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java学习笔记之基础篇">
+<meta property="og:url" content="http://yoursite.com/2017/09/05/java-1/index.html">
+<meta property="og:site_name" content="flyEn'blog">
+<meta property="og:description" content="查看JDK版本：java -version查看java执行路径：which java查看JAVA_HOME路径：echo $JAVA_HOME插卡PATH内容：echo $PATH">
+<meta property="og:updated_time" content="2017-09-05T10:43:51.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Java学习笔记之基础篇">
+<meta name="twitter:description" content="查看JDK版本：java -version查看java执行路径：which java查看JAVA_HOME路径：echo $JAVA_HOME插卡PATH内容：echo $PATH">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/09/05/java-1/"/>
+
+
+
+
+
+  <title> Java学习笔记之基础篇 | flyEn'blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">flyEn'blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+    
+      <p class="site-subtitle"></p>
+    
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/09/05/java-1/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="Iwhale">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/avatar.png">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="flyEn'blog">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="flyEn'blog" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Java学习笔记之基础篇
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-09-05T18:06:23+08:00">
+                2017-09-05
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>查看JDK版本：<code>java -version</code><br>查看java执行路径：<code>which java</code><br>查看JAVA_HOME路径：<code>echo $JAVA_HOME</code><br>插卡PATH内容：<code>echo $PATH</code></p>
+<a id="more"></a>
+<p>（Ubuntu）<br>1.使用源安装<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">sudo add-apt-repository ppa:webupd8team/java</div><div class="line">sudo apt-get update</div><div class="line">sudo apt-get install oracle-java8-installer</div><div class="line">sudo apt-get install oracle-java8-set-default # 设java8为默认</div><div class="line">如果你想安装Java 7(i.e Java 1.7)，在上面的命令中用java7代替java8</div></pre></td></tr></table></figure></p>
+<p>如果是使用源方法安装的, 则默认的安装路径是在/usr/lib/jvm/java-8-oracle中, 则配置对应的JAVA_HOME即可</p>
+<p>2.<br>jdk下载：<a href="http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html" target="_blank" rel="external">http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html</a></p>
+<p><a href="https://www.w3cschool.cn/java/java-basic-syntax.html" target="_blank" rel="external">https://www.w3cschool.cn/java/java-basic-syntax.html</a></p>
+<ul>
+<li><strong>大小写敏感</strong>：Java是大小写敏感的，这就意味着标识符Hello与hello是不同的。</li>
+<li><strong>类名</strong>：对于所有的类来说，类名的首字母应该大写。如果类名由若干单词组成，那么每个单词的首字母应该大写，例如 MyFirstJavaClass 。</li>
+<li><strong>方法名</strong>：所有的方法名都应该以小写字母开头。如果方法名含有若干单词，则后面的每个单词首字母大写。</li>
+<li><strong>源文件名</strong>：源文件名必须和类名相同。当保存文件的时候，你应该使用类名作为文件名保存（切记Java是大小写敏感的），文件名的后缀为.java。（如果文件名和类名不相同则会导致编译错误）。</li>
+<li><strong>主方法入口</strong>：所有的Java 程序由<code>public static void main(String args[])</code>方法开始执行。</li>
+</ul>
+<h4 id="标识符"><a href="#标识符" class="headerlink" title="标识符"></a>标识符</h4><p>Java所有的组成部分都需要名字。类名、变量名以及方法名都被称为标识符。</p>
+<ul>
+<li>所有的标识符都应该以字母（A-Z或者a-z）,美元符（$）、或者下划线（_）开始</li>
+<li>首字符之后可以是任何字符的组合</li>
+<li>关键字不能用作标识符</li>
+<li>标识符是大小写敏感的</li>
+<li>合法标识符举例：age、$salary、_value、__1_value</li>
+<li>非法标识符举例：123abc、-salary</li>
+</ul>
+<h4 id="Java修饰符"><a href="#Java修饰符" class="headerlink" title="Java修饰符"></a>Java修饰符</h4><p>Java中主要有如下几种类型的变量</p>
+<ul>
+<li>局部变量</li>
+<li>类变量（静态变量）</li>
+<li>成员变量（非静态变量）</li>
+</ul>
+<blockquote>
+<p>成员变量：以一个类class来描述事物，属性即对应类的成员变量，行为即类中的成员函数。<br>静态变量：static修饰的变量称为静态变量，其实质上就是全局变量。如果某个内容是被所有对象所共享，那么该内容就应该用静态修饰；没有被静态修饰的内容，其实是属于对象的特殊描述。</p>
+</blockquote>
+<p>静态方法和实例方法的区别，例：<br>1.调用静态方法的示例<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">//-----------hasStaticMethod.java-----------------</div><div class="line">public class hasStaticMethod&#123;</div><div class="line">	//定义一个静态方法</div><div class="line">	public static void callMe()&#123;</div><div class="line">	　　System.out.println(&quot;This is a static method.&quot;);</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>调用：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">//-----------invokeStaticMethod.java-----------------</div><div class="line">public class invokeStaticMethod&#123;</div><div class="line">	public static void main(String args[])&#123;</div><div class="line">		hasStaticMethod.callMe();  //不创建对象，直接调用静态方法    </div><div class="line">		hasStaticMethod oa = new hasStaticMethod();   //创建一个对象</div><div class="line">		oa.callMe();      //利用对象来调用静态方法</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>两次调用都可以，输出结果是：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">This is a static method.This is a static method.</div></pre></td></tr></table></figure></p>
+<blockquote>
+<p>静态方法直接利用类调用，或者用对象调用都可以。</p>
+</blockquote>
+<p>2.静态方法访问成员变量示例<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line">class accessMember&#123;  </div><div class="line">	private static int sa; //定义一个静态成员变量  </div><div class="line">	private int ia;  //定义一个实例成员变量  </div><div class="line">	//下面定义一个静态方法  </div><div class="line">	static void statMethod()&#123;  </div><div class="line">	　　int i = 0;    //正确，可以有自己的局部变量</div><div class="line">	　　sa = 10;     //正确，静态方法可以使用静态变量  </div><div class="line">	　　otherStat();    //正确，可以调用静态方法  </div><div class="line">	　　ia = 20;   //错误，不能使用实例变量  </div><div class="line">	　　insMethod();  //错误，不能调用实例方法  </div><div class="line">	&#125;  </div><div class="line">	static void otherStat()&#123;</div><div class="line">		...</div><div class="line">	&#125;   </div><div class="line">	//下面定义一个实例方法   </div><div class="line">	void insMethod()&#123;  </div><div class="line">	　　int i = 0;    //正确，可以有自己的局部变量  </div><div class="line">	　　sa = 15;    //正确，可以使用静态变量  </div><div class="line">	　　ia = 30;    //正确，可以使用实例变量  </div><div class="line">	　　statMethod();   //正确，可以调用静态方法  </div><div class="line">	&#125;  </div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>结论：静态方法只能访问静态成员，实例方法可以访问静态和实例成员。</p>
+<blockquote>
+<p>之所以不允许静态方法访问实例成员变量，是因为实例成员变量是属于某个对象的，而静态方法在执行时，并不一定存在对象。同样，因为实例方法可以访问实例成员变量，如果允许静态方法调用实例方法，将间接地允许它使用实例成员变量，所以它也不能调用实例方法。基于同样的道理，静态方法中也不能使用关键字this。main()方法是一个典型的静态方法，它同样遵循一般静态方法的规则，所以它可以由系统在创建对象之前就调用。</p>
+</blockquote>
+<h4 id="Java数组"><a href="#Java数组" class="headerlink" title="Java数组"></a>Java数组</h4><p>数组是储存在堆上的对象，可以保存多个同类型变量。在后面的章节中，我们将会学到如何声明、构造以及初始化一个数组。</p>
+<h4 id="Java枚举"><a href="#Java枚举" class="headerlink" title="Java枚举"></a>Java枚举</h4><p>Java 5.0引入了枚举，枚举限制变量只能是预先设定好的值。使用枚举可以减少代码中的bug。</p>
+<blockquote>
+<p>不能继承，基本上可以讲enum看做一个常规的类。</p>
+</blockquote>
+<ul>
+<li>枚举值默认为从0开始的有序数值</li>
+<li>枚举可以添加方法（普通方法、静态方法、抽象方法、构造方法）</li>
+<li>Java不允许使用<code>=</code>为枚举常量赋值（与C/C++语言中的enum不同）</li>
+<li>枚举可以实现接口</li>
+</ul>
+<p>例：一个错误码枚举类型的定义<br>转自<a href="http://www.jianshu.com/p/6f2f5627c27d(作者：静默虚空" target="_blank" rel="external">http://www.jianshu.com/p/6f2f5627c27d(作者：静默虚空</a>)<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line">public enum ErrorCodeEn &#123;</div><div class="line">    OK(0, &quot;成功&quot;),</div><div class="line">    ERROR_A(100, &quot;错误A&quot;),</div><div class="line">    ERROR_B(200, &quot;错误B&quot;);</div><div class="line"></div><div class="line">    // 构造方法：enum的构造方法只能被声明为private权限或不声明权限</div><div class="line">    ErrorCodeEn(int number, String description) &#123;</div><div class="line">        this.code = number;</div><div class="line">        this.description = description;</div><div class="line">    &#125;</div><div class="line">    private int code;</div><div class="line">    private String description;</div><div class="line">    public int getCode() &#123;</div><div class="line">        return code;</div><div class="line">    &#125;</div><div class="line">    public String getDescription() &#123;</div><div class="line">        return description;</div><div class="line">    &#125;</div><div class="line">    public static void main(String args[]) &#123; // 静态方法</div><div class="line">        for (ErrorCodeEn s : ErrorCodeEn.values()) &#123;</div><div class="line">            System.out.println(&quot;code: &quot; + s.getCode() + &quot;, description: &quot; + s.getDescription());</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>接口实现：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line">public interface INumberEnum &#123;</div><div class="line">    int getCode();</div><div class="line">    String getDescription();</div><div class="line">&#125;</div><div class="line"></div><div class="line">public enum ErrorCodeEn2 implements INumberEnum &#123;</div><div class="line">    OK(0, &quot;成功&quot;),</div><div class="line">    ERROR_A(100, &quot;错误A&quot;),</div><div class="line">    ERROR_B(200, &quot;错误B&quot;);</div><div class="line"></div><div class="line">    ErrorCodeEn2(int number, String description) &#123;</div><div class="line">        this.code = number;</div><div class="line">        this.description = description;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    private int code;</div><div class="line">    private String description;</div><div class="line"></div><div class="line">    @Override</div><div class="line">    public int getCode() &#123;</div><div class="line">        return code;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    @Override</div><div class="line">    public String getDescription() &#123;</div><div class="line">        return description;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>枚举声明的格式：如果枚举中没有定义方法，也可以在最后一个实例后面加逗号、分号或什么都不加。以下同等：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">enum Color &#123; RED, GREEN, BLUE &#125;</div><div class="line">enum Color &#123; RED, GREEN, BLUE, &#125;</div><div class="line">enum Color &#123; RED, GREEN, BLUE; &#125;</div></pre></td></tr></table></figure></p>
+<h4 id="关键字"><a href="#关键字" class="headerlink" title="关键字"></a>关键字</h4><p>abstract：抽象方法，抽象类的修饰符<br>assert：断言条件是否满足<br>boolean：布尔数据类型<br>break：跳出循环或者label代码段<br>byte：8-bit有符号数据类型<br>case：switch语句的一个条件<br>catch：和try搭配捕捉异常信息<br>char：16-bit Unicode字符数据类型<br>class：定义类<br>const：未使用<br>continue：不执行循环体剩余部分<br>default    ：switch语句中的默认分支<br>do：循环语句，循环体至少会执行一次<br>double：64-bit双精度浮点数<br>else：if条件不成立时执行的分支<br>enum：枚举类型<br>extends：表示一个类是另一个类的子类<br>final：表示一个值在初始化之后就不能再改变了，表示方法不能被重写，或者一个类不能有子类<br>finally：为了完成执行的代码而设计的，主要是为了程序的健壮性和完整性，无论有没有异常发生都执行代码。<br>float：32-bit单精度浮点数<br>for：for循环语句<br>goto：未使用<br>if：条件语句<br>implements：表示一个类实现了接口<br>import：导入类<br>instanceof：测试一个对象是否是某个类的实例<br>int：32位整型数<br>interface：接口，一种抽象的类型，仅有方法和常量的定义<br>long：64位整型数<br>native：表示方法用非java代码实现<br>new：分配新的类实例<br>package：一系列相关类组成一个包<br>private：表示私有字段，或者方法等，只能从类内部访问<br>protected：表示字段只能通过类或者其子类访问，子类或者在同一个包内的其他类<br>public：表示共有属性或者方法<br>return：方法返回值<br>short：16位数字<br>static：表示在类级别定义，所有实例共享的<br>strictfp：浮点数比较使用严格的规则<br>super：表示基类<br>switch：选择语句<br>synchronized：表示同一时间只能由一个线程访问的代码块<br>this：表示调用当前实例，或者调用另一个构造函数<br>throw：抛出异常<br>throws：定义方法可能抛出的异常<br>transient：修饰不要序列化的字段<br>try：表示代码块要做异常处理或者和finally配合表示是否抛出异常都执行finally中的代码<br>void：标记方法不返回任何值<br>volatile：标记字段可能会被多个线程同时访问，而不做同步<br>while：while循环</p>
+<h4 id="Java注释"><a href="#Java注释" class="headerlink" title="Java注释"></a>Java注释</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">public class MyFirstJavaProgram&#123;</div><div class="line">   /* 这是第一个Java程序</div><div class="line">    *它将打印Hello World</div><div class="line">    * 这是一个多行注释的示例</div><div class="line">    */</div><div class="line">    public static void main(String []args)&#123;</div><div class="line">       // 这是单行注释的示例</div><div class="line">       /* 这个也是单行注释的示例 */</div><div class="line">       System.out.println(&quot;Hello World&quot;); </div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h4 id="继承"><a href="#继承" class="headerlink" title="继承"></a>继承</h4><p>在Java中，一个类可以由其他类派生。如果你要创建一个类，而且已经存在一个类具有你所需要的属性或方法，那么你可以将新创建的类继承该类。<br>利用继承的方法，可以重用已存在类的方法和属性，而不用重写这些代码。被继承的类称为超类（super class），派生类称为子类（subclass）。</p>
+<h4 id="接口"><a href="#接口" class="headerlink" title="接口"></a>接口</h4><p>在Java中，接口可理解为对象间相互通信的协议。接口在继承中扮演着很重要的角色。<br>接口只定义派生要用到的方法，但是方法的具体实现完全取决于派生类。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/java/" rel="tag"># java</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/08/15/cookbook3/" rel="next" title="python cookbook学习笔记（三）">
+                <i class="fa fa-chevron-left"></i> python cookbook学习笔记（三）
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.png"
+               alt="Iwhale" />
+          <p class="site-author-name" itemprop="name">Iwhale</p>
+          <p class="site-description motion-element" itemprop="description">Dream, Such as whales to the sea.</p>
+        </div>
+        <nav class="site-state motion-element">
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">21</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">10</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">18</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/flyEn" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/p/1005055406757796/home" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#标识符"><span class="nav-number">1.</span> <span class="nav-text">标识符</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Java修饰符"><span class="nav-number">2.</span> <span class="nav-text">Java修饰符</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Java数组"><span class="nav-number">3.</span> <span class="nav-text">Java数组</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Java枚举"><span class="nav-number">4.</span> <span class="nav-text">Java枚举</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#关键字"><span class="nav-number">5.</span> <span class="nav-text">关键字</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Java注释"><span class="nav-number">6.</span> <span class="nav-text">Java注释</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#继承"><span class="nav-number">7.</span> <span class="nav-text">继承</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#接口"><span class="nav-number">8.</span> <span class="nav-text">接口</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  Thu Jan 05 2017 08:00:00 GMT+0800 (CST) - 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Iwhale</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+
+</body>
+</html>
