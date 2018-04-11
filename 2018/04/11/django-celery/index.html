@@ -1,0 +1,812 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+<script>
+    (function(){
+        if(''){
+            if (prompt('请输入文章密码') !== ''){
+                alert('密码错误！');
+                history.back();
+            }
+        }
+    })();
+</script>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Microsoft YaHei:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|Lobster Two:300,300italic,400,400italic,700,700italic|PT Mono:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="django," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="例如项目名为porject
+项目下(与配置文件同层)：project/__init__.py：
+1from .celery import app as celery_app">
+<meta property="og:type" content="article">
+<meta property="og:title" content="django_celery定时任务配置及运行">
+<meta property="og:url" content="http://yoursite.com/2018/04/11/django-celery/index.html">
+<meta property="og:site_name" content="flyEn'blog">
+<meta property="og:description" content="例如项目名为porject
+项目下(与配置文件同层)：project/__init__.py：
+1from .celery import app as celery_app">
+<meta property="og:updated_time" content="2018-04-11T03:20:35.485Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="django_celery定时任务配置及运行">
+<meta name="twitter:description" content="例如项目名为porject
+项目下(与配置文件同层)：project/__init__.py：
+1from .celery import app as celery_app">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/04/11/django-celery/"/>
+
+
+
+
+
+  <title> django_celery定时任务配置及运行 | flyEn'blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">flyEn'blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+    
+      <p class="site-subtitle"></p>
+    
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/04/11/django-celery/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="Iwhale">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/avatar.png">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="flyEn'blog">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="flyEn'blog" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                django_celery定时任务配置及运行
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-04-11T11:16:07+08:00">
+                2018-04-11
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/django/" itemprop="url" rel="index">
+                    <span itemprop="name">django</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>例如项目名为porject</p>
+<h4 id="项目下-与配置文件同层-："><a href="#项目下-与配置文件同层-：" class="headerlink" title="项目下(与配置文件同层)："></a>项目下(与配置文件同层)：</h4><p><code>project/__init__.py</code>：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">from .celery import app as celery_app</div></pre></td></tr></table></figure>
+<a id="more"></a>
+<h4 id="创建project-celery-py"><a href="#创建project-celery-py" class="headerlink" title="创建project/celery.py:"></a>创建<code>project/celery.py</code>:</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"># -*- coding: utf-8 -*-</div><div class="line">from __future__ import absolute_import</div><div class="line">from __future__ import unicode_literals</div><div class="line"></div><div class="line">import os</div><div class="line"></div><div class="line">from celery import Celery</div><div class="line">from django.conf import settings</div><div class="line"></div><div class="line"># set the default Django settings module for the &apos;celery&apos; program.</div><div class="line"></div><div class="line">os.environ.setdefault(&apos;DJANGO_SETTINGS_MODULE&apos;, &apos;project.settings&apos;)</div><div class="line">app = Celery(&apos;project&apos;)</div><div class="line"></div><div class="line"># Using a string here means the worker will not have to</div><div class="line"># pickle the object when using Windows.</div><div class="line">app.config_from_object(&apos;django.conf:settings&apos;)</div><div class="line">app.autodiscover_tasks(lambda: settings.INSTALLED_APPS)</div></pre></td></tr></table></figure>
+<h4 id="修改配置文件project-settings-base-py："><a href="#修改配置文件project-settings-base-py：" class="headerlink" title="修改配置文件project/settings/base.py："></a>修改配置文件<code>project/settings/base.py</code>：</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">INSTALLED_APP += [</div><div class="line">    &apos;kombu.transport.django&apos;,</div><div class="line">    &apos;djcelery&apos;</div><div class="line">]</div><div class="line"></div><div class="line">import djcelery</div><div class="line">djcelery.setup_loader()</div><div class="line"></div><div class="line">BROKER_URL = &apos;django://&apos;</div><div class="line"></div><div class="line">CELERYBEAT_SCHEDULER = &apos;djcelery.schedulers.DatabaseScheduler&apos;  # 定时任务</div><div class="line">CELERY_RESULT_BACKEND = &apos;djcelery.backends.database:DatabaseBackend&apos;</div><div class="line"></div><div class="line">CELERY_ACCEPT_CONTENT = [&apos;application/json&apos;]</div><div class="line"></div><div class="line">CELERY_TASK_SERIALIZER = &apos;json&apos;</div><div class="line">CELERY_RESULT_SERIALIZER = &apos;json&apos;</div><div class="line">CELERY_TIMEZONE = &apos;Asia/Shanghai&apos;</div></pre></td></tr></table></figure>
+<h4 id="app下demo-tasks-py"><a href="#app下demo-tasks-py" class="headerlink" title="app下demo/tasks.py:"></a>app下<code>demo/tasks.py</code>:</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">from __future__ import absolute_import</div><div class="line">from celery import shared_task</div><div class="line"></div><div class="line"></div><div class="line">@shared_task</div><div class="line">def add(x, y):</div><div class="line">    return x + y</div></pre></td></tr></table></figure>
+<h4 id="启动worker"><a href="#启动worker" class="headerlink" title="启动worker"></a>启动worker</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"># 这里我指定了配置，默认的话忽略info后面</div><div class="line">python manage.py celery worker --loglevel=info --settings=proj.prod_settings</div></pre></td></tr></table></figure>
+<p>(测试)直接执行任务：<br>进入项目内shell环境下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">from demoapp.tasks import add</div><div class="line">add.delay(4, 4)</div></pre></td></tr></table></figure></p>
+<p>上面的worker log中出现return值为16就说明celery配置完成。</p>
+<h4 id="django-celery的定时任务功能"><a href="#django-celery的定时任务功能" class="headerlink" title="django-celery的定时任务功能"></a><code>django-celery</code>的定时任务功能</h4><blockquote>
+<p>celery beat定时或者定间隔给celery发送task</p>
+</blockquote>
+<p>配置即：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"># proj/settings.py</div><div class="line">CELERYBEAT_SCHEDULER = &apos;djcelery.schedulers.DatabaseScheduler&apos;</div></pre></td></tr></table></figure></p>
+<p>需要迁移：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">python manage.py migrate</div></pre></td></tr></table></figure></p>
+<p>可以后台配置任务执行间隔（或者定时器直接指定）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">python manage.py celery beat</div></pre></td></tr></table></figure>
+<h3 id="时间间隔"><a href="#时间间隔" class="headerlink" title="时间间隔"></a>时间间隔</h3><ol>
+<li>设置秒数</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">@periodic_task(run_every=10)</div></pre></td></tr></table></figure>
+<ol>
+<li>通过datetime设置时间间隔</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">@periodic_task(run_every=datetime.timedelta(hours=1, minutes=15, seconds=40))</div></pre></td></tr></table></figure>
+<ol>
+<li>celery的crontal表达式</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">@periodic_task(run_every=crontab())</div></pre></td></tr></table></figure>
+<blockquote>
+<p>表示每分钟0秒时刻执行一次</p>
+</blockquote>
+<p>七个参数：(常用的五个)</p>
+<p>(1). <code>minute</code>: 分，范围0~59</p>
+<p>(2).<code>hour</code>: 小时，范围0~23</p>
+<p>(3).<code>day_of_week</code>：星期，范围0~23</p>
+<p>(4).<code>day_of_month</code>: 每个月几号，范围1~31</p>
+<p>(5).<code>month_of_year</code>:月份，范围1~12</p>
+<p><strong>默认</strong>：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">crontab(minute=&apos;*&apos;, hour=&apos;*&apos;, day_of_week=&apos;*&apos;, day_of_month=&apos;*&apos;, month_of_year=&apos;*&apos;)</div></pre></td></tr></table></figure></p>
+<blockquote>
+<p>每天每小时每分钟执行一次（每分钟执行一次任务）。</p>
+</blockquote>
+<p><strong>具体某个值</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">crontab(minute=15)</div></pre></td></tr></table></figure></p>
+<blockquote>
+<p>每小时的15分时刻执行一次任务</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">crontab(minute=0, hour=0)</div></pre></td></tr></table></figure>
+<blockquote>
+<p>每天0点0分时刻执行一次任务</p>
+</blockquote>
+<p><strong>设置范围</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">crontab(minute=&apos;*&apos;, hour=&apos;9-12&apos;)</div></pre></td></tr></table></figure></p>
+<blockquote>
+<p>每天指定9点到12点每个小时的每分钟执行任务（<code>*</code>号是默认值，可以省略）。</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">crontab(hour=&apos;9-12,20&apos;)</div></pre></td></tr></table></figure>
+<blockquote>
+<p>逗号是or逻辑关系，指定（1点到12点）和（20点）中每分钟执行任务</p>
+</blockquote>
+<p>celery提供了一个类得到表达式解析结果：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">from celery.task.schedules import crontab_parser</div><div class="line">r = crontab_parser(23, 0).parse(&apos;9-12,20&apos;)</div><div class="line">print(r)</div></pre></td></tr></table></figure></p>
+<blockquote>
+<blockquote>
+<p>&gt;<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">set([9, 10, 11, 12, 20])</div></pre></td></tr></table></figure></p>
+</blockquote>
+</blockquote>
+<p><strong>设置间隔步长</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">crontab(day_of_month=&apos;1,3,5,7,9,11&apos;)</div></pre></td></tr></table></figure>
+<blockquote>
+<p>设置1、3、5、7、9、11月份每天每分钟执行任务</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">crontab(minute=&apos;*/2&apos;)</div><div class="line">crontab(minute=&apos;0-59/2&apos;)</div></pre></td></tr></table></figure>
+<blockquote>
+<p>这个/号是步长，每隔2分钟执行一次，相当于range的第三个参数<code>range(0, 59+1, 2)</code></p>
+</blockquote>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/django/" rel="tag"># django</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/10/31/hexo-auto/" rel="next" title="hexo自定义效果">
+                <i class="fa fa-chevron-left"></i> hexo自定义效果
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.png"
+               alt="Iwhale" />
+          <p class="site-author-name" itemprop="name">Iwhale</p>
+          <p class="site-description motion-element" itemprop="description">Dream, Such as whales to the sea.</p>
+        </div>
+        <nav class="site-state motion-element">
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">24</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">10</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">19</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/flyEn" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/p/1005055406757796/home" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#项目下-与配置文件同层-："><span class="nav-number">1.</span> <span class="nav-text">项目下(与配置文件同层)：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#创建project-celery-py"><span class="nav-number">2.</span> <span class="nav-text">创建project/celery.py:</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#修改配置文件project-settings-base-py："><span class="nav-number">3.</span> <span class="nav-text">修改配置文件project/settings/base.py：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#app下demo-tasks-py"><span class="nav-number">4.</span> <span class="nav-text">app下demo/tasks.py:</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#启动worker"><span class="nav-number">5.</span> <span class="nav-text">启动worker</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#django-celery的定时任务功能"><span class="nav-number">6.</span> <span class="nav-text">django-celery的定时任务功能</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#时间间隔"><span class="nav-number"></span> <span class="nav-text">时间间隔</span></a></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright" >
+  
+  &copy;  Thu Jan 05 2017 08:00:00 GMT+0800 (CST) - 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Iwhale</span>
+</div>
+
+<div class="powered-by">
+<i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">
+  本站访客数:<span id="busuanzi_value_site_uv"></span>
+</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+
+<script type="text/javascript" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script>
+<script type="text/javascript" src="//7u2ss1.com1.z0.glb.clouddn.com/love.js"></script>
+
+<a href="https://github.com/flyEn"><img style="position: absolute; top: 0; left: 0; border: 0;" src="https://camo.githubusercontent.com/c6625ac1f3ee0a12250227cf83ce904423abf351/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f6c6566745f677261795f3664366436642e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_left_gray_6d6d6d.png"></a>
+</body>
+</html>
