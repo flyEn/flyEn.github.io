@@ -118,17 +118,17 @@
 <meta name="keywords" content="java">
 <meta property="og:type" content="article">
 <meta property="og:title" content="PDF报告生成方案">
-<meta property="og:url" content="http://flyen.github.io/2020/11/03/pdf生成/index.html">
+<meta property="og:url" content="http://flyen.github.io/2019/12/03/pdf生成/index.html">
 <meta property="og:site_name" content="flyEn&#39;blog">
 <meta property="og:description" content="期望：能够通过编写某种模板，把PDF的大概样子确定下来，然后把数据和模板做一次整合，得到最终的结果，生成PDF导出。最终方案：freemarker + flying-saucer-pdf + iText">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://flyen.github.io/2020/11/03/pdf生成/1588864775087.png">
-<meta property="og:image" content="http://flyen.github.io/2020/11/03/pdf生成/1588866157636.png">
-<meta property="og:updated_time" content="2020-11-03T04:43:32.089Z">
+<meta property="og:image" content="http://flyen.github.io/2019/12/03/pdf生成/1588864775087.png">
+<meta property="og:image" content="http://flyen.github.io/2019/12/03/pdf生成/1588866157636.png">
+<meta property="og:updated_time" content="2020-11-03T05:15:19.263Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="PDF报告生成方案">
 <meta name="twitter:description" content="期望：能够通过编写某种模板，把PDF的大概样子确定下来，然后把数据和模板做一次整合，得到最终的结果，生成PDF导出。最终方案：freemarker + flying-saucer-pdf + iText">
-<meta name="twitter:image" content="http://flyen.github.io/2020/11/03/pdf生成/1588864775087.png">
+<meta name="twitter:image" content="http://flyen.github.io/2019/12/03/pdf生成/1588864775087.png">
 
 
 
@@ -156,7 +156,7 @@
 
 
 
-  <link rel="canonical" href="http://flyen.github.io/2020/11/03/pdf生成/"/>
+  <link rel="canonical" href="http://flyen.github.io/2019/12/03/pdf生成/"/>
 
 
 
@@ -295,7 +295,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="http://flyen.github.io/2020/11/03/pdf生成/">
+  <link itemprop="mainEntityOfPage" href="http://flyen.github.io/2019/12/03/pdf生成/">
 
   <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
     <meta itemprop="name" content="Iwhale">
@@ -334,8 +334,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-11-03T12:42:11+08:00">
-                2020-11-03
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-12-03T12:42:11+08:00">
+                2019-12-03
               </time>
             
 
@@ -390,10 +390,10 @@
 <li><strong>css渲染</strong>：<br>用css控制- ①图片、PDF模块防断裂 ②PDF纸张大小、方向、换页、<strong>page模型边距设置</strong>。</li>
 </ul>
 <blockquote>
-<p>分页媒体格式模型中，文档被转移到一个或多个页面框。<br>该页框是映射到一个矩形平面。<br>这大致类似于css盒子模型:<br><img src="//flyen.github.io/2020/11/03/pdf生成/1588864775087.png" alt="Alt text"><br><a href="https://www.w3.org/TR/css-page-3/" target="_blank" rel="noopener">CSS Paged Media Module Level 3</a></p>
+<p>分页媒体格式模型中，文档被转移到一个或多个页面框。<br>该页框是映射到一个矩形平面。<br>这大致类似于css盒子模型:<br><img src="//flyen.github.io/2019/12/03/pdf生成/1588864775087.png" alt="Alt text"><br><a href="https://www.w3.org/TR/css-page-3/" target="_blank" rel="noopener">CSS Paged Media Module Level 3</a></p>
 </blockquote>
 <ul>
-<li><strong>freemarker模板语言</strong><br><img src="//flyen.github.io/2020/11/03/pdf生成/1588866157636.png" alt="Alt text"><br>介绍和语法：<a href="http://www.kerneler.com/freemarker2.3.23/index.html" target="_blank" rel="noopener">FreeMarker手册</a></li>
+<li><strong>freemarker模板语言</strong><br><img src="//flyen.github.io/2019/12/03/pdf生成/1588866157636.png" alt="Alt text"><br>介绍和语法：<a href="http://www.kerneler.com/freemarker2.3.23/index.html" target="_blank" rel="noopener">FreeMarker手册</a></li>
 </ul>
 <h4 id="3-引入Freemarker的引擎，将数据和模板使用引擎生成最终的内容-htmlStr-。"><a href="#3-引入Freemarker的引擎，将数据和模板使用引擎生成最终的内容-htmlStr-。" class="headerlink" title="3. 引入Freemarker的引擎，将数据和模板使用引擎生成最终的内容(htmlStr)。"></a>3. 引入Freemarker的引擎，将数据和模板使用引擎生成最终的内容(htmlStr)。</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * freemarker 引擎渲染 html</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> dataMap     传入 html 模板的 Map 数据</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> ftlDir      html 模板文件存放包的相对路径(相对于resources路径的包路径) eg: /templates</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> ftlFile     html 模板文件名  eg: pdf_export_demo.ftl</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">freemarkerRender</span><span class="params">(Object dataMap, String ftlDir, String ftlFile)</span> </span>&#123;</span><br><span class="line">    Writer out = <span class="keyword">new</span> StringWriter();</span><br><span class="line">    configuration.setDefaultEncoding(<span class="string">"UTF-8"</span>);</span><br><span class="line">    configuration.setTemplateExceptionHandler(TemplateExceptionHandler.RETHROW_HANDLER);</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        configuration.setClassForTemplateLoading(PDFUtil.class, ftlDir);</span><br><span class="line">        configuration.setLogTemplateExceptions(<span class="keyword">false</span>);</span><br><span class="line">        configuration.setWrapUncheckedExceptions(<span class="keyword">true</span>);</span><br><span class="line">        Template template = configuration.getTemplate(ftlFile);</span><br><span class="line">        template.process(dataMap, out);</span><br><span class="line">        out.flush();</span><br><span class="line">        <span class="keyword">return</span> out.toString();</span><br><span class="line">    &#125; <span class="keyword">catch</span> (IOException | TemplateException e) &#123;</span><br><span class="line">        e.printStackTrace();</span><br><span class="line">        log.error(<span class="string">"pdf模板资源文件载入失败"</span>, e);</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">"pdf模板资源文件载入失败"</span>, e);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p><strong>关于资源文件路径问题</strong>：<br>用类加载器去找资源文件下的路径<br>其实这个方法是根据类加载路径来判断的，最终会执行以下代码：</p>
@@ -457,8 +457,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2020/11/03/效率技巧/" rel="next" title="效率工作方案合集">
-                <i class="fa fa-chevron-left"></i> 效率工作方案合集
+              <a href="/2019/08/08/单例模式/" rel="next" title="单例模式+工厂模式">
+                <i class="fa fa-chevron-left"></i> 单例模式+工厂模式
               </a>
             
           </div>
@@ -466,6 +466,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/08/03/spring循环依赖/" rel="prev" title="Spring中的循环依赖">
+                Spring中的循环依赖 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
