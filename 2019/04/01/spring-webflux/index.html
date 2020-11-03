@@ -130,11 +130,11 @@
 <meta property="og:image" content="http://qaxegk911.bkt.clouddn.com/img/20200528155303.png">
 <meta property="og:image" content="http://qaxegk911.bkt.clouddn.com/img/20200528155304.png">
 <meta property="og:image" content="http://qaxegk911.bkt.clouddn.com/img/20200528155308.png">
-<meta property="og:image" content="http://yoursite.com/2019/04/01/spring-webflux/image-20200528164804774.png">
-<meta property="og:image" content="http://yoursite.com/2019/04/01/spring-webflux/image-20200528171159505.png">
-<meta property="og:image" content="http://yoursite.com/2019/04/01/spring-webflux/image-20200528171236497.png">
-<meta property="og:image" content="http://yoursite.com/2019/04/01/spring-webflux/../../../../Downloads/typora笔记/images/image-20200528174106393.png">
-<meta property="og:image" content="http://yoursite.com/2019/04/01/spring-webflux/image-20200528174245077.png">
+<meta property="og:image" content="http://flyen.github.io/2019/04/01/spring-webflux/image-20200528164804774.png">
+<meta property="og:image" content="http://flyen.github.io/2019/04/01/spring-webflux/image-20200528171159505.png">
+<meta property="og:image" content="http://flyen.github.io/2019/04/01/spring-webflux/image-20200528171236497.png">
+<meta property="og:image" content="http://flyen.github.io/2019/04/01/spring-webflux/../../../../Downloads/typora笔记/images/image-20200528174106393.png">
+<meta property="og:image" content="http://flyen.github.io/2019/04/01/spring-webflux/image-20200528174245077.png">
 <meta property="og:updated_time" content="2020-11-03T02:58:23.311Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Spring5之使用Spring WebFlux开发响应式应用">
@@ -810,7 +810,7 @@
 <p><strong>9）总结</strong></p>
 <p>如果有Spring Data开发经验的话，切换到Spring Data Reactive的难度并不高。跟Spring WebFlux类似：原来返回<code>User</code>的话，那现在就返回<code>Mono</code>；原来返回<code>List</code>的话，那现在就返回<code>Flux</code>。</p>
 <p>对于稍微复杂的业务逻辑或一些必要的异常处理，比如上边的save方法，请一定采用响应式的编程方式来定义，从而一切都是异步非阻塞的。如下图所示，从HttpServer（如Netty或Servlet3.1以上的Servlet容器）到ServerAdapter（Spring WebFlux框架提供的针对不同server的适配器），到我们编写的Controller和DAO，以及异步数据库驱动，构成了一个完整的异步非阻塞的管道，里边流动的就是响应式流。</p>
-<p><img src="//yoursite.com/2019/04/01/spring-webflux/image-20200528164804774.png" alt="image-20200528164804774"></p>
+<p><img src="//flyen.github.io/2019/04/01/spring-webflux/image-20200528164804774.png" alt="image-20200528164804774"></p>
 <h3 id="使用WebClient开发响应式Http客户端"><a href="#使用WebClient开发响应式Http客户端" class="headerlink" title="使用WebClient开发响应式Http客户端"></a>使用<code>WebClient</code>开发响应式Http客户端</h3><p>下面，我们用WebClient测试一下前边几个例子的成果。</p>
 <p><strong>1)  /hello，返回Mono</strong></p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">webClientTest1</span><span class="params">()</span> <span class="keyword">throws</span> InterruptedException </span>&#123;</span><br><span class="line">    WebClient webClient = WebClient.create(<span class="string">"http://localhost:8080"</span>);   <span class="comment">// 1</span></span><br><span class="line">    Mono&lt;String&gt; resp = webClient</span><br><span class="line">            .get().uri(<span class="string">"/hello"</span>) <span class="comment">// 2</span></span><br><span class="line">            .retrieve() <span class="comment">// 3</span></span><br><span class="line">            .bodyToMono(String.class);  <span class="comment">// 4</span></span><br><span class="line">    resp.subscribe(System.out::println);    <span class="comment">// 5</span></span><br><span class="line">    TimeUnit.SECONDS.sleep(<span class="number">1</span>);  <span class="comment">// 6</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -879,10 +879,10 @@
 <li><code>body</code>方法设置请求体的数据。</li>
 </ol>
 <p>运行一下这个测试，根据控制台数据可以看到是一条一条将数据发到<code>/events</code>的，看一下MongoDB中的数据：</p>
-<p><img src="//yoursite.com/2019/04/01/spring-webflux/image-20200528171159505.png" alt="image-20200528171159505"></p>
+<p><img src="//flyen.github.io/2019/04/01/spring-webflux/image-20200528171159505.png" alt="image-20200528171159505"></p>
 <p><strong>2）发出无限流的Endpoint</strong></p>
 <p>回想一下前边<code>/user</code>的例子，当数据库中所有的内容都查询出来之后，这个流就结束了，因为其后跟了一个“完成信号”，我们可以通过在<code>UserService</code>的<code>findAll()</code>方法的流上增加<code>log()</code>操作符来观察更详细的日志：</p>
-<p><img src="//yoursite.com/2019/04/01/spring-webflux/image-20200528171236497.png" alt="image-20200528171236497"></p>
+<p><img src="//flyen.github.io/2019/04/01/spring-webflux/image-20200528171236497.png" alt="image-20200528171236497"></p>
 <p>我们可以看到在三个<code>onNext</code>信号后是一个<code>onComplete</code>信号。</p>
 <p>这样的流是有限流，这个时候如果在数据库中再新增一个User的话，已经结束的请求也不会再有新的内容出现了。</p>
 <p>反观<code>/times</code>请求，它会无限地发出SSE，而不会有“完成信号”出现，这是无限流。</p>
@@ -907,13 +907,13 @@
 </ol>
 <p>OK，这个时候我们请求一下<code>http://localhost:8080/events</code>，发现立马返回了，并没有挂起。原因在于collection中一条记录都没有，而<code>@Tailable</code>起作用的前提是至少有一条记录。</p>
 <p>跑一下WebClient测试程序插入5条数据，然后再次请求</p>
-<p><img src="//yoursite.com/2019/04/01/spring-webflux/../../../../Downloads/typora笔记/images/image-20200528174106393.png" alt="image-20200528174106393"></p>
+<p><img src="//flyen.github.io/2019/04/01/spring-webflux/../../../../Downloads/typora笔记/images/image-20200528174106393.png" alt="image-20200528174106393"></p>
 <p>请求是挂起的，这没错，但是只有两条数据，看WebClient测试程序的控制台明明发出了5个请求啊。</p>
 <p>原因定义的<code>CollectionOptions.empty().size(200).capped()</code>中，size指的是以字节为单位的大小，并且会向上取到256的整倍数，所以我们刚才定义的是256byte大小的collection，所以最多容纳两条记录。我们可以这样改一下：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">CollectionOptions.empty().maxDocuments(<span class="number">200</span>).size(<span class="number">100000</span>).capped()</span><br></pre></td></tr></table></figure>
 <p><code>maxDocuments</code>限制了记录条数，<code>size</code>限制容量且是必须定义的，因为MongoDB不像关系型数据库有严格的列和字段大小定义，鬼知道会存多大的数据进来，所以容量限制是必要的。</p>
 <p>好了，再次启动应用，先插入5条数据，然后请求<code>/events</code>，收到5条记录后请求仍然挂起，在插入5条数据，curl客户端又会陆续收到新的数据。</p>
-<p><img src="//yoursite.com/2019/04/01/spring-webflux/image-20200528174245077.png" alt="image-20200528174245077"></p>
+<p><img src="//flyen.github.io/2019/04/01/spring-webflux/image-20200528174245077.png" alt="image-20200528174245077"></p>
 <h3 id="总结-1"><a href="#总结-1" class="headerlink" title="总结"></a>总结</h3><p>这一节，我们对WebFlux做了一个简单的基于实例的介绍，相信你对响应式编程及其在WEB应用中如何发挥作用有了更多的体会，本章的实战是比较基础的，初衷是希望能够通过上手编写代码体会响应式编程的感觉，因为切换到响应式思维方式并非易事。</p>
 <p>这一章的核心关键词其实翻来覆去就是：“异步非阻塞的响应式流”。我们了解了异步非阻塞的好处，也知道如何让数据流动起来，下面我们就通过对实例的性能测试，借助实实在在的数据，真切感受一下异步非阻塞的“丝滑”。</p>
 
