@@ -115,11 +115,13 @@
 
 
 <meta name="description" content="SessionStorage, LocalStorage, Cookie这三者都可以被用来在浏览器端存储数据，而且都是字符串类型的键值对。 区别在于前两者属于WebStorage，创建它们的目的便是存储客户端数据。 而Cookie最初目的是为了保持HTTP的状态。">
+<meta name="keywords" content="SessionStorage&#x2F;LocalStorage&#x2F;Cookie">
 <meta property="og:type" content="article">
 <meta property="og:title" content="SessionStorage, LocalStorage, Cookie三者的异同与使用">
 <meta property="og:url" content="http://yoursite.com/2017/04/06/storage/index.html">
-<meta property="og:site_name" content="flyEn'blog">
+<meta property="og:site_name" content="flyEn&#39;blog">
 <meta property="og:description" content="SessionStorage, LocalStorage, Cookie这三者都可以被用来在浏览器端存储数据，而且都是字符串类型的键值对。 区别在于前两者属于WebStorage，创建它们的目的便是存储客户端数据。 而Cookie最初目的是为了保持HTTP的状态。">
+<meta property="og:locale" content="zh-Hans">
 <meta property="og:updated_time" content="2017-04-06T08:04:11.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="SessionStorage, LocalStorage, Cookie三者的异同与使用">
@@ -393,21 +395,21 @@
 <blockquote>
 <p>LocalStorage和SessionStorage都是本地存储，不会被发送到服务器上，存储空间比Cookie大很多，一般支持5-10M 。</p>
 </blockquote>
-<h3 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h3><p><strong>Cookie</strong>：服务器可以在HTTP响应中设置<code>set-cookie</code>字段来设置Cookie，较常用的一个应用场景就是判断用户是否登录。事实上客户端也可以操作Cookie，比如之前的电商网站会使用Cookie来存储购物车信息。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">function setCookie(key,value)&#123;</div><div class="line">    var dateStr = (new Date()).toGMTString();</div><div class="line">    document.cookie = key + &quot;=&quot; + escape(value) + &quot;;expires=&quot; + dateStr;</div><div class="line">&#125;</div><div class="line">function getCookie(key)&#123;</div><div class="line">    var idx = document.cookie.indexOf(key + &quot;=&quot;)</div><div class="line">    if(idx == -1) return;</div><div class="line">    </div><div class="line">    var start = idx + key.length + 1,</div><div class="line">        end = document.cookie.indexOf(&quot;;&quot;, idx);</div><div class="line">    if(end==-1) end = document.cookie.length;</div><div class="line">    </div><div class="line">    return unescape(document.cookie.substr(start,end));</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h3 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h3><p><strong>Cookie</strong>：服务器可以在HTTP响应中设置<code>set-cookie</code>字段来设置Cookie，较常用的一个应用场景就是判断用户是否登录。事实上客户端也可以操作Cookie，比如之前的电商网站会使用Cookie来存储购物车信息。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">function setCookie(key,value)&#123;</span><br><span class="line">    var dateStr = (new Date()).toGMTString();</span><br><span class="line">    document.cookie = key + &quot;=&quot; + escape(value) + &quot;;expires=&quot; + dateStr;</span><br><span class="line">&#125;</span><br><span class="line">function getCookie(key)&#123;</span><br><span class="line">    var idx = document.cookie.indexOf(key + &quot;=&quot;)</span><br><span class="line">    if(idx == -1) return;</span><br><span class="line">    </span><br><span class="line">    var start = idx + key.length + 1,</span><br><span class="line">        end = document.cookie.indexOf(&quot;;&quot;, idx);</span><br><span class="line">    if(end==-1) end = document.cookie.length;</span><br><span class="line">    </span><br><span class="line">    return unescape(document.cookie.substr(start,end));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <blockquote>
 <p>通过jQuery-Cookie插件可以更方便地操作Cookie</p>
 </blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">$.cookie(&apos;name&apos;, &apos;value&apos;);  </div><div class="line">$.cookie(&apos;name&apos;, &apos;value&apos;, &#123; expires: 7 &#125;);  </div><div class="line">$.cookie(&apos;name&apos;, &apos;value&apos;, &#123; expires: 7, path: &apos;/&apos; &#125;);   // 全站有效</div><div class="line"></div><div class="line">$.cookie(&apos;name&apos;);   // &quot;value&quot;</div><div class="line">$.cookie();         // &#123; &quot;name&quot;: &quot;value&quot; &#125;</div></pre></td></tr></table></figure>
-<p><strong>Storage</strong><br>LocalStorage/SessionStorage提供的存储也是<code>基于字符串的键值对</code>。可以通过setItem，getItem来访问其中的存储项：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">localStorage.clear();</div><div class="line">localStorage.setItem(&apos;key&apos;, &apos;value&apos;);</div><div class="line">localStorage.getItem(&apos;key&apos;);     // =&gt; &apos;value&apos;</div><div class="line">localStorage.removeItem(&apos;key&apos;);</div></pre></td></tr></table></figure></p>
-<p>因为它只能存储字符串，要存JSON只能序列化为字符串：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">var testObject = &#123; &apos;one&apos;: 1, &apos;two&apos;: 2, &apos;three&apos;: 3 &#125;;</div><div class="line"></div><div class="line">// Put the object into storage</div><div class="line">localStorage.setItem(&apos;testObject&apos;, JSON.stringify(testObject));</div><div class="line"></div><div class="line">// Retrieve the object from storage</div><div class="line">var retrievedObject = localStorage.getItem(&apos;testObject&apos;);</div><div class="line"></div><div class="line">console.log(&apos;retrievedObject: &apos;, JSON.parse(retrievedObject));</div></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$.cookie(&apos;name&apos;, &apos;value&apos;);  </span><br><span class="line">$.cookie(&apos;name&apos;, &apos;value&apos;, &#123; expires: 7 &#125;);  </span><br><span class="line">$.cookie(&apos;name&apos;, &apos;value&apos;, &#123; expires: 7, path: &apos;/&apos; &#125;);   // 全站有效</span><br><span class="line"></span><br><span class="line">$.cookie(&apos;name&apos;);   // &quot;value&quot;</span><br><span class="line">$.cookie();         // &#123; &quot;name&quot;: &quot;value&quot; &#125;</span><br></pre></td></tr></table></figure>
+<p><strong>Storage</strong><br>LocalStorage/SessionStorage提供的存储也是<code>基于字符串的键值对</code>。可以通过setItem，getItem来访问其中的存储项：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">localStorage.clear();</span><br><span class="line">localStorage.setItem(&apos;key&apos;, &apos;value&apos;);</span><br><span class="line">localStorage.getItem(&apos;key&apos;);     // =&gt; &apos;value&apos;</span><br><span class="line">localStorage.removeItem(&apos;key&apos;);</span><br></pre></td></tr></table></figure></p>
+<p>因为它只能存储字符串，要存JSON只能序列化为字符串：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">var testObject = &#123; &apos;one&apos;: 1, &apos;two&apos;: 2, &apos;three&apos;: 3 &#125;;</span><br><span class="line"></span><br><span class="line">// Put the object into storage</span><br><span class="line">localStorage.setItem(&apos;testObject&apos;, JSON.stringify(testObject));</span><br><span class="line"></span><br><span class="line">// Retrieve the object from storage</span><br><span class="line">var retrievedObject = localStorage.getItem(&apos;testObject&apos;);</span><br><span class="line"></span><br><span class="line">console.log(&apos;retrievedObject: &apos;, JSON.parse(retrievedObject));</span><br></pre></td></tr></table></figure></p>
 <blockquote>
-<p>代码来自StackOverflow： <a href="http://stackoverflow.com/questions/2010892/storing-objects-in-html5-localstorage" target="_blank" rel="external">http://stackoverflow.com/questions/2010892/storing-objects-in-html5-localstorage</a></p>
+<p>代码来自StackOverflow： <a href="http://stackoverflow.com/questions/2010892/storing-objects-in-html5-localstorage" target="_blank" rel="noopener">http://stackoverflow.com/questions/2010892/storing-objects-in-html5-localstorage</a></p>
 </blockquote>
 <p>参考链接：</p>
 <ul>
-<li>[1]<a href="http://harttle.com/2015/08/16/localstorage-sessionstorage-cookie.html" target="_blank" rel="external">http://harttle.com/2015/08/16/localstorage-sessionstorage-cookie.html</a></li>
-<li>[2]<a href="http://www.w3school.com.cn/html5/html_5_webstorage.asp" target="_blank" rel="external">http://www.w3school.com.cn/html5/html_5_webstorage.asp</a></li>
-<li>[3]<a href="https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage" target="_blank" rel="external">https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage</a></li>
+<li>[1]<a href="http://harttle.com/2015/08/16/localstorage-sessionstorage-cookie.html" target="_blank" rel="noopener">http://harttle.com/2015/08/16/localstorage-sessionstorage-cookie.html</a></li>
+<li>[2]<a href="http://www.w3school.com.cn/html5/html_5_webstorage.asp" target="_blank" rel="noopener">http://www.w3school.com.cn/html5/html_5_webstorage.asp</a></li>
+<li>[3]<a href="https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage" target="_blank" rel="noopener">https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage</a></li>
 </ul>
 
       
@@ -523,7 +525,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">24</span>
+                <span class="site-state-item-count">31</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -541,7 +543,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">19</span>
+                <span class="site-state-item-count">22</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -617,8 +619,8 @@
         <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 <div class="copyright" >
   
-  &copy;  Thu Jan 05 2017 08:00:00 GMT+0800 (CST) - 
-  <span itemprop="copyrightYear">2018</span>
+  &copy;  Thu Jan 05 2017 08:00:00 GMT+0800 (中国标准时间) - 
+  <span itemprop="copyrightYear">2020</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>

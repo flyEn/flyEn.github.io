@@ -115,11 +115,13 @@
 
 
 <meta name="description" content="得到所连接的数据库django配置如果是如下：123456789DATABASES = &amp;#123;    &amp;apos;default&amp;apos;: &amp;#123;        &amp;apos;ENGINE&amp;apos;: &amp;apos;django.db.backends.mysql&amp;apos;,        &amp;apos;OPTIONS&amp;apos;: &amp;#123;            &amp;apos;r">
+<meta name="keywords" content="django">
 <meta property="og:type" content="article">
 <meta property="og:title" content="所遇问题与解决方案（二）">
 <meta property="og:url" content="http://yoursite.com/2017/08/14/question-2/index.html">
-<meta property="og:site_name" content="flyEn'blog">
+<meta property="og:site_name" content="flyEn&#39;blog">
 <meta property="og:description" content="得到所连接的数据库django配置如果是如下：123456789DATABASES = &amp;#123;    &amp;apos;default&amp;apos;: &amp;#123;        &amp;apos;ENGINE&amp;apos;: &amp;apos;django.db.backends.mysql&amp;apos;,        &amp;apos;OPTIONS&amp;apos;: &amp;#123;            &amp;apos;r">
+<meta property="og:locale" content="zh-Hans">
 <meta property="og:updated_time" content="2017-10-31T08:19:34.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="所遇问题与解决方案（二）">
@@ -365,23 +367,23 @@
       
 
       
-        <h4 id="得到所连接的数据库"><a href="#得到所连接的数据库" class="headerlink" title="得到所连接的数据库"></a>得到所连接的数据库</h4><p>django配置如果是如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">DATABASES = &#123;</div><div class="line">    &apos;default&apos;: &#123;</div><div class="line">        &apos;ENGINE&apos;: &apos;django.db.backends.mysql&apos;,</div><div class="line">        &apos;OPTIONS&apos;: &#123;</div><div class="line">            &apos;read_default_file&apos;: ...,</div><div class="line">        &#125;,</div><div class="line">        &apos;ATOMIC_REQUESTS&apos;: True,</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+        <h4 id="得到所连接的数据库"><a href="#得到所连接的数据库" class="headerlink" title="得到所连接的数据库"></a>得到所连接的数据库</h4><p>django配置如果是如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">DATABASES = &#123;</span><br><span class="line">    &apos;default&apos;: &#123;</span><br><span class="line">        &apos;ENGINE&apos;: &apos;django.db.backends.mysql&apos;,</span><br><span class="line">        &apos;OPTIONS&apos;: &#123;</span><br><span class="line">            &apos;read_default_file&apos;: ...,</span><br><span class="line">        &#125;,</span><br><span class="line">        &apos;ATOMIC_REQUESTS&apos;: True,</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <a id="more"></a>
 <blockquote>
 <p>由于主要配置包括在配置文件中，用常规的<code>settings.DATABASES[&#39;default&#39;][&#39;NAME&#39;]</code>或者<code>connection.settings_dict[&#39;NAME&#39;]</code>无法得到数据库名。</p>
 </blockquote>
-<p>可用sql语句<code>SELECT DATABASE()</code>查询得到：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">from django.db import connection</div><div class="line">cursor = connection.cursor()</div><div class="line">cursor.execute(&quot;SELECT DATABASE()&quot;)</div><div class="line">database_name = cursor.fetchone()[0]</div></pre></td></tr></table></figure></p>
-<h4 id="得到某表的所有外键关系表"><a href="#得到某表的所有外键关系表" class="headerlink" title="得到某表的所有外键关系表"></a>得到某表的所有外键关系表</h4><p>遇到因为外键关系无法删除某条数据的情况，以下有两种解决：<br>一：如果你只需删除这条数据，关联这数据的其他数据无关紧要或者无多大影响的话，那就可以直接删。<br>如下sql：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">SET FOREIGN_KEY_CHECKS=0;</div><div class="line">DELETE FROM (table_name) WHERE `id` = 1;</div><div class="line">SET FOREIGN_KEY_CHECKS=1;</div></pre></td></tr></table></figure></p>
+<p>可用sql语句<code>SELECT DATABASE()</code>查询得到：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">from django.db import connection</span><br><span class="line">cursor = connection.cursor()</span><br><span class="line">cursor.execute(&quot;SELECT DATABASE()&quot;)</span><br><span class="line">database_name = cursor.fetchone()[0]</span><br></pre></td></tr></table></figure></p>
+<h4 id="得到某表的所有外键关系表"><a href="#得到某表的所有外键关系表" class="headerlink" title="得到某表的所有外键关系表"></a>得到某表的所有外键关系表</h4><p>遇到因为外键关系无法删除某条数据的情况，以下有两种解决：<br>一：如果你只需删除这条数据，关联这数据的其他数据无关紧要或者无多大影响的话，那就可以直接删。<br>如下sql：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">SET FOREIGN_KEY_CHECKS=0;</span><br><span class="line">DELETE FROM (table_name) WHERE `id` = 1;</span><br><span class="line">SET FOREIGN_KEY_CHECKS=1;</span><br></pre></td></tr></table></figure></p>
 <blockquote>
 <p><code>SET FOREIGN_KEY_CHECKS=0;</code>这代表暂时禁用外键检查。<br>但是<strong>与它关联的数据并不会做任何改变</strong>，以删除某个用户为例子，如果这样做的话，这个用户的残留死亡数据会留在数据库，可能会导致一些问题。</p>
 </blockquote>
-<p>二：可先删除所有这条数据的关联数据，再将其删除。<br>以下sql提供哪些表具有你要删除的数据的引用(references)表名与外键的列名，知道这之后你就可以后续进行操作了，遍历查询集后可对每张表删除已知外键id的数据。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">SELECT * FROM information_schema.KEY_COLUMN_USAGE </div><div class="line">WHERE REFERENCED_TABLE_NAME = &apos; (table_name)&apos;;</div></pre></td></tr></table></figure></p>
+<p>二：可先删除所有这条数据的关联数据，再将其删除。<br>以下sql提供哪些表具有你要删除的数据的引用(references)表名与外键的列名，知道这之后你就可以后续进行操作了，遍历查询集后可对每张表删除已知外键id的数据。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">SELECT * FROM information_schema.KEY_COLUMN_USAGE </span><br><span class="line">WHERE REFERENCED_TABLE_NAME = &apos; (table_name)&apos;;</span><br></pre></td></tr></table></figure></p>
 <blockquote>
 <p>应该会得到所有database中关联这张表的所有表与列名，如果这样的话再进行过滤database就ok了。</p>
 </blockquote>
-<p>遍历进行删除：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">for row in results:</div><div class="line">	sql = &quot;DELETE FROM &#123;&#125; WHERE &#123;&#125; = &#123;&#125;&quot;.format(row[5], row[6], self.id)</div><div class="line">	cursor.execute(sql)</div></pre></td></tr></table></figure></p>
+<p>遍历进行删除：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">for row in results:</span><br><span class="line">	sql = &quot;DELETE FROM &#123;&#125; WHERE &#123;&#125; = &#123;&#125;&quot;.format(row[5], row[6], self.id)</span><br><span class="line">	cursor.execute(sql)</span><br></pre></td></tr></table></figure></p>
 <p>最后删除该条数据。</p>
-<h4 id="事务管理API"><a href="#事务管理API" class="headerlink" title="事务管理API"></a>事务管理API</h4><p>报错如下<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">This is forbidden when an &apos;atomic&apos; block is active.</div></pre></td></tr></table></figure></p>
+<h4 id="事务管理API"><a href="#事务管理API" class="headerlink" title="事务管理API"></a>事务管理API</h4><p>报错如下<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">This is forbidden when an &apos;atomic&apos; block is active.</span><br></pre></td></tr></table></figure></p>
 <p>Django提供了<code>atomic()</code>API来控制数据库事务。<br><code>atomic(using=None, savepoint=True)</code><br>如果是django内部执行事务，原子性是由数据库的事务操作来界定的。 atomic允许我们在执行代码块时，在数据库层面提供原子性保证。 如果代码块成功完成， 相应的变化会被提交到数据库进行commit；如果执行期间遇到异常，则会将该段代码所涉及的所有更改回滚。</p>
 <p>报错是因为在django执行事务的时候在内部调用了<code>transaction.commit()</code>。<br>因为该块将会自动执行此操作。</p>
 <p>更根本的是，这里的错误是混合了高级别的事务API（transaction.atomic()）和低级别的事务API（transaction.commit()）。它们意在相互替代，不能一起使用。</p>
@@ -500,7 +502,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">24</span>
+                <span class="site-state-item-count">31</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -518,7 +520,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">19</span>
+                <span class="site-state-item-count">22</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -594,8 +596,8 @@
         <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 <div class="copyright" >
   
-  &copy;  Thu Jan 05 2017 08:00:00 GMT+0800 (CST) - 
-  <span itemprop="copyrightYear">2018</span>
+  &copy;  Thu Jan 05 2017 08:00:00 GMT+0800 (中国标准时间) - 
+  <span itemprop="copyrightYear">2020</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>

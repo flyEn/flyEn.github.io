@@ -114,22 +114,18 @@
 
 
 
-<meta name="description" content="例如项目名为porject
-项目下(与配置文件同层)：project/__init__.py：
-1from .celery import app as celery_app">
+<meta name="description" content="例如项目名为porject 项目下(与配置文件同层)：project/__init__.py： 1from .celery import app as celery_app">
+<meta name="keywords" content="django">
 <meta property="og:type" content="article">
 <meta property="og:title" content="django_celery定时任务配置及运行">
 <meta property="og:url" content="http://yoursite.com/2018/04/11/django-celery/index.html">
-<meta property="og:site_name" content="flyEn'blog">
-<meta property="og:description" content="例如项目名为porject
-项目下(与配置文件同层)：project/__init__.py：
-1from .celery import app as celery_app">
-<meta property="og:updated_time" content="2018-04-11T03:20:35.485Z">
+<meta property="og:site_name" content="flyEn&#39;blog">
+<meta property="og:description" content="例如项目名为porject 项目下(与配置文件同层)：project/__init__.py： 1from .celery import app as celery_app">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-04-11T03:20:35.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="django_celery定时任务配置及运行">
-<meta name="twitter:description" content="例如项目名为porject
-项目下(与配置文件同层)：project/__init__.py：
-1from .celery import app as celery_app">
+<meta name="twitter:description" content="例如项目名为porject 项目下(与配置文件同层)：project/__init__.py： 1from .celery import app as celery_app">
 
 
 
@@ -395,33 +391,33 @@
       
         <p>例如项目名为porject</p>
 <h4 id="项目下-与配置文件同层-："><a href="#项目下-与配置文件同层-：" class="headerlink" title="项目下(与配置文件同层)："></a>项目下(与配置文件同层)：</h4><p><code>project/__init__.py</code>：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">from .celery import app as celery_app</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">from .celery import app as celery_app</span><br></pre></td></tr></table></figure>
 <a id="more"></a>
-<h4 id="创建project-celery-py"><a href="#创建project-celery-py" class="headerlink" title="创建project/celery.py:"></a>创建<code>project/celery.py</code>:</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"># -*- coding: utf-8 -*-</div><div class="line">from __future__ import absolute_import</div><div class="line">from __future__ import unicode_literals</div><div class="line"></div><div class="line">import os</div><div class="line"></div><div class="line">from celery import Celery</div><div class="line">from django.conf import settings</div><div class="line"></div><div class="line"># set the default Django settings module for the &apos;celery&apos; program.</div><div class="line"></div><div class="line">os.environ.setdefault(&apos;DJANGO_SETTINGS_MODULE&apos;, &apos;project.settings&apos;)</div><div class="line">app = Celery(&apos;project&apos;)</div><div class="line"></div><div class="line"># Using a string here means the worker will not have to</div><div class="line"># pickle the object when using Windows.</div><div class="line">app.config_from_object(&apos;django.conf:settings&apos;)</div><div class="line">app.autodiscover_tasks(lambda: settings.INSTALLED_APPS)</div></pre></td></tr></table></figure>
-<h4 id="修改配置文件project-settings-base-py："><a href="#修改配置文件project-settings-base-py：" class="headerlink" title="修改配置文件project/settings/base.py："></a>修改配置文件<code>project/settings/base.py</code>：</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">INSTALLED_APP += [</div><div class="line">    &apos;kombu.transport.django&apos;,</div><div class="line">    &apos;djcelery&apos;</div><div class="line">]</div><div class="line"></div><div class="line">import djcelery</div><div class="line">djcelery.setup_loader()</div><div class="line"></div><div class="line">BROKER_URL = &apos;django://&apos;</div><div class="line"></div><div class="line">CELERYBEAT_SCHEDULER = &apos;djcelery.schedulers.DatabaseScheduler&apos;  # 定时任务</div><div class="line">CELERY_RESULT_BACKEND = &apos;djcelery.backends.database:DatabaseBackend&apos;</div><div class="line"></div><div class="line">CELERY_ACCEPT_CONTENT = [&apos;application/json&apos;]</div><div class="line"></div><div class="line">CELERY_TASK_SERIALIZER = &apos;json&apos;</div><div class="line">CELERY_RESULT_SERIALIZER = &apos;json&apos;</div><div class="line">CELERY_TIMEZONE = &apos;Asia/Shanghai&apos;</div></pre></td></tr></table></figure>
-<h4 id="app下demo-tasks-py"><a href="#app下demo-tasks-py" class="headerlink" title="app下demo/tasks.py:"></a>app下<code>demo/tasks.py</code>:</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">from __future__ import absolute_import</div><div class="line">from celery import shared_task</div><div class="line"></div><div class="line"></div><div class="line">@shared_task</div><div class="line">def add(x, y):</div><div class="line">    return x + y</div></pre></td></tr></table></figure>
-<h4 id="启动worker"><a href="#启动worker" class="headerlink" title="启动worker"></a>启动worker</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"># 这里我指定了配置，默认的话忽略info后面</div><div class="line">python manage.py celery worker --loglevel=info --settings=proj.prod_settings</div></pre></td></tr></table></figure>
-<p>(测试)直接执行任务：<br>进入项目内shell环境下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">from demoapp.tasks import add</div><div class="line">add.delay(4, 4)</div></pre></td></tr></table></figure></p>
+<h4 id="创建project-celery-py"><a href="#创建project-celery-py" class="headerlink" title="创建project/celery.py:"></a>创建<code>project/celery.py</code>:</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"># -*- coding: utf-8 -*-</span><br><span class="line">from __future__ import absolute_import</span><br><span class="line">from __future__ import unicode_literals</span><br><span class="line"></span><br><span class="line">import os</span><br><span class="line"></span><br><span class="line">from celery import Celery</span><br><span class="line">from django.conf import settings</span><br><span class="line"></span><br><span class="line"># set the default Django settings module for the &apos;celery&apos; program.</span><br><span class="line"></span><br><span class="line">os.environ.setdefault(&apos;DJANGO_SETTINGS_MODULE&apos;, &apos;project.settings&apos;)</span><br><span class="line">app = Celery(&apos;project&apos;)</span><br><span class="line"></span><br><span class="line"># Using a string here means the worker will not have to</span><br><span class="line"># pickle the object when using Windows.</span><br><span class="line">app.config_from_object(&apos;django.conf:settings&apos;)</span><br><span class="line">app.autodiscover_tasks(lambda: settings.INSTALLED_APPS)</span><br></pre></td></tr></table></figure>
+<h4 id="修改配置文件project-settings-base-py："><a href="#修改配置文件project-settings-base-py：" class="headerlink" title="修改配置文件project/settings/base.py："></a>修改配置文件<code>project/settings/base.py</code>：</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">INSTALLED_APP += [</span><br><span class="line">    &apos;kombu.transport.django&apos;,</span><br><span class="line">    &apos;djcelery&apos;</span><br><span class="line">]</span><br><span class="line"></span><br><span class="line">import djcelery</span><br><span class="line">djcelery.setup_loader()</span><br><span class="line"></span><br><span class="line">BROKER_URL = &apos;django://&apos;</span><br><span class="line"></span><br><span class="line">CELERYBEAT_SCHEDULER = &apos;djcelery.schedulers.DatabaseScheduler&apos;  # 定时任务</span><br><span class="line">CELERY_RESULT_BACKEND = &apos;djcelery.backends.database:DatabaseBackend&apos;</span><br><span class="line"></span><br><span class="line">CELERY_ACCEPT_CONTENT = [&apos;application/json&apos;]</span><br><span class="line"></span><br><span class="line">CELERY_TASK_SERIALIZER = &apos;json&apos;</span><br><span class="line">CELERY_RESULT_SERIALIZER = &apos;json&apos;</span><br><span class="line">CELERY_TIMEZONE = &apos;Asia/Shanghai&apos;</span><br></pre></td></tr></table></figure>
+<h4 id="app下demo-tasks-py"><a href="#app下demo-tasks-py" class="headerlink" title="app下demo/tasks.py:"></a>app下<code>demo/tasks.py</code>:</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">from __future__ import absolute_import</span><br><span class="line">from celery import shared_task</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">@shared_task</span><br><span class="line">def add(x, y):</span><br><span class="line">    return x + y</span><br></pre></td></tr></table></figure>
+<h4 id="启动worker"><a href="#启动worker" class="headerlink" title="启动worker"></a>启动worker</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># 这里我指定了配置，默认的话忽略info后面</span><br><span class="line">python manage.py celery worker --loglevel=info --settings=proj.prod_settings</span><br></pre></td></tr></table></figure>
+<p>(测试)直接执行任务：<br>进入项目内shell环境下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">from demoapp.tasks import add</span><br><span class="line">add.delay(4, 4)</span><br></pre></td></tr></table></figure></p>
 <p>上面的worker log中出现return值为16就说明celery配置完成。</p>
 <h4 id="django-celery的定时任务功能"><a href="#django-celery的定时任务功能" class="headerlink" title="django-celery的定时任务功能"></a><code>django-celery</code>的定时任务功能</h4><blockquote>
 <p>celery beat定时或者定间隔给celery发送task</p>
 </blockquote>
-<p>配置即：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"># proj/settings.py</div><div class="line">CELERYBEAT_SCHEDULER = &apos;djcelery.schedulers.DatabaseScheduler&apos;</div></pre></td></tr></table></figure></p>
-<p>需要迁移：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">python manage.py migrate</div></pre></td></tr></table></figure></p>
+<p>配置即：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># proj/settings.py</span><br><span class="line">CELERYBEAT_SCHEDULER = &apos;djcelery.schedulers.DatabaseScheduler&apos;</span><br></pre></td></tr></table></figure></p>
+<p>需要迁移：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python manage.py migrate</span><br></pre></td></tr></table></figure></p>
 <p>可以后台配置任务执行间隔（或者定时器直接指定）</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">python manage.py celery beat</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python manage.py celery beat</span><br></pre></td></tr></table></figure>
 <h3 id="时间间隔"><a href="#时间间隔" class="headerlink" title="时间间隔"></a>时间间隔</h3><ol>
 <li>设置秒数</li>
 </ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">@periodic_task(run_every=10)</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">@periodic_task(run_every=10)</span><br></pre></td></tr></table></figure>
 <ol>
 <li>通过datetime设置时间间隔</li>
 </ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">@periodic_task(run_every=datetime.timedelta(hours=1, minutes=15, seconds=40))</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">@periodic_task(run_every=datetime.timedelta(hours=1, minutes=15, seconds=40))</span><br></pre></td></tr></table></figure>
 <ol>
 <li>celery的crontal表达式</li>
 </ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">@periodic_task(run_every=crontab())</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">@periodic_task(run_every=crontab())</span><br></pre></td></tr></table></figure>
 <blockquote>
 <p>表示每分钟0秒时刻执行一次</p>
 </blockquote>
@@ -431,38 +427,38 @@
 <p>(3).<code>day_of_week</code>：星期，范围0~23</p>
 <p>(4).<code>day_of_month</code>: 每个月几号，范围1~31</p>
 <p>(5).<code>month_of_year</code>:月份，范围1~12</p>
-<p><strong>默认</strong>：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">crontab(minute=&apos;*&apos;, hour=&apos;*&apos;, day_of_week=&apos;*&apos;, day_of_month=&apos;*&apos;, month_of_year=&apos;*&apos;)</div></pre></td></tr></table></figure></p>
+<p><strong>默认</strong>：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">crontab(minute=&apos;*&apos;, hour=&apos;*&apos;, day_of_week=&apos;*&apos;, day_of_month=&apos;*&apos;, month_of_year=&apos;*&apos;)</span><br></pre></td></tr></table></figure></p>
 <blockquote>
 <p>每天每小时每分钟执行一次（每分钟执行一次任务）。</p>
 </blockquote>
-<p><strong>具体某个值</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">crontab(minute=15)</div></pre></td></tr></table></figure></p>
+<p><strong>具体某个值</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">crontab(minute=15)</span><br></pre></td></tr></table></figure></p>
 <blockquote>
 <p>每小时的15分时刻执行一次任务</p>
 </blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">crontab(minute=0, hour=0)</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">crontab(minute=0, hour=0)</span><br></pre></td></tr></table></figure>
 <blockquote>
 <p>每天0点0分时刻执行一次任务</p>
 </blockquote>
-<p><strong>设置范围</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">crontab(minute=&apos;*&apos;, hour=&apos;9-12&apos;)</div></pre></td></tr></table></figure></p>
+<p><strong>设置范围</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">crontab(minute=&apos;*&apos;, hour=&apos;9-12&apos;)</span><br></pre></td></tr></table></figure></p>
 <blockquote>
 <p>每天指定9点到12点每个小时的每分钟执行任务（<code>*</code>号是默认值，可以省略）。</p>
 </blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">crontab(hour=&apos;9-12,20&apos;)</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">crontab(hour=&apos;9-12,20&apos;)</span><br></pre></td></tr></table></figure>
 <blockquote>
 <p>逗号是or逻辑关系，指定（1点到12点）和（20点）中每分钟执行任务</p>
 </blockquote>
-<p>celery提供了一个类得到表达式解析结果：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">from celery.task.schedules import crontab_parser</div><div class="line">r = crontab_parser(23, 0).parse(&apos;9-12,20&apos;)</div><div class="line">print(r)</div></pre></td></tr></table></figure></p>
+<p>celery提供了一个类得到表达式解析结果：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">from celery.task.schedules import crontab_parser</span><br><span class="line">r = crontab_parser(23, 0).parse(&apos;9-12,20&apos;)</span><br><span class="line">print(r)</span><br></pre></td></tr></table></figure></p>
 <blockquote>
 <blockquote>
-<p>&gt;<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">set([9, 10, 11, 12, 20])</div></pre></td></tr></table></figure></p>
+<p>&gt;<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">set([9, 10, 11, 12, 20])</span><br></pre></td></tr></table></figure></p>
 </blockquote>
 </blockquote>
 <p><strong>设置间隔步长</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">crontab(day_of_month=&apos;1,3,5,7,9,11&apos;)</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">crontab(day_of_month=&apos;1,3,5,7,9,11&apos;)</span><br></pre></td></tr></table></figure>
 <blockquote>
 <p>设置1、3、5、7、9、11月份每天每分钟执行任务</p>
 </blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">crontab(minute=&apos;*/2&apos;)</div><div class="line">crontab(minute=&apos;0-59/2&apos;)</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">crontab(minute=&apos;*/2&apos;)</span><br><span class="line">crontab(minute=&apos;0-59/2&apos;)</span><br></pre></td></tr></table></figure>
 <blockquote>
 <p>这个/号是步长，每隔2分钟执行一次，相当于range的第三个参数<code>range(0, 59+1, 2)</code></p>
 </blockquote>
@@ -507,6 +503,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/08/18/chatbot/" rel="prev" title="python项目分层模块导入处理优化">
+                python项目分层模块导入处理优化 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -576,7 +576,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">24</span>
+                <span class="site-state-item-count">31</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -594,7 +594,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">19</span>
+                <span class="site-state-item-count">22</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -670,8 +670,8 @@
         <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 <div class="copyright" >
   
-  &copy;  Thu Jan 05 2017 08:00:00 GMT+0800 (CST) - 
-  <span itemprop="copyrightYear">2018</span>
+  &copy;  Thu Jan 05 2017 08:00:00 GMT+0800 (中国标准时间) - 
+  <span itemprop="copyrightYear">2020</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>

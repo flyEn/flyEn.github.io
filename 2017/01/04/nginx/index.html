@@ -114,19 +114,18 @@
 
 
 
-<meta name="description" content="Nginx安装1yum install nginx
-检查配置是否有错1nginx -t -c /etc/nginx/nginx.conf">
+<meta name="description" content="Nginx安装1yum install nginx 检查配置是否有错1nginx -t -c /etc/nginx/nginx.conf">
+<meta name="keywords" content="nginx">
 <meta property="og:type" content="article">
 <meta property="og:title" content="nginx安装配置">
 <meta property="og:url" content="http://yoursite.com/2017/01/04/nginx/index.html">
-<meta property="og:site_name" content="flyEn'blog">
-<meta property="og:description" content="Nginx安装1yum install nginx
-检查配置是否有错1nginx -t -c /etc/nginx/nginx.conf">
+<meta property="og:site_name" content="flyEn&#39;blog">
+<meta property="og:description" content="Nginx安装1yum install nginx 检查配置是否有错1nginx -t -c /etc/nginx/nginx.conf">
+<meta property="og:locale" content="zh-Hans">
 <meta property="og:updated_time" content="2017-01-05T12:59:17.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="nginx安装配置">
-<meta name="twitter:description" content="Nginx安装1yum install nginx
-检查配置是否有错1nginx -t -c /etc/nginx/nginx.conf">
+<meta name="twitter:description" content="Nginx安装1yum install nginx 检查配置是否有错1nginx -t -c /etc/nginx/nginx.conf">
 
 
 
@@ -390,22 +389,22 @@
       
 
       
-        <h2 id="Nginx"><a href="#Nginx" class="headerlink" title="Nginx"></a>Nginx</h2><h4 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">yum install nginx</div></pre></td></tr></table></figure>
-<h4 id="检查配置是否有错"><a href="#检查配置是否有错" class="headerlink" title="检查配置是否有错"></a>检查配置是否有错</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">nginx -t -c /etc/nginx/nginx.conf</div></pre></td></tr></table></figure>
+        <h2 id="Nginx"><a href="#Nginx" class="headerlink" title="Nginx"></a>Nginx</h2><h4 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install nginx</span><br></pre></td></tr></table></figure>
+<h4 id="检查配置是否有错"><a href="#检查配置是否有错" class="headerlink" title="检查配置是否有错"></a>检查配置是否有错</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nginx -t -c /etc/nginx/nginx.conf</span><br></pre></td></tr></table></figure>
 <a id="more"></a>
-<h4 id="启动nginx"><a href="#启动nginx" class="headerlink" title="启动nginx"></a>启动nginx</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">service nginx start </div><div class="line">systemctl start nginx.service</div></pre></td></tr></table></figure>
-<h4 id="设置开机自启"><a href="#设置开机自启" class="headerlink" title="设置开机自启"></a>设置开机自启</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">systemctl enable nginx</div></pre></td></tr></table></figure>
-<h4 id="创建用户"><a href="#创建用户" class="headerlink" title="创建用户"></a>创建用户</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">useradd nginxuser</div><div class="line">passwd nginxuser</div></pre></td></tr></table></figure>
-<h4 id="修改nginx主配置"><a href="#修改nginx主配置" class="headerlink" title="修改nginx主配置"></a>修改nginx主配置</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">vim /etc/nginx.conf</div></pre></td></tr></table></figure>
-<p>非注释首行<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">user nginx</div></pre></td></tr></table></figure></p>
-<p>改为<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">user nginxuser</div></pre></td></tr></table></figure></p>
-<h4 id="静态网站配置"><a href="#静态网站配置" class="headerlink" title="静态网站配置"></a>静态网站配置</h4><p>vim /etc/nginx/conf.d/example.conf<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">server&#123;</div><div class="line">    listen    8000;  # 端口名</div><div class="line">    server_name    example.com; # 域名</div><div class="line">    charset    utf-8;</div><div class="line">    access_log    /home/nginxuser/projects/example/nginxlogs/access.log;</div><div class="line">    error_log    /home/nginxuser/projects/example/nginxlogs/error.log;</div><div class="line">    root    /home/nginxuser/projects/example    # 文件目录</div><div class="line">    index    index.html   # 默认即为index.html</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<h4 id="查看SELinux状态及关闭SELinux"><a href="#查看SELinux状态及关闭SELinux" class="headerlink" title="查看SELinux状态及关闭SELinux"></a>查看SELinux状态及关闭SELinux</h4><p>查看SELinux状态:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">1、/usr/sbin/sestatus -v      # 如果SELinux status参数为enabled即为开启状态</div><div class="line">SELinux status:                 enabled</div></pre></td></tr></table></figure></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">2、getenforce                # 也可以用这个命令检查</div></pre></td></tr></table></figure>
-<p>关闭SELinux<br>临时关闭(不用重启):<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">setenforce 0    # 设置SELinux成为permissive模式</div><div class="line">setenforce 1    # 设置SELinux成为enforcing模式</div></pre></td></tr></table></figure></p>
+<h4 id="启动nginx"><a href="#启动nginx" class="headerlink" title="启动nginx"></a>启动nginx</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">service nginx start </span><br><span class="line">systemctl start nginx.service</span><br></pre></td></tr></table></figure>
+<h4 id="设置开机自启"><a href="#设置开机自启" class="headerlink" title="设置开机自启"></a>设置开机自启</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">systemctl enable nginx</span><br></pre></td></tr></table></figure>
+<h4 id="创建用户"><a href="#创建用户" class="headerlink" title="创建用户"></a>创建用户</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">useradd nginxuser</span><br><span class="line">passwd nginxuser</span><br></pre></td></tr></table></figure>
+<h4 id="修改nginx主配置"><a href="#修改nginx主配置" class="headerlink" title="修改nginx主配置"></a>修改nginx主配置</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim /etc/nginx.conf</span><br></pre></td></tr></table></figure>
+<p>非注释首行<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">user nginx</span><br></pre></td></tr></table></figure></p>
+<p>改为<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">user nginxuser</span><br></pre></td></tr></table></figure></p>
+<h4 id="静态网站配置"><a href="#静态网站配置" class="headerlink" title="静态网站配置"></a>静态网站配置</h4><p>vim /etc/nginx/conf.d/example.conf<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">server&#123;</span><br><span class="line">    listen    8000;  # 端口名</span><br><span class="line">    server_name    example.com; # 域名</span><br><span class="line">    charset    utf-8;</span><br><span class="line">    access_log    /home/nginxuser/projects/example/nginxlogs/access.log;</span><br><span class="line">    error_log    /home/nginxuser/projects/example/nginxlogs/error.log;</span><br><span class="line">    root    /home/nginxuser/projects/example    # 文件目录</span><br><span class="line">    index    index.html   # 默认即为index.html</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h4 id="查看SELinux状态及关闭SELinux"><a href="#查看SELinux状态及关闭SELinux" class="headerlink" title="查看SELinux状态及关闭SELinux"></a>查看SELinux状态及关闭SELinux</h4><p>查看SELinux状态:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">1、/usr/sbin/sestatus -v      # 如果SELinux status参数为enabled即为开启状态</span><br><span class="line">SELinux status:                 enabled</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">2、getenforce                # 也可以用这个命令检查</span><br></pre></td></tr></table></figure>
+<p>关闭SELinux<br>临时关闭(不用重启):<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">setenforce 0    # 设置SELinux成为permissive模式</span><br><span class="line">setenforce 1    # 设置SELinux成为enforcing模式</span><br></pre></td></tr></table></figure></p>
 <p>修改配置文件需要重启机器:<br>修改/etc/selinux/config文件<br>将SELINUX=enforcing改为SELINUX=disabled<br>重启机器</p>
-<h3 id="进入服务器配置"><a href="#进入服务器配置" class="headerlink" title="进入服务器配置"></a>进入服务器配置</h3><h4 id="linux连接服务器"><a href="#linux连接服务器" class="headerlink" title="linux连接服务器"></a>linux连接服务器</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">[fhy@localhost ~]ssh nginuxuser@&lt;IP&gt;           # IP地址</div></pre></td></tr></table></figure>
-<h4 id="将文件传入服务器"><a href="#将文件传入服务器" class="headerlink" title="将文件传入服务器"></a>将文件传入服务器</h4><p>在本机输入命令行<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">[fhy@localhost ~]$ scp &apos;&lt;file_name&gt;&apos; nginxuser@&lt;IP&gt;:/home/nginxuser/projects  # 前文件地址/后文件存放地址</div></pre></td></tr></table></figure></p>
+<h3 id="进入服务器配置"><a href="#进入服务器配置" class="headerlink" title="进入服务器配置"></a>进入服务器配置</h3><h4 id="linux连接服务器"><a href="#linux连接服务器" class="headerlink" title="linux连接服务器"></a>linux连接服务器</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[fhy@localhost ~]ssh nginuxuser@&lt;IP&gt;           # IP地址</span><br></pre></td></tr></table></figure>
+<h4 id="将文件传入服务器"><a href="#将文件传入服务器" class="headerlink" title="将文件传入服务器"></a>将文件传入服务器</h4><p>在本机输入命令行<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[fhy@localhost ~]$ scp &apos;&lt;file_name&gt;&apos; nginxuser@&lt;IP&gt;:/home/nginxuser/projects  # 前文件地址/后文件存放地址</span><br></pre></td></tr></table></figure></p>
 
       
     </div>
@@ -516,7 +515,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">24</span>
+                <span class="site-state-item-count">31</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -534,7 +533,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">19</span>
+                <span class="site-state-item-count">22</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -610,8 +609,8 @@
         <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 <div class="copyright" >
   
-  &copy;  Thu Jan 05 2017 08:00:00 GMT+0800 (CST) - 
-  <span itemprop="copyrightYear">2018</span>
+  &copy;  Thu Jan 05 2017 08:00:00 GMT+0800 (中国标准时间) - 
+  <span itemprop="copyrightYear">2020</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>

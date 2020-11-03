@@ -114,25 +114,18 @@
 
 
 
-<meta name="description" content="GIT
-git全局设置及生成密钥123git config --global user.name &amp;apos;fhy&amp;apos;git config --global user.email &amp;apos;1005805748@qq.com&amp;apos;ssh-keygen -t rsa -C 1005805748@qq.com
-
-Your identification has been saved i">
+<meta name="description" content="GIT git全局设置及生成密钥123git config --global user.name &amp;apos;fhy&amp;apos;git config --global user.email &amp;apos;1005805748@qq.com&amp;apos;ssh-keygen -t rsa -C 1005805748@qq.com  Your identification has been saved i">
+<meta name="keywords" content="git">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Git学习笔记">
 <meta property="og:url" content="http://yoursite.com/2017/01/05/GIT/index.html">
-<meta property="og:site_name" content="flyEn'blog">
-<meta property="og:description" content="GIT
-git全局设置及生成密钥123git config --global user.name &amp;apos;fhy&amp;apos;git config --global user.email &amp;apos;1005805748@qq.com&amp;apos;ssh-keygen -t rsa -C 1005805748@qq.com
-
-Your identification has been saved i">
+<meta property="og:site_name" content="flyEn&#39;blog">
+<meta property="og:description" content="GIT git全局设置及生成密钥123git config --global user.name &amp;apos;fhy&amp;apos;git config --global user.email &amp;apos;1005805748@qq.com&amp;apos;ssh-keygen -t rsa -C 1005805748@qq.com  Your identification has been saved i">
+<meta property="og:locale" content="zh-Hans">
 <meta property="og:updated_time" content="2017-01-06T03:04:52.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Git学习笔记">
-<meta name="twitter:description" content="GIT
-git全局设置及生成密钥123git config --global user.name &amp;apos;fhy&amp;apos;git config --global user.email &amp;apos;1005805748@qq.com&amp;apos;ssh-keygen -t rsa -C 1005805748@qq.com
-
-Your identification has been saved i">
+<meta name="twitter:description" content="GIT git全局设置及生成密钥123git config --global user.name &amp;apos;fhy&amp;apos;git config --global user.email &amp;apos;1005805748@qq.com&amp;apos;ssh-keygen -t rsa -C 1005805748@qq.com  Your identification has been saved i">
 
 
 
@@ -396,58 +389,58 @@ Your identification has been saved i">
       
 
       
-        <p><a href="http://www.bootcss.com/p/git-guide/" target="_blank" rel="external">GIT</a></p>
-<h4 id="git全局设置及生成密钥"><a href="#git全局设置及生成密钥" class="headerlink" title="git全局设置及生成密钥"></a>git全局设置及生成密钥</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">git config --global user.name &apos;fhy&apos;</div><div class="line">git config --global user.email &apos;1005805748@qq.com&apos;</div><div class="line">ssh-keygen -t rsa -C 1005805748@qq.com</div></pre></td></tr></table></figure>
+        <p><a href="http://www.bootcss.com/p/git-guide/" target="_blank" rel="noopener">GIT</a></p>
+<h4 id="git全局设置及生成密钥"><a href="#git全局设置及生成密钥" class="headerlink" title="git全局设置及生成密钥"></a>git全局设置及生成密钥</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git config --global user.name &apos;fhy&apos;</span><br><span class="line">git config --global user.email &apos;1005805748@qq.com&apos;</span><br><span class="line">ssh-keygen -t rsa -C 1005805748@qq.com</span><br></pre></td></tr></table></figure>
 <blockquote>
-<p>Your identification has been saved in /home/fhy/.ssh/id_rsa.<br>Your public key has been saved in /home/fhy/.ssh/id_rsa.pub.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">cat /home/fhy/.ssh/id_rsa.pub</div></pre></td></tr></table></figure></p>
+<p>Your identification has been saved in /home/fhy/.ssh/id_rsa.<br>Your public key has been saved in /home/fhy/.ssh/id_rsa.pub.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat /home/fhy/.ssh/id_rsa.pub</span><br></pre></td></tr></table></figure></p>
 </blockquote>
 <a id="more"></a>
-<h4 id="创建git仓库"><a href="#创建git仓库" class="headerlink" title="创建git仓库"></a>创建git仓库</h4><p>创建一个初始化本地仓库<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git init</div></pre></td></tr></table></figure></p>
+<h4 id="创建git仓库"><a href="#创建git仓库" class="headerlink" title="创建git仓库"></a>创建git仓库</h4><p>创建一个初始化本地仓库<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git init</span><br></pre></td></tr></table></figure></p>
 <blockquote>
 <p><strong>ls -al </strong>  可看到多了个.git 文件</p>
 </blockquote>
-<p> 查看git状态<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git status   # git status -s 简略</div></pre></td></tr></table></figure></p>
-<p>忽略特殊文件<br><code>vim .gitignore</code> 进入gitignore 文件下编辑，放入想要忽略的文件名即可<br><code>git add</code>把文件添加到仓库缓存区，<code>git commit</code>把文件提交到仓库<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">git add .  # add所有      git add file_name  # add单个</div><div class="line">git commit -m &apos;first commit&apos;</div></pre></td></tr></table></figure></p>
-<p>查看被修改的内容<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git diff</div></pre></td></tr></table></figure></p>
-<p>查看历史记录<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git log</div></pre></td></tr></table></figure></p>
-<p>版本回退(上一个版本HEAD^，上上个版本HEAD^^，往上100个HEAD~100)<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git reset --hard HEAD^</div></pre></td></tr></table></figure></p>
-<p>如果再想回去回退前的版本，输入对应的commit id(前几位)<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git reset --hard 3628452</div></pre></td></tr></table></figure></p>
+<p> 查看git状态<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git status   # git status -s 简略</span><br></pre></td></tr></table></figure></p>
+<p>忽略特殊文件<br><code>vim .gitignore</code> 进入gitignore 文件下编辑，放入想要忽略的文件名即可<br><code>git add</code>把文件添加到仓库缓存区，<code>git commit</code>把文件提交到仓库<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git add .  # add所有      git add file_name  # add单个</span><br><span class="line">git commit -m &apos;first commit&apos;</span><br></pre></td></tr></table></figure></p>
+<p>查看被修改的内容<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git diff</span><br></pre></td></tr></table></figure></p>
+<p>查看历史记录<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git log</span><br></pre></td></tr></table></figure></p>
+<p>版本回退(上一个版本HEAD^，上上个版本HEAD^^，往上100个HEAD~100)<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git reset --hard HEAD^</span><br></pre></td></tr></table></figure></p>
+<p>如果再想回去回退前的版本，输入对应的commit id(前几位)<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git reset --hard 3628452</span><br></pre></td></tr></table></figure></p>
 <p>删除一个文件rm test.txt，如果确认从版本库中删除，那就<code>git rm</code>并且<code>git commit</code>；如果删错，可以从版本库恢复<code>git checkout -- test.txt</code></p>
-<p>撤销未提交的修改<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git checkout .</div></pre></td></tr></table></figure></p>
-<h4 id="远程仓库"><a href="#远程仓库" class="headerlink" title="远程仓库"></a>远程仓库</h4><p>把本地仓库与远程仓库关联<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git remote add origin https://git.oschina.net/www.fhyblog.com/article.git</div></pre></td></tr></table></figure></p>
-<p>推送（第一次需加-u）<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git push -u origin master</div></pre></td></tr></table></figure></p>
-<p>查看远程库的信息<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">git remote</div><div class="line">git remote -v # 更详细</div></pre></td></tr></table></figure></p>
-<p>创建远程origin的dev分支到本地<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git checkout -b dev origin/dev</div></pre></td></tr></table></figure></p>
-<p>修改并push到远程<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">git commit -m &quot;add ..&quot;</div><div class="line">git push origin dev</div></pre></td></tr></table></figure></p>
-<p>另一个人从远程git pull，需设置本地dev分支与远程origin/dev分支的链接<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git branch -set-upstream dev origin/dev</div></pre></td></tr></table></figure></p>
-<h4 id="创建与合并分支"><a href="#创建与合并分支" class="headerlink" title="创建与合并分支"></a>创建与合并分支</h4><p>创建dev分支并切换到dev分支<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git checkout -b dev</div></pre></td></tr></table></figure></p>
-<p>查看当前分支(当前分支前面会标一个*号)<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git branch</div></pre></td></tr></table></figure></p>
-<p>切换回master后，将指定分支dev合并到master主分支上<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">git checkout master</div><div class="line">git merge dev</div></pre></td></tr></table></figure></p>
-<p>删除dev分支<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git branch -d dev</div></pre></td></tr></table></figure></p>
-<p>看分支合并图<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git log --graph --pretty=oneline --abbrev-commit</div></pre></td></tr></table></figure></p>
-<h5 id="bug分支"><a href="#bug分支" class="headerlink" title="bug分支"></a>bug分支</h5><p>如果工作进行到一般还没法提交，出现Bug需要马上修复，<code>stash</code>将当前工作储藏起来，等以后恢复现场后继续工作。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git stash</div></pre></td></tr></table></figure></p>
-<p>创建临时分支开始修复Bug，修复完成后切换到master分支，完成合并删除分支<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git merge --no-ff -m &quot;&lt;description&gt;&quot; &lt;branch_name&gt;</div></pre></td></tr></table></figure></p>
-<p>还原之前的工作现场<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">git stash list  # 查看</div><div class="line">git stash apply # 恢复但是stash内容并不删除，需要git stash drop来删除</div><div class="line">git stash pop  # 恢复的同时把stash内容也删了</div></pre></td></tr></table></figure></p>
+<p>撤销未提交的修改<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git checkout .</span><br></pre></td></tr></table></figure></p>
+<h4 id="远程仓库"><a href="#远程仓库" class="headerlink" title="远程仓库"></a>远程仓库</h4><p>把本地仓库与远程仓库关联<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git remote add origin https://git.oschina.net/www.fhyblog.com/article.git</span><br></pre></td></tr></table></figure></p>
+<p>推送（第一次需加-u）<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git push -u origin master</span><br></pre></td></tr></table></figure></p>
+<p>查看远程库的信息<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git remote</span><br><span class="line">git remote -v # 更详细</span><br></pre></td></tr></table></figure></p>
+<p>创建远程origin的dev分支到本地<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git checkout -b dev origin/dev</span><br></pre></td></tr></table></figure></p>
+<p>修改并push到远程<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git commit -m &quot;add ..&quot;</span><br><span class="line">git push origin dev</span><br></pre></td></tr></table></figure></p>
+<p>另一个人从远程git pull，需设置本地dev分支与远程origin/dev分支的链接<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git branch -set-upstream dev origin/dev</span><br></pre></td></tr></table></figure></p>
+<h4 id="创建与合并分支"><a href="#创建与合并分支" class="headerlink" title="创建与合并分支"></a>创建与合并分支</h4><p>创建dev分支并切换到dev分支<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git checkout -b dev</span><br></pre></td></tr></table></figure></p>
+<p>查看当前分支(当前分支前面会标一个*号)<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git branch</span><br></pre></td></tr></table></figure></p>
+<p>切换回master后，将指定分支dev合并到master主分支上<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git checkout master</span><br><span class="line">git merge dev</span><br></pre></td></tr></table></figure></p>
+<p>删除dev分支<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git branch -d dev</span><br></pre></td></tr></table></figure></p>
+<p>看分支合并图<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git log --graph --pretty=oneline --abbrev-commit</span><br></pre></td></tr></table></figure></p>
+<h5 id="bug分支"><a href="#bug分支" class="headerlink" title="bug分支"></a>bug分支</h5><p>如果工作进行到一般还没法提交，出现Bug需要马上修复，<code>stash</code>将当前工作储藏起来，等以后恢复现场后继续工作。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git stash</span><br></pre></td></tr></table></figure></p>
+<p>创建临时分支开始修复Bug，修复完成后切换到master分支，完成合并删除分支<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git merge --no-ff -m &quot;&lt;description&gt;&quot; &lt;branch_name&gt;</span><br></pre></td></tr></table></figure></p>
+<p>还原之前的工作现场<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git stash list  # 查看</span><br><span class="line">git stash apply # 恢复但是stash内容并不删除，需要git stash drop来删除</span><br><span class="line">git stash pop  # 恢复的同时把stash内容也删了</span><br></pre></td></tr></table></figure></p>
 <blockquote>
 <p>也可以多次stash，先查看之后恢复指定的stash<code>git stash apply stash@{0}</code></p>
 </blockquote>
-<h4 id="标签管理"><a href="#标签管理" class="headerlink" title="标签管理"></a>标签管理</h4><p>切换到需要打标签的分支上<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git tag &lt;name&gt;   # 创建v1.0的标签</div></pre></td></tr></table></figure></p>
-<p>查看历史提交的commit id，对应打标签<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">git log --pretty=oneline --abbrev-commit</div><div class="line">git tag v0.9 6224937</div></pre></td></tr></table></figure></p>
-<p>查看标签信息<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git show &lt;tagname&gt;</div></pre></td></tr></table></figure></p>
-<p>创建带有说明的标签<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git tag -a &lt;tagname&gt; -m &apos;&lt;addtext&gt;&apos; &lt;commit_id&gt;</div></pre></td></tr></table></figure></p>
-<p>用PGP签名标签<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git tag -s &lt;tagname&gt; -m &apos;&lt;addtext&gt;&apos; &lt;commit_id&gt;</div></pre></td></tr></table></figure></p>
-<p>#####操作标签<br>删除标签<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git tag -d &lt;tagname&gt;</div></pre></td></tr></table></figure></p>
-<p>推送v1.0标签到远程<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git push origin v1.0</div></pre></td></tr></table></figure></p>
-<p>推送全部尚未推送到远程的标签<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git push origin --tags</div></pre></td></tr></table></figure></p>
-<p>删除远程标签<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">git tag -d &lt;tagname&gt;  # 本地删除</div><div class="line">git push origin :refs/tags/&lt;tagname&gt;</div></pre></td></tr></table></figure></p>
-<h5 id="配置别名"><a href="#配置别名" class="headerlink" title="配置别名"></a>配置别名</h5><p>例：<br>将status设置成st<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git config --global alias.st status</div></pre></td></tr></table></figure></p>
-<p>co表示checkout，ci表示commit，br表示branch<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">git config --global alias.co checkout</div><div class="line">git config --global alias.ci commit</div><div class="line">git config --global alias.br branch</div></pre></td></tr></table></figure></p>
+<h4 id="标签管理"><a href="#标签管理" class="headerlink" title="标签管理"></a>标签管理</h4><p>切换到需要打标签的分支上<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git tag &lt;name&gt;   # 创建v1.0的标签</span><br></pre></td></tr></table></figure></p>
+<p>查看历史提交的commit id，对应打标签<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git log --pretty=oneline --abbrev-commit</span><br><span class="line">git tag v0.9 6224937</span><br></pre></td></tr></table></figure></p>
+<p>查看标签信息<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git show &lt;tagname&gt;</span><br></pre></td></tr></table></figure></p>
+<p>创建带有说明的标签<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git tag -a &lt;tagname&gt; -m &apos;&lt;addtext&gt;&apos; &lt;commit_id&gt;</span><br></pre></td></tr></table></figure></p>
+<p>用PGP签名标签<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git tag -s &lt;tagname&gt; -m &apos;&lt;addtext&gt;&apos; &lt;commit_id&gt;</span><br></pre></td></tr></table></figure></p>
+<p>#####操作标签<br>删除标签<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git tag -d &lt;tagname&gt;</span><br></pre></td></tr></table></figure></p>
+<p>推送v1.0标签到远程<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git push origin v1.0</span><br></pre></td></tr></table></figure></p>
+<p>推送全部尚未推送到远程的标签<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git push origin --tags</span><br></pre></td></tr></table></figure></p>
+<p>删除远程标签<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git tag -d &lt;tagname&gt;  # 本地删除</span><br><span class="line">git push origin :refs/tags/&lt;tagname&gt;</span><br></pre></td></tr></table></figure></p>
+<h5 id="配置别名"><a href="#配置别名" class="headerlink" title="配置别名"></a>配置别名</h5><p>例：<br>将status设置成st<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git config --global alias.st status</span><br></pre></td></tr></table></figure></p>
+<p>co表示checkout，ci表示commit，br表示branch<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git config --global alias.co checkout</span><br><span class="line">git config --global alias.ci commit</span><br><span class="line">git config --global alias.br branch</span><br></pre></td></tr></table></figure></p>
 <blockquote>
 <p>–global参数是全局参数</p>
 </blockquote>
-<p>配置一个git last，显示最后一次提交信息<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git config --global alias.last &apos;log -1&apos;  # git last</div></pre></td></tr></table></figure></p>
-<p>配置log<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git config --global alias.lg &quot;log --color --graph --pretty=format:&apos;%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)&lt;%an&gt;%Creset&apos; --abbrev-commit&quot;</div></pre></td></tr></table></figure></p>
-<p>配置文件.git/config<br>例：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">   co = checkout</div><div class="line">    ci = commit</div><div class="line">    br = branch</div><div class="line">    st = status</div><div class="line">[user]</div><div class="line">    name = Your Name</div><div class="line">    email = your@email.com</div></pre></td></tr></table></figure></p>
+<p>配置一个git last，显示最后一次提交信息<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git config --global alias.last &apos;log -1&apos;  # git last</span><br></pre></td></tr></table></figure></p>
+<p>配置log<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git config --global alias.lg &quot;log --color --graph --pretty=format:&apos;%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)&lt;%an&gt;%Creset&apos; --abbrev-commit&quot;</span><br></pre></td></tr></table></figure></p>
+<p>配置文件.git/config<br>例：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">   co = checkout</span><br><span class="line">    ci = commit</span><br><span class="line">    br = branch</span><br><span class="line">    st = status</span><br><span class="line">[user]</span><br><span class="line">    name = Your Name</span><br><span class="line">    email = your@email.com</span><br></pre></td></tr></table></figure></p>
 <p>搭建git仓库(略)</p>
 
       
@@ -563,7 +556,7 @@ Your identification has been saved i">
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">24</span>
+                <span class="site-state-item-count">31</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -581,7 +574,7 @@ Your identification has been saved i">
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">19</span>
+                <span class="site-state-item-count">22</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -657,8 +650,8 @@ Your identification has been saved i">
         <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 <div class="copyright" >
   
-  &copy;  Thu Jan 05 2017 08:00:00 GMT+0800 (CST) - 
-  <span itemprop="copyrightYear">2018</span>
+  &copy;  Thu Jan 05 2017 08:00:00 GMT+0800 (中国标准时间) - 
+  <span itemprop="copyrightYear">2020</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>

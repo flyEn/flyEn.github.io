@@ -115,11 +115,13 @@
 
 
 <meta name="description" content="1.在右上角或者左上角实现fort me on github挑选样式地址：https://github.com/blog/273-github-ribbons复制代码放在themes/next/layout/_layout.swig里&amp;lt;body&amp;gt;&amp;lt;/body&amp;gt;中（最好放在最下面）">
+<meta name="keywords" content="hexo">
 <meta property="og:type" content="article">
 <meta property="og:title" content="hexo自定义效果">
 <meta property="og:url" content="http://yoursite.com/2017/10/31/hexo-auto/index.html">
-<meta property="og:site_name" content="flyEn'blog">
+<meta property="og:site_name" content="flyEn&#39;blog">
 <meta property="og:description" content="1.在右上角或者左上角实现fort me on github挑选样式地址：https://github.com/blog/273-github-ribbons复制代码放在themes/next/layout/_layout.swig里&amp;lt;body&amp;gt;&amp;lt;/body&amp;gt;中（最好放在最下面）">
+<meta property="og:locale" content="zh-Hans">
 <meta property="og:updated_time" content="2017-10-31T09:05:10.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="hexo自定义效果">
@@ -365,10 +367,10 @@
       
 
       
-        <p>1.在右上角或者左上角实现fort me on github<br>挑选样式地址：<a href="https://github.com/blog/273-github-ribbons" target="_blank" rel="external">https://github.com/blog/273-github-ribbons</a><br>复制代码放在<code>themes/next/layout/_layout.swig</code>里<code>&lt;body&gt;&lt;/body&gt;</code>中（最好放在最下面）</p>
+        <p>1.在右上角或者左上角实现fort me on github<br>挑选样式地址：<a href="https://github.com/blog/273-github-ribbons" target="_blank" rel="noopener">https://github.com/blog/273-github-ribbons</a><br>复制代码放在<code>themes/next/layout/_layout.swig</code>里<code>&lt;body&gt;&lt;/body&gt;</code>中（最好放在最下面）</p>
 <a id="more"></a>
-<p>２.动态背景<br>添加<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;script type=&quot;text/javascript&quot; src=&quot;//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js&quot;&gt;&lt;/script&gt;</div></pre></td></tr></table></figure></p>
-<p>如需自己配置：<br>再添加一行<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">&lt;script type=&quot;text/javascript&quot;</div><div class="line">color=&quot;0,0,255&quot; opacity=&apos;0.7&apos; zIndex=&quot;-2&quot; count=&quot;99&quot; src=&quot;//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js&quot;&gt;&lt;/script&gt;</div></pre></td></tr></table></figure></p>
+<p>２.动态背景<br>添加<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;script type=&quot;text/javascript&quot; src=&quot;//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js&quot;&gt;&lt;/script&gt;</span><br></pre></td></tr></table></figure></p>
+<p>如需自己配置：<br>再添加一行<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&lt;script type=&quot;text/javascript&quot;</span><br><span class="line">color=&quot;0,0,255&quot; opacity=&apos;0.7&apos; zIndex=&quot;-2&quot; count=&quot;99&quot; src=&quot;//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js&quot;&gt;&lt;/script&gt;</span><br></pre></td></tr></table></figure></p>
 <p>配置说明：</p>
 <ul>
 <li>color ：线条颜色, 默认: ‘0,0,0’；三个数字分别为(R,G,B)</li>
@@ -376,9 +378,9 @@
 <li>count: 线条的总数量, 默认: 150</li>
 <li>zIndex: 背景的z-index属性，css属性用于控制所在层的位置, 默认: -1</li>
 </ul>
-<p>3.实现点击桃心效果<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;script type=&quot;text/javascript&quot; src=&quot;//7u2ss1.com1.z0.glb.clouddn.com/love.js&quot;&gt;&lt;/script&gt;</div></pre></td></tr></table></figure></p>
-<p>4.主页文章添加阴影效果<br>打开<code>\themes\next\source\css\_custom\custom.styl</code>,向里面加入：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">// 主页文章添加阴影效果</div><div class="line"> .post &#123;</div><div class="line">   margin-top: 60px;</div><div class="line">   margin-bottom: 60px;</div><div class="line">   padding: 25px;</div><div class="line">   -webkit-box-shadow: 0 0 5px rgba(202, 203, 203, .5);</div><div class="line">   -moz-box-shadow: 0 0 5px rgba(202, 203, 204, .5);</div><div class="line">  &#125;</div></pre></td></tr></table></figure></p>
-<p>其他自定义效果参考：<a href="https://segmentfault.com/a/1190000009544924#articleHeader29" target="_blank" rel="external">https://segmentfault.com/a/1190000009544924#articleHeader29</a></p>
+<p>3.实现点击桃心效果<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;script type=&quot;text/javascript&quot; src=&quot;//7u2ss1.com1.z0.glb.clouddn.com/love.js&quot;&gt;&lt;/script&gt;</span><br></pre></td></tr></table></figure></p>
+<p>4.主页文章添加阴影效果<br>打开<code>\themes\next\source\css\_custom\custom.styl</code>,向里面加入：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">// 主页文章添加阴影效果</span><br><span class="line"> .post &#123;</span><br><span class="line">   margin-top: 60px;</span><br><span class="line">   margin-bottom: 60px;</span><br><span class="line">   padding: 25px;</span><br><span class="line">   -webkit-box-shadow: 0 0 5px rgba(202, 203, 203, .5);</span><br><span class="line">   -moz-box-shadow: 0 0 5px rgba(202, 203, 204, .5);</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure></p>
+<p>其他自定义效果参考：<a href="https://segmentfault.com/a/1190000009544924#articleHeader29" target="_blank" rel="noopener">https://segmentfault.com/a/1190000009544924#articleHeader29</a></p>
 
       
     </div>
@@ -484,7 +486,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">24</span>
+                <span class="site-state-item-count">31</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -502,7 +504,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">19</span>
+                <span class="site-state-item-count">22</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -562,8 +564,8 @@
         <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 <div class="copyright" >
   
-  &copy;  Thu Jan 05 2017 08:00:00 GMT+0800 (CST) - 
-  <span itemprop="copyrightYear">2018</span>
+  &copy;  Thu Jan 05 2017 08:00:00 GMT+0800 (中国标准时间) - 
+  <span itemprop="copyrightYear">2020</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>

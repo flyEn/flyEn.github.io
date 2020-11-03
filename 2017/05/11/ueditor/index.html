@@ -114,34 +114,18 @@
 
 
 
-<meta name="description" content="git地址——DjangoUeditor
-导入项目
-
-可直接克隆放入项目app目录下
-使用pip工具在命令行运行：pip install DjangoUeditor
-
-配置setting中INSTALL_APPS1234INSTALLED_APPS = [	...    &amp;apos;apps.DjangoUeditor&amp;apos;,    ]">
+<meta name="description" content="git地址——DjangoUeditor 导入项目  可直接克隆放入项目app目录下 使用pip工具在命令行运行：pip install DjangoUeditor  配置setting中INSTALL_APPS1234INSTALLED_APPS = [	...    &amp;apos;apps.DjangoUeditor&amp;apos;,    ]">
+<meta name="keywords" content="DjangoUeditor">
 <meta property="og:type" content="article">
 <meta property="og:title" content="DjangoUeditor的使用与配置">
 <meta property="og:url" content="http://yoursite.com/2017/05/11/ueditor/index.html">
-<meta property="og:site_name" content="flyEn'blog">
-<meta property="og:description" content="git地址——DjangoUeditor
-导入项目
-
-可直接克隆放入项目app目录下
-使用pip工具在命令行运行：pip install DjangoUeditor
-
-配置setting中INSTALL_APPS1234INSTALLED_APPS = [	...    &amp;apos;apps.DjangoUeditor&amp;apos;,    ]">
+<meta property="og:site_name" content="flyEn&#39;blog">
+<meta property="og:description" content="git地址——DjangoUeditor 导入项目  可直接克隆放入项目app目录下 使用pip工具在命令行运行：pip install DjangoUeditor  配置setting中INSTALL_APPS1234INSTALLED_APPS = [	...    &amp;apos;apps.DjangoUeditor&amp;apos;,    ]">
+<meta property="og:locale" content="zh-Hans">
 <meta property="og:updated_time" content="2017-05-12T07:25:32.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="DjangoUeditor的使用与配置">
-<meta name="twitter:description" content="git地址——DjangoUeditor
-导入项目
-
-可直接克隆放入项目app目录下
-使用pip工具在命令行运行：pip install DjangoUeditor
-
-配置setting中INSTALL_APPS1234INSTALLED_APPS = [	...    &amp;apos;apps.DjangoUeditor&amp;apos;,    ]">
+<meta name="twitter:description" content="git地址——DjangoUeditor 导入项目  可直接克隆放入项目app目录下 使用pip工具在命令行运行：pip install DjangoUeditor  配置setting中INSTALL_APPS1234INSTALLED_APPS = [	...    &amp;apos;apps.DjangoUeditor&amp;apos;,    ]">
 
 
 
@@ -405,17 +389,17 @@
       
 
       
-        <p>git地址——<a href="https://github.com/flyEn/DjangoUeditor" target="_blank" rel="external">DjangoUeditor</a></p>
+        <p>git地址——<a href="https://github.com/flyEn/DjangoUeditor" target="_blank" rel="noopener">DjangoUeditor</a></p>
 <p>导入项目</p>
 <ol>
 <li>可直接克隆放入项目app目录下</li>
 <li>使用pip工具在命令行运行：pip install DjangoUeditor</li>
 </ol>
-<p>配置setting中INSTALL_APPS<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">INSTALLED_APPS = [</div><div class="line">	...</div><div class="line">    &apos;apps.DjangoUeditor&apos;,</div><div class="line">    ]</div></pre></td></tr></table></figure></p>
+<p>配置setting中INSTALL_APPS<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">INSTALLED_APPS = [</span><br><span class="line">	...</span><br><span class="line">    &apos;apps.DjangoUeditor&apos;,</span><br><span class="line">    ]</span><br></pre></td></tr></table></figure></p>
 <a id="more"></a>
-<p>在Django的Settings可以配置以下参数（可选择性配置）：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line">UEDITOR_SETTINGS=&#123;</div><div class="line">	&quot;toolbars&quot;:&#123;           #定义多个工具栏显示的按钮，允行定义多个</div><div class="line">		&quot;name1&quot;:[[ &apos;source&apos;, &apos;|&apos;,&apos;bold&apos;, &apos;italic&apos;, &apos;underline&apos;]],</div><div class="line">		&quot;name2&quot;,[]</div><div class="line">	&#125;,</div><div class="line">	&quot;images_upload&quot;:&#123;</div><div class="line">		&quot;allow_type&quot;:&quot;jpg,png&quot;,    #定义允许的上传的图片类型</div><div class="line">		&quot;max_size&quot;:&quot;2222kb&quot;        #定义允许上传的图片大小，0代表不限制</div><div class="line">	&#125;,</div><div class="line">	&quot;files_upload&quot;:&#123;</div><div class="line">		&quot;allow_type&quot;:&quot;zip,rar&quot;,   #定义允许的上传的文件类型</div><div class="line">		&quot;max_size&quot;:&quot;2222kb&quot;       #定义允许上传的文件大小，0代表不限制</div><div class="line">	&#125;,,</div><div class="line">	&quot;image_manager&quot;:&#123;</div><div class="line">		&quot;location&quot;:&quot;&quot;         #图片管理器的位置,如果没有指定，默认跟图片路径上传一样</div><div class="line">	&#125;,</div><div class="line">	</div><div class="line"># 若使用默认配置</div><div class="line">UEDITOR_SETTINGS = &#123;&quot;config&quot;: &#123;&apos;nothing&apos;: [[]]&#125;&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>注册url，在urls.py中增加<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">url(r&apos;^ueditor/&apos;,include(&apos;apps.DjangoUeditor.urls&apos; )),</div></pre></td></tr></table></figure></p>
-<p>models中定义<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"># 摘自自己项目</div><div class="line">from DjangoUeditor.models import UEditorField</div><div class="line">class Blog(models.Model):</div><div class="line">    rich_text = UEditorField(verbose_name=&quot;文章内容&quot;, width=800, height=400, toolbars=&quot;all&quot;, imagePath=&quot;richtext/pic/&quot;,</div><div class="line">                             filePath=&quot;richtext/text/&quot;, command=None)</div></pre></td></tr></table></figure></p>
+<p>在Django的Settings可以配置以下参数（可选择性配置）：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">UEDITOR_SETTINGS=&#123;</span><br><span class="line">	&quot;toolbars&quot;:&#123;           #定义多个工具栏显示的按钮，允行定义多个</span><br><span class="line">		&quot;name1&quot;:[[ &apos;source&apos;, &apos;|&apos;,&apos;bold&apos;, &apos;italic&apos;, &apos;underline&apos;]],</span><br><span class="line">		&quot;name2&quot;,[]</span><br><span class="line">	&#125;,</span><br><span class="line">	&quot;images_upload&quot;:&#123;</span><br><span class="line">		&quot;allow_type&quot;:&quot;jpg,png&quot;,    #定义允许的上传的图片类型</span><br><span class="line">		&quot;max_size&quot;:&quot;2222kb&quot;        #定义允许上传的图片大小，0代表不限制</span><br><span class="line">	&#125;,</span><br><span class="line">	&quot;files_upload&quot;:&#123;</span><br><span class="line">		&quot;allow_type&quot;:&quot;zip,rar&quot;,   #定义允许的上传的文件类型</span><br><span class="line">		&quot;max_size&quot;:&quot;2222kb&quot;       #定义允许上传的文件大小，0代表不限制</span><br><span class="line">	&#125;,,</span><br><span class="line">	&quot;image_manager&quot;:&#123;</span><br><span class="line">		&quot;location&quot;:&quot;&quot;         #图片管理器的位置,如果没有指定，默认跟图片路径上传一样</span><br><span class="line">	&#125;,</span><br><span class="line">	</span><br><span class="line"># 若使用默认配置</span><br><span class="line">UEDITOR_SETTINGS = &#123;&quot;config&quot;: &#123;&apos;nothing&apos;: [[]]&#125;&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>注册url，在urls.py中增加<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">url(r&apos;^ueditor/&apos;,include(&apos;apps.DjangoUeditor.urls&apos; )),</span><br></pre></td></tr></table></figure></p>
+<p>models中定义<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># 摘自自己项目</span><br><span class="line">from DjangoUeditor.models import UEditorField</span><br><span class="line">class Blog(models.Model):</span><br><span class="line">    rich_text = UEditorField(verbose_name=&quot;文章内容&quot;, width=800, height=400, toolbars=&quot;all&quot;, imagePath=&quot;richtext/pic/&quot;,</span><br><span class="line">                             filePath=&quot;richtext/text/&quot;, command=None)</span><br></pre></td></tr></table></figure></p>
 <blockquote>
 <pre><code>UEditorField提供了额外的参数(可选择性填写)：
     toolbars:配置你想显示的工具栏，取值为mini,normal,full,besttome, 代表小，一般，全部,涂伟忠贡献的一种样式。如果默认的工具栏不符合您的要求，您可以在settings里面配置自己的显示按钮。参见后面介绍。
@@ -427,11 +411,11 @@
     css:编辑器textarea的CSS样式
     width，height:编辑器的宽度和高度，以像素为单位。
 </code></pre></blockquote>
-<p>forms.py中定义<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"># model表单，直接字段名给出即可</div><div class="line">class BlogCreateForm(forms.ModelForm):</div><div class="line">    class Meta:</div><div class="line">        model = Blog</div><div class="line">        fields = (&apos;rich_text&apos;)</div><div class="line"># 常规的form（方法一）</div><div class="line">from  DjangoUeditor.forms import UEditorField</div><div class="line">class TestUEditorForm(forms.Form):</div><div class="line">    Description=UEditorField(&quot;描述&quot;,initial=&quot;abc&quot;,width=600,height=800)</div><div class="line"># （方法二）</div><div class="line">from  DjangoUeditor.widgets import UEditorWidget</div><div class="line">class TestUEditorForm(forms.Form):</div><div class="line">	Content=forms.CharField(label=&quot;内容&quot;,widget=UEditorWidget(width=800,height=500, imagePath=&apos;aa&apos;, filePath=&apos;bb&apos;,toolbars=&#123;&#125;))</div></pre></td></tr></table></figure></p>
+<p>forms.py中定义<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"># model表单，直接字段名给出即可</span><br><span class="line">class BlogCreateForm(forms.ModelForm):</span><br><span class="line">    class Meta:</span><br><span class="line">        model = Blog</span><br><span class="line">        fields = (&apos;rich_text&apos;)</span><br><span class="line"># 常规的form（方法一）</span><br><span class="line">from  DjangoUeditor.forms import UEditorField</span><br><span class="line">class TestUEditorForm(forms.Form):</span><br><span class="line">    Description=UEditorField(&quot;描述&quot;,initial=&quot;abc&quot;,width=600,height=800)</span><br><span class="line"># （方法二）</span><br><span class="line">from  DjangoUeditor.widgets import UEditorWidget</span><br><span class="line">class TestUEditorForm(forms.Form):</span><br><span class="line">	Content=forms.CharField(label=&quot;内容&quot;,widget=UEditorWidget(width=800,height=500, imagePath=&apos;aa&apos;, filePath=&apos;bb&apos;,toolbars=&#123;&#125;))</span><br></pre></td></tr></table></figure></p>
 <blockquote>
 <p>widgets.UEditorWidget和forms.UEditorField的输入参数与上述models.UEditorField一样。</p>
 </blockquote>
-<p>模版页里面<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&lt;head&gt;</div><div class="line">    ......</div><div class="line">    &#123;&#123; form.media &#125;&#125;        #这一句会将所需要的CSS和JS加进来。</div><div class="line">    ......</div><div class="line">&lt;/head&gt;</div></pre></td></tr></table></figure></p>
+<p>模版页里面<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;head&gt;</span><br><span class="line">    ......</span><br><span class="line">    &#123;&#123; form.media &#125;&#125;        #这一句会将所需要的CSS和JS加进来。</span><br><span class="line">    ......</span><br><span class="line">&lt;/head&gt;</span><br></pre></td></tr></table></figure></p>
 <blockquote>
 <p>注：运行collectstatic命令，将所依赖的css,js之类的文件复制到文件夹里面。</p>
 </blockquote>
@@ -540,7 +524,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">24</span>
+                <span class="site-state-item-count">31</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -558,7 +542,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">19</span>
+                <span class="site-state-item-count">22</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -618,8 +602,8 @@
         <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 <div class="copyright" >
   
-  &copy;  Thu Jan 05 2017 08:00:00 GMT+0800 (CST) - 
-  <span itemprop="copyrightYear">2018</span>
+  &copy;  Thu Jan 05 2017 08:00:00 GMT+0800 (中国标准时间) - 
+  <span itemprop="copyrightYear">2020</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>

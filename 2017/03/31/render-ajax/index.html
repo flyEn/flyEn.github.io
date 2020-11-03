@@ -114,22 +114,18 @@
 
 
 
-<meta name="description" content="重定向1.1234# 类视图表单跳转urlreverse_lazy(&amp;apos;news:manage_list&amp;apos;)+&amp;apos;?type=&amp;apos;+article_type# 方法视图跳转urlHttpResponseRedirect(reverse(&amp;apos;news:manage_list&amp;apos;)+&amp;apos;?type=&amp;apos;+article_type)
-
-由">
+<meta name="description" content="重定向1.1234# 类视图表单跳转urlreverse_lazy(&amp;apos;news:manage_list&amp;apos;)+&amp;apos;?type=&amp;apos;+article_type# 方法视图跳转urlHttpResponseRedirect(reverse(&amp;apos;news:manage_list&amp;apos;)+&amp;apos;?type=&amp;apos;+article_type)  由">
+<meta name="keywords" content="django-render ajax-post">
 <meta property="og:type" content="article">
-<meta property="og:title" content="django重定向&ajax-post">
+<meta property="og:title" content="django重定向&amp;ajax-post">
 <meta property="og:url" content="http://yoursite.com/2017/03/31/render-ajax/index.html">
-<meta property="og:site_name" content="flyEn'blog">
-<meta property="og:description" content="重定向1.1234# 类视图表单跳转urlreverse_lazy(&amp;apos;news:manage_list&amp;apos;)+&amp;apos;?type=&amp;apos;+article_type# 方法视图跳转urlHttpResponseRedirect(reverse(&amp;apos;news:manage_list&amp;apos;)+&amp;apos;?type=&amp;apos;+article_type)
-
-由">
+<meta property="og:site_name" content="flyEn&#39;blog">
+<meta property="og:description" content="重定向1.1234# 类视图表单跳转urlreverse_lazy(&amp;apos;news:manage_list&amp;apos;)+&amp;apos;?type=&amp;apos;+article_type# 方法视图跳转urlHttpResponseRedirect(reverse(&amp;apos;news:manage_list&amp;apos;)+&amp;apos;?type=&amp;apos;+article_type)  由">
+<meta property="og:locale" content="zh-Hans">
 <meta property="og:updated_time" content="2017-03-31T12:33:04.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="django重定向&ajax-post">
-<meta name="twitter:description" content="重定向1.1234# 类视图表单跳转urlreverse_lazy(&amp;apos;news:manage_list&amp;apos;)+&amp;apos;?type=&amp;apos;+article_type# 方法视图跳转urlHttpResponseRedirect(reverse(&amp;apos;news:manage_list&amp;apos;)+&amp;apos;?type=&amp;apos;+article_type)
-
-由">
+<meta name="twitter:title" content="django重定向&amp;ajax-post">
+<meta name="twitter:description" content="重定向1.1234# 类视图表单跳转urlreverse_lazy(&amp;apos;news:manage_list&amp;apos;)+&amp;apos;?type=&amp;apos;+article_type# 方法视图跳转urlHttpResponseRedirect(reverse(&amp;apos;news:manage_list&amp;apos;)+&amp;apos;?type=&amp;apos;+article_type)  由">
 
 
 
@@ -393,31 +389,31 @@
       
 
       
-        <h4 id="重定向"><a href="#重定向" class="headerlink" title="重定向"></a>重定向</h4><p>1.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"># 类视图表单跳转url</div><div class="line">reverse_lazy(&apos;news:manage_list&apos;)+&apos;?type=&apos;+article_type</div><div class="line"># 方法视图跳转url</div><div class="line">HttpResponseRedirect(reverse(&apos;news:manage_list&apos;)+&apos;?type=&apos;+article_type)</div></pre></td></tr></table></figure></p>
+        <h4 id="重定向"><a href="#重定向" class="headerlink" title="重定向"></a>重定向</h4><p>1.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># 类视图表单跳转url</span><br><span class="line">reverse_lazy(&apos;news:manage_list&apos;)+&apos;?type=&apos;+article_type</span><br><span class="line"># 方法视图跳转url</span><br><span class="line">HttpResponseRedirect(reverse(&apos;news:manage_list&apos;)+&apos;?type=&apos;+article_type)</span><br></pre></td></tr></table></figure></p>
 <blockquote>
 <p>由于是一个相对路径所以可以拼接字符串</p>
 </blockquote>
 <a id="more"></a>
-<p>2.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"># 跳转url传入关键字参数</div><div class="line">HttpResponseRedirect(reverse(&apos;home:banner_index&apos;, kwargs=&#123;&apos;type&apos;: type&#125;))</div></pre></td></tr></table></figure></p>
-<p>3.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">redirect(&apos;house:manage_index&apos;)</div></pre></td></tr></table></figure></p>
+<p>2.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># 跳转url传入关键字参数</span><br><span class="line">HttpResponseRedirect(reverse(&apos;home:banner_index&apos;, kwargs=&#123;&apos;type&apos;: type&#125;))</span><br></pre></td></tr></table></figure></p>
+<p>3.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">redirect(&apos;house:manage_index&apos;)</span><br></pre></td></tr></table></figure></p>
 <blockquote>
 <p>HttpResponseRedirect第一个参数只能是一个url, , redirect更灵活, 可接受view,model,和url</p>
 </blockquote>
-<p>4.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">return render(self.request, &apos;charge/preview.html&apos;, locals())</div></pre></td></tr></table></figure></p>
+<p>4.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">return render(self.request, &apos;charge/preview.html&apos;, locals())</span><br></pre></td></tr></table></figure></p>
 <blockquote>
-<p>类视图里get方法必须返回一个url<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">return render(request, self.template_name, context)</div></pre></td></tr></table></figure></p>
+<p>类视图里get方法必须返回一个url<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">return render(request, self.template_name, context)</span><br></pre></td></tr></table></figure></p>
 </blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">return render_to_response(self.get_context_data(form=form))</div></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">return render_to_response(template_name,&#123;&apos;message_list&apos;: message_list, &#125;,</div><div class="line">                              context_instance=RequestContext(request))</div></pre></td></tr></table></figure>
-<p>5.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">return redirect(request.GET.get(&apos;next&apos;, reverse(&apos;account:index&apos;)))</div></pre></td></tr></table></figure></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"># post.ajax</div><div class="line">class ManageCreateTagAjax(View):</div><div class="line">    def post(self, request, *args, **kwargs):</div><div class="line">        name = request.POST.get(&apos;tag&apos;)</div><div class="line">        if Tag.objects.filter(name=name, user=None).exists():</div><div class="line">            # 如果已经存在该tag则在前台弹出框报错</div><div class="line">            return JsonResponse(&#123;&#125;)</div><div class="line">        else:</div><div class="line">            tag = Tag.objects.create(name=name)</div><div class="line">            return JsonResponse(&#123;&apos;name&apos;: tag.name, &apos;id&apos;: tag.id&#125;)</div></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">$(&apos;#create&apos;).click(function () &#123;</div><div class="line">    var tag_name = $(&apos;#name&apos;);</div><div class="line">    $.ajax(&#123;</div><div class="line">        type: &apos;POST&apos;,</div><div class="line">        url: &quot;&#123;% url &apos;house:manager_create_tag&apos; %&#125;&quot;,</div><div class="line">        data: &#123;</div><div class="line">            tag: tag_name.val()</div><div class="line">        &#125;,</div><div class="line">        success: function (data) &#123;</div><div class="line">            tag_name.val(&apos;&apos;);</div><div class="line">            if (data.name) &#123;</div><div class="line">                window.location.reload();</div><div class="line">            &#125; else &#123;</div><div class="line">                alert(&quot;同名通用标签已经存在&quot;);</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;)</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">return render_to_response(self.get_context_data(form=form))</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">return render_to_response(template_name,&#123;&apos;message_list&apos;: message_list, &#125;,</span><br><span class="line">                              context_instance=RequestContext(request))</span><br></pre></td></tr></table></figure>
+<p>5.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">return redirect(request.GET.get(&apos;next&apos;, reverse(&apos;account:index&apos;)))</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"># post.ajax</span><br><span class="line">class ManageCreateTagAjax(View):</span><br><span class="line">    def post(self, request, *args, **kwargs):</span><br><span class="line">        name = request.POST.get(&apos;tag&apos;)</span><br><span class="line">        if Tag.objects.filter(name=name, user=None).exists():</span><br><span class="line">            # 如果已经存在该tag则在前台弹出框报错</span><br><span class="line">            return JsonResponse(&#123;&#125;)</span><br><span class="line">        else:</span><br><span class="line">            tag = Tag.objects.create(name=name)</span><br><span class="line">            return JsonResponse(&#123;&apos;name&apos;: tag.name, &apos;id&apos;: tag.id&#125;)</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">$(&apos;#create&apos;).click(function () &#123;</span><br><span class="line">    var tag_name = $(&apos;#name&apos;);</span><br><span class="line">    $.ajax(&#123;</span><br><span class="line">        type: &apos;POST&apos;,</span><br><span class="line">        url: &quot;&#123;% url &apos;house:manager_create_tag&apos; %&#125;&quot;,</span><br><span class="line">        data: &#123;</span><br><span class="line">            tag: tag_name.val()</span><br><span class="line">        &#125;,</span><br><span class="line">        success: function (data) &#123;</span><br><span class="line">            tag_name.val(&apos;&apos;);</span><br><span class="line">            if (data.name) &#123;</span><br><span class="line">                window.location.reload();</span><br><span class="line">            &#125; else &#123;</span><br><span class="line">                alert(&quot;同名通用标签已经存在&quot;);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
 <blockquote>
-<p>JsonResponse返回给前台json数据, if (data.name) {window.location.reload()}else{…}; 如果得到name数据则加载页面没有得到即报错<br>如果url为空, 则是在当前类视图下post方法里处理<br>? : <code>HttpResponse(json.dumps({&quot;re_statue&quot;: 1}))</code><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">if(count==0)&#123;</div><div class="line">    var yes = function (val, index, elem) &#123;</div><div class="line">        var data= &#123;&quot;check_status&quot;:1,&quot;object_id&quot;: object_id&#125;;</div><div class="line">        $.post(url, data, function (data) &#123;</div><div class="line">            if (data.status == 1) &#123;</div><div class="line">                showAlertMsg(&quot;操作成功&quot;, 6);</div><div class="line">                location.href = &apos;&#123;% url &apos;user:manage_developer_verify&apos; %&#125;&apos;;</div><div class="line">            &#125; else &#123;</div><div class="line">                showAlertMsg(&quot;后台错误&quot;, 5);</div><div class="line">            &#125;</div><div class="line">        &#125;);</div><div class="line">    &#125;;</div><div class="line">    showYesorNo(&quot;是否通过审核&quot;, yes);</div><div class="line">&#125;else&#123;...&#125;</div></pre></td></tr></table></figure></p>
+<p>JsonResponse返回给前台json数据, if (data.name) {window.location.reload()}else{…}; 如果得到name数据则加载页面没有得到即报错<br>如果url为空, 则是在当前类视图下post方法里处理<br>? : <code>HttpResponse(json.dumps({&quot;re_statue&quot;: 1}))</code><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">if(count==0)&#123;</span><br><span class="line">    var yes = function (val, index, elem) &#123;</span><br><span class="line">        var data= &#123;&quot;check_status&quot;:1,&quot;object_id&quot;: object_id&#125;;</span><br><span class="line">        $.post(url, data, function (data) &#123;</span><br><span class="line">            if (data.status == 1) &#123;</span><br><span class="line">                showAlertMsg(&quot;操作成功&quot;, 6);</span><br><span class="line">                location.href = &apos;&#123;% url &apos;user:manage_developer_verify&apos; %&#125;&apos;;</span><br><span class="line">            &#125; else &#123;</span><br><span class="line">                showAlertMsg(&quot;后台错误&quot;, 5);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;;</span><br><span class="line">    showYesorNo(&quot;是否通过审核&quot;, yes);</span><br><span class="line">&#125;else&#123;...&#125;</span><br></pre></td></tr></table></figure></p>
 <p> 另一种ajax.post写法</p>
 </blockquote>
-<p>如果有个数据需要在很多模板页运用,可自定义一个模板页标签<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">from django.template import Library</div><div class="line"></div><div class="line">register = Library()</div><div class="line">register.tag(&apos;inbox_count&apos;, do_print_inbox_count)</div></pre></td></tr></table></figure></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">&#123;% inbox_count as my_num %&#125;</div><div class="line">&#123;% if my_num &gt; 0 %&#125;</div><div class="line">&lt;span class=&quot;label label-important badge&quot;&gt;</div><div class="line">&#123;&#123; my_num &#125;&#125;</div><div class="line">&lt;/span&gt;</div><div class="line">&#123;% endif %&#125;</div></pre></td></tr></table></figure>
+<p>如果有个数据需要在很多模板页运用,可自定义一个模板页标签<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">from django.template import Library</span><br><span class="line"></span><br><span class="line">register = Library()</span><br><span class="line">register.tag(&apos;inbox_count&apos;, do_print_inbox_count)</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&#123;% inbox_count as my_num %&#125;</span><br><span class="line">&#123;% if my_num &gt; 0 %&#125;</span><br><span class="line">&lt;span class=&quot;label label-important badge&quot;&gt;</span><br><span class="line">&#123;&#123; my_num &#125;&#125;</span><br><span class="line">&lt;/span&gt;</span><br><span class="line">&#123;% endif %&#125;</span><br></pre></td></tr></table></figure>
 
       
     </div>
@@ -532,7 +528,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">24</span>
+                <span class="site-state-item-count">31</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -550,7 +546,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">19</span>
+                <span class="site-state-item-count">22</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -626,8 +622,8 @@
         <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 <div class="copyright" >
   
-  &copy;  Thu Jan 05 2017 08:00:00 GMT+0800 (CST) - 
-  <span itemprop="copyrightYear">2018</span>
+  &copy;  Thu Jan 05 2017 08:00:00 GMT+0800 (中国标准时间) - 
+  <span itemprop="copyrightYear">2020</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>

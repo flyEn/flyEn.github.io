@@ -1,0 +1,827 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+<script>
+    (function(){
+        if(''){
+            if (prompt('请输入文章密码') !== ''){
+                alert('密码错误！');
+                history.back();
+            }
+        }
+    })();
+</script>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Microsoft YaHei:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|Lobster Two:300,300italic,400,400italic,700,700italic|PT Mono:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="机器学习," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="通过MNIST场景实现理解机器学习本文为自己整理的技术分享。">
+<meta name="keywords" content="机器学习">
+<meta property="og:type" content="article">
+<meta property="og:title" content="通过MNIST场景实现理解机器学习">
+<meta property="og:url" content="http://yoursite.com/2019/05/12/machine-learning/index.html">
+<meta property="og:site_name" content="flyEn&#39;blog">
+<meta property="og:description" content="通过MNIST场景实现理解机器学习本文为自己整理的技术分享。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/2019/05/12/machine-learning/images/image-20201103103745211.png">
+<meta property="og:image" content="http://yoursite.com/2019/05/12/machine-learning/images/image-20201103103811167.png">
+<meta property="og:image" content="http://yoursite.com/2019/05/12/machine-learning/images/image-20201103103837584.png">
+<meta property="og:image" content="http://yoursite.com/2019/05/12/machine-learning/images/image-20201103103910372.png">
+<meta property="og:image" content="http://yoursite.com/2019/05/12/machine-learning/images/image-20201103103946925.png">
+<meta property="og:image" content="http://yoursite.com/2019/05/12/machine-learning/images/image-20201103104009904.png">
+<meta property="og:image" content="http://yoursite.com/2019/05/12/machine-learning/images/image-20201103104138202.png">
+<meta property="og:image" content="http://yoursite.com/2019/05/12/machine-learning/images/image-20201103104159931.png">
+<meta property="og:image" content="http://yoursite.com/2019/05/12/machine-learning/images/image-20201103104217534.png">
+<meta property="og:image" content="http://yoursite.com/2019/05/12/machine-learning/images/image-20201103104238687.png">
+<meta property="og:image" content="http://yoursite.com/2019/05/12/machine-learning/images/image-20201103104302229.png">
+<meta property="og:image" content="http://yoursite.com/2019/05/12/machine-learning/images/image-20201103104317526.png">
+<meta property="og:image" content="http://yoursite.com/2019/05/12/machine-learning/images/image-20201103104332103.png">
+<meta property="og:image" content="http://yoursite.com/2019/05/12/machine-learning/images/image-20201103104344661.png">
+<meta property="og:image" content="http://yoursite.com/2019/05/12/machine-learning/images/image-20201103104426182.png">
+<meta property="og:image" content="http://yoursite.com/2019/05/12/machine-learning/images/image-20201103104441003.png">
+<meta property="og:image" content="http://yoursite.com/2019/05/12/machine-learning/images/image-20201103104459498.png">
+<meta property="og:updated_time" content="2020-11-03T02:58:56.160Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="通过MNIST场景实现理解机器学习">
+<meta name="twitter:description" content="通过MNIST场景实现理解机器学习本文为自己整理的技术分享。">
+<meta name="twitter:image" content="http://yoursite.com/2019/05/12/machine-learning/images/image-20201103103745211.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/05/12/machine-learning/"/>
+
+
+
+
+
+  <title> 通过MNIST场景实现理解机器学习 | flyEn'blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">flyEn'blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+    
+      <p class="site-subtitle"></p>
+    
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/05/12/machine-learning/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="Iwhale">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/avatar.png">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="flyEn'blog">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="flyEn'blog" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                通过MNIST场景实现理解机器学习
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-05-12T10:34:09+08:00">
+                2019-05-12
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="通过MNIST场景实现理解机器学习"><a href="#通过MNIST场景实现理解机器学习" class="headerlink" title="通过MNIST场景实现理解机器学习"></a>通过MNIST场景实现理解机器学习</h2><p>本文为自己整理的技术分享。</p>
+<a id="more"></a>
+<h3 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h3><p><strong>机器学习</strong>是在不直接针对问题进行编程的情况下，赋予计算机学习能力的一个研究领域。</p>
+<p>在维基百科，定义如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">机器学习有下面几种定义： </span><br><span class="line">机器学习是一门人工智能的科学，该领域的主要研究对象是人工智能，特别是如何在经验学习中改善具体算法的性能。 </span><br><span class="line">机器学习是对能通过经验自动改进的计算机算法的研究。 </span><br><span class="line">机器学习是用数据或以往的经验，以此优化计算机程序的性能标准。 </span><br><span class="line">一种经常引用的英文定义是：A computer program is said to learn from experience E with respect to some class of tasks T and performance measure P, if its performance at tasks in T, as measured by P, improves with experience E.</span><br></pre></td></tr></table></figure>
+<p>西瓜书中：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">机器学习正是这样一门学科，它致力于研究如何通过计算的手段，利用经验来改善系统自身的性能。在计算机系统中，“经验”通常以“数据”形式存在，因此，机器学习所研究的主要内容，是关于在计算机上从数据中产生“模型”（model）的算法，即“学习算法”（learning algorithm）</span><br></pre></td></tr></table></figure>
+<p>数据科学入门：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">创建并使用那些由学习数据而得出的模型。在其他语境中，也可以被叫作预测建模或者数据挖掘。</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>归功于机器学习，今天才会有强大的垃圾邮件过滤、方便的文本和语音识别、可靠的网络搜索引擎、具有挑战性的下棋程序，并有希望在不久的将来可以享受安全和高效的自动驾驶。</p>
+</blockquote>
+<h3 id="分类"><a href="#分类" class="headerlink" title="分类"></a>分类</h3><ul>
+<li><strong>有监督学习</strong>。它从有标记的训练数据中推导出预测函数。有标记的训练数据是指每个训练实例都包括输入和期望的输出。<strong>给定数据，预测标签</strong>。</li>
+<li><strong>无监督学习</strong>。它从无标记的训练数据中推断结论。最典型的无监督学习就是聚类分析，它可以在探索性数据分析阶段用于发现隐藏的模式或者对数据进行分组。<strong>给定数据，寻找隐藏的结构</strong>。</li>
+<li><strong>强化学习</strong>是机器学习的另一个领域。它关注的是软件代理如何在一个环境中采取行动以便最大化某种累积的回报。<strong>给定数据，学习如何选择一系列行动，以最大化长期收益</strong>。</li>
+</ul>
+<p><img src="images/image-20201103103745211.png" alt="image-20201103103745211" style="zoom:50%;"></p>
+<p><img src="images/image-20201103103811167.png" alt="image-20201103103811167" style="zoom:50%;"></p>
+<h3 id="经典算法"><a href="#经典算法" class="headerlink" title="经典算法"></a>经典算法</h3><ol>
+<li>线性回归</li>
+<li>逻辑(Logistic)回归</li>
+<li>Bagging 和随机森林</li>
+<li>K近邻算法</li>
+<li>朴素贝叶斯</li>
+<li>支持向量机（SVM）</li>
+<li>……</li>
+</ol>
+<h3 id="场景"><a href="#场景" class="headerlink" title="场景"></a>场景</h3><p>MNIST是一个入门级的计算机视觉数据集，它包含各种手写数字图片： </p>
+<p><img src="images/image-20201103103837584.png" alt="image-20201103103837584" style="zoom:50%;"></p>
+<p>它也包含每一张图片对应的标签，告诉我们这个是数字几。比如，上面这四张图片的标签分别是5，0，4，1。 接下来我们将训练一个机器学习模型用于预测图片里面的数字。</p>
+<p>MNIST数据集的官网是<a href="http://yann.lecun.com/exdb/mnist/" target="_blank" rel="noopener">Yann LeCun’s website</a>。在这里，我们提供了一份python源代码用于自动下载和安装这个数据集。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">import tensorflow.examples.tutorials.mnist.input_data as input_data</span><br><span class="line">mnist = input_data.read_data_sets(&quot;MNIST_data/&quot;, one_hot=True)</span><br></pre></td></tr></table></figure>
+<p>下载下来的数据集被分成两部分：60000行的训练数据集（mnist.train）和10000行的测试数据集（mnist.test）。</p>
+<blockquote>
+<p>这样的切分很重要，在机器学习模型设计时必须有一个单独的测试数据集不用于训练而是用来评估这个模型的性能，从而更加容易把设计的模型推广到其他数据集上（泛化）。</p>
+</blockquote>
+<p>正如前面提到的一样，每一个MNIST数据单元有两部分组成：一张包含手写数字的<strong>图片</strong>和一个对应的<strong>标签</strong>。 我们把这些图片设为“xs”，把这些标签设为“ys”。训练数据集和测试数据集都包含xs和ys。</p>
+<p>每一张图片包含28X28个像素点。我们可以用一个数字数组来表示这张图片： </p>
+<p><img src="images/image-20201103103910372.png" alt="image-20201103103910372"></p>
+<p>我们把这个数组展开成一个向量，长度是 28x28 = 784。这样可以看做MNIST数据集的图片就是在784维向量空间里面的点。 在MNIST训练数据集中，<code>mnist.train.images</code> 是一个形状为 [60000, 784] 的张量，第一个维度数字用来索引图片，第二个维度数字用来索引每张图片中的像素点。在此张量里的每一个元素，都表示某张图片里的某个像素的强度值，值介于0和1之间。</p>
+<p><img src="images/image-20201103103946925.png" alt="image-20201103103946925"></p>
+<p>相对应的MNIST数据集的标签是介于0到9的数字，用来描述给定图片里表示的数字。 我们使标签数据是”one-hot vectors”。 一个one-hot向量除了某一位的数字是1以外其余各维度数字都是0。 数字n将表示成一个只有在第n维度（从0开始）数字为1的10维向量。比如，标签0将表示成([1,0,0,0,0,0,0,0,0,0,0])。因此， <code>mnist.train.labels</code> 是一个 [60000, 10] 的数字矩阵。</p>
+<p><img src="images/image-20201103104009904.png" alt="image-20201103104009904"></p>
+<h3 id="实现原理"><a href="#实现原理" class="headerlink" title="实现原理"></a>实现原理</h3><h4 id="softmax回归"><a href="#softmax回归" class="headerlink" title="softmax回归"></a>softmax回归</h4><p>Softmax Regression是解决多分类问题的算法(Softmax是Logistic的推广，Logistic算法一般用于二分法)。</p>
+<p>我们知道MNIST的每一张图片都表示一个数字，从0到9。我们希望得到给定图片代表每个数字的概率。比如说，我们的模型可能推测一张包含9的图片代表数字9的概率是80%但是判断它是8的概率是5%（因为8和9都有上半部分的小圆），然后给予它代表其他数字的概率更小的值。</p>
+<p>这是一个使用softmax回归（softmax regression）模型的经典案例。softmax模型可以用来给不同的对象分配概率。即使在之后，我们训练更加精细的模型时，最后一步也需要用softmax来分配概率。</p>
+<p>为了得到一张给定图片属于某个特定数字类的证据（evidence），我们对图片像素值进行加权求和。如果这个像素具有很强的证据说明这张图片不属于该类，那么相应的权值为负数，相反如果这个像素拥有有利的证据支持这张图片属于这个类，那么权值是正数。</p>
+<p>下面的图片显示了一个模型学习到的图片上每个像素对于特定数字类的权值。红色代表负数权值，蓝色代表正数权值。</p>
+<p><img src="images/image-20201103104138202.png" alt="image-20201103104138202"></p>
+<p>我们也需要加入一个额外的偏置量（bias），因为输入往往会带有一些无关的干扰量。因此对于给定的输入图片 x 它代表的是数字 i 的证据可以表示为 <img src="images/image-20201103104159931.png" alt="image-20201103104159931" style="zoom:50%;"></p>
+<p>其中W代表权重，b代表数字i类的偏置量，j 代表给定图片x的像素索引用于像素求和。然后用softmax函数可以把这些证据转换成概率y：</p>
+<p><img src="images/image-20201103104217534.png" alt="image-20201103104217534" style="zoom:50%;"></p>
+<p>这里的softmax可以看成是一个激励（activation）函数或者链接（link）函数，把我们定义的线性函数的输出转换成我们想要的格式，也就是关于10个数字类的概率分布。</p>
+<p>因此，给定一张图片，它对于每一个数字的吻合度可以被softmax函数转换成为一个概率值。softmax函数可以定义为：</p>
+<p><img src="images/image-20201103104238687.png" alt="image-20201103104238687" style="zoom:50%;"></p>
+<p>对于softmax回归模型可以用下面的图解释：</p>
+<p><img src="images/image-20201103104302229.png" alt="image-20201103104302229"></p>
+<p>如果把它写成一个等式，我们可以得到：</p>
+<p><img src="images/image-20201103104317526.png" alt="image-20201103104317526"></p>
+<p>我们也可以用向量表示这个计算过程：用矩阵乘法和向量相加。这有助于提高计算效率。（也是一种更有效的思考方式）</p>
+<p><img src="images/image-20201103104332103.png" alt="image-20201103104332103"></p>
+<p>更进一步，可以写成更加紧凑的方式：</p>
+<p><img src="images/image-20201103104344661.png" alt="image-20201103104344661" style="zoom:50%;"></p>
+<h4 id="具体例子"><a href="#具体例子" class="headerlink" title="具体例子"></a>具体例子</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> tensorflow <span class="keyword">as</span> tf</span><br><span class="line"><span class="keyword">from</span> tensorflow.examples.tutorials.mnist <span class="keyword">import</span> input_data</span><br><span class="line"><span class="comment"># 读入MNIST数据</span></span><br><span class="line">mnist = input_data.read_data_sets(<span class="string">"MNIST_data/"</span>, one_hot=<span class="keyword">True</span>)</span><br><span class="line"> </span><br><span class="line"><span class="comment"># 创建x，x是一个占位符，代表待识别的图片</span></span><br><span class="line">x = tf.placeholder(tf.float32, [<span class="keyword">None</span>, <span class="number">784</span>])</span><br><span class="line"> </span><br><span class="line"><span class="comment"># W是Softmax模型的参数，将一个784维的输入转换为一个10维的输出</span></span><br><span class="line"><span class="comment"># 在TensorFlow中，变量的参数用tf.Variable表示</span></span><br><span class="line">W = tf.Variable(tf.zeros([<span class="number">784</span>, <span class="number">10</span>]))</span><br><span class="line"><span class="comment"># b是又一个Softmax模型的参数，我们一般叫做“偏置项”（bias）。</span></span><br><span class="line">b = tf.Variable(tf.zeros([<span class="number">10</span>]))</span><br><span class="line"> </span><br><span class="line"><span class="comment"># y=softmax(Wx + b)，y表示模型的输出</span></span><br><span class="line">y = tf.nn.softmax(tf.matmul(x, W) + b)</span><br><span class="line"> </span><br><span class="line"><span class="comment"># y_是实际的图像标签，同样以占位符表示。</span></span><br><span class="line">y_ = tf.placeholder(tf.float32, [<span class="keyword">None</span>, <span class="number">10</span>])</span><br><span class="line"> </span><br><span class="line"><span class="comment"># 至此，我们得到了两个重要的Tensor：y和y_。</span></span><br><span class="line"><span class="comment"># y是模型的输出，y_是实际的图像标签，不要忘了y_是独热表示的</span></span><br><span class="line"><span class="comment"># 下面我们就会根据y和y_构造损失</span></span><br><span class="line"> </span><br><span class="line"><span class="comment"># 根据y, y_构造交叉熵损失</span></span><br><span class="line">cross_entropy = tf.reduce_mean(-tf.reduce_sum(y_ * tf.log(y)))</span><br><span class="line"> </span><br><span class="line"><span class="comment"># 有了损失，我们就可以用随机梯度下降针对模型的参数（W和b）进行优化</span></span><br><span class="line">train_step = tf.train.GradientDescentOptimizer(<span class="number">0.01</span>).minimize(cross_entropy)</span><br><span class="line"> </span><br><span class="line"><span class="comment"># 创建一个Session。只有在Session中才能运行优化步骤train_step。</span></span><br><span class="line">sess = tf.InteractiveSession()</span><br><span class="line"><span class="comment"># 运行之前必须要初始化所有变量，分配内存。</span></span><br><span class="line">tf.global_variables_initializer().run()</span><br><span class="line">print(<span class="string">'start training...'</span>)</span><br><span class="line"> </span><br><span class="line"><span class="comment"># 进行1000步梯度下降</span></span><br><span class="line"><span class="keyword">for</span> _ <span class="keyword">in</span> range(<span class="number">1000</span>):</span><br><span class="line">    <span class="comment"># 在mnist.train中取100个训练数据</span></span><br><span class="line">    <span class="comment"># batch_xs是形状为(100, 784)的图像数据，batch_ys是形如(100, 10)的实际标签</span></span><br><span class="line">    <span class="comment"># batch_xs, batch_ys对应着两个占位符x和y_</span></span><br><span class="line">    batch_xs, batch_ys = mnist.train.next_batch(<span class="number">100</span>)</span><br><span class="line">    <span class="comment"># 在Session中运行train_step，运行时要传入占位符的值</span></span><br><span class="line">    sess.run(train_step, feed_dict=&#123;x: batch_xs, y_: batch_ys&#125;)</span><br><span class="line"> </span><br><span class="line"><span class="comment"># 正确的预测结果</span></span><br><span class="line">correct_prediction = tf.equal(tf.argmax(y, <span class="number">1</span>), tf.argmax(y_, <span class="number">1</span>))</span><br><span class="line"><span class="comment"># 计算预测准确率，它们都是Tensor</span></span><br><span class="line">accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))</span><br><span class="line"><span class="comment"># 在Session中运行Tensor可以得到Tensor的值</span></span><br><span class="line"><span class="comment"># 这里是获取最终模型的正确率</span></span><br><span class="line">print(sess.run(accuracy, feed_dict=&#123;x: mnist.test.images, y_: mnist.test.labels&#125;))  <span class="comment"># 0.9185</span></span><br></pre></td></tr></table></figure>
+<h3 id="训练模型"><a href="#训练模型" class="headerlink" title="训练模型"></a>训练模型</h3><h4 id="代价函数："><a href="#代价函数：" class="headerlink" title="代价函数："></a>代价函数：</h4><ol>
+<li>交叉熵损失函数(例子中：平均交叉熵)</li>
+</ol>
+<p><img src="images/image-20201103104426182.png" alt="image-20201103104426182" style="zoom:50%;"></p>
+<p>y 是我们预测的概率分布, y’ 是实际的分布（我们输入的one-hot vector)。</p>
+<blockquote>
+<p>熵：被用于描述一个系统中的不确定性。</p>
+</blockquote>
+<ol>
+<li>最小二乘法</li>
+</ol>
+<p><img src="images/image-20201103104441003.png" alt="image-20201103104441003" style="zoom:50%;"></p>
+<h4 id="优化算法："><a href="#优化算法：" class="headerlink" title="优化算法："></a>优化算法：</h4><p>梯度下降算法：最小化损失函数。 </p>
+<p><img src="images/image-20201103104459498.png" alt="image-20201103104459498" style="zoom:50%;"></p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>实现的整个流程：</p>
+<ul>
+<li>定义算法公式，建模。</li>
+<li>定义损失 loss ，选定优化器，并指定优化器优化 loss。 迭代地对数据进行训练。</li>
+<li>在测试集或验证集上对准确率进行评测。</li>
+</ul>
+<blockquote>
+<p>参考资料：</p>
+<ol>
+<li><a href="https://scikit-learn.org/stable/" target="_blank" rel="noopener">scikit-learn</a>：是基于Python语言的机器学习免费工具库。(<a href="https://sklearn.apachecn.org/" target="_blank" rel="noopener">中文</a>)</li>
+<li><a href="http://www.tensorfly.cn/tfdoc/get_started/introduction.html" target="_blank" rel="noopener">TensorFlow中文社区</a></li>
+</ol>
+</blockquote>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/机器学习/" rel="tag"># 机器学习</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/04/01/spring-webflux/" rel="next" title="Spring5之使用Spring WebFlux开发响应式应用">
+                <i class="fa fa-chevron-left"></i> Spring5之使用Spring WebFlux开发响应式应用
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/11/03/charles/" rel="prev" title="抓包工具-Charles使用">
+                抓包工具-Charles使用 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.png"
+               alt="Iwhale" />
+          <p class="site-author-name" itemprop="name">Iwhale</p>
+          <p class="site-description motion-element" itemprop="description">Dream, Such as whales to the sea.</p>
+        </div>
+        <nav class="site-state motion-element">
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">31</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">10</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">22</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/flyEn" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/p/1005055406757796/home" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#通过MNIST场景实现理解机器学习"><span class="nav-number">1.</span> <span class="nav-text">通过MNIST场景实现理解机器学习</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#概念"><span class="nav-number">1.1.</span> <span class="nav-text">概念</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#分类"><span class="nav-number">1.2.</span> <span class="nav-text">分类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#经典算法"><span class="nav-number">1.3.</span> <span class="nav-text">经典算法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#场景"><span class="nav-number">1.4.</span> <span class="nav-text">场景</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实现原理"><span class="nav-number">1.5.</span> <span class="nav-text">实现原理</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#softmax回归"><span class="nav-number">1.5.1.</span> <span class="nav-text">softmax回归</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#具体例子"><span class="nav-number">1.5.2.</span> <span class="nav-text">具体例子</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#训练模型"><span class="nav-number">1.6.</span> <span class="nav-text">训练模型</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#代价函数："><span class="nav-number">1.6.1.</span> <span class="nav-text">代价函数：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#优化算法："><span class="nav-number">1.6.2.</span> <span class="nav-text">优化算法：</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#总结"><span class="nav-number">1.7.</span> <span class="nav-text">总结</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright" >
+  
+  &copy;  Thu Jan 05 2017 08:00:00 GMT+0800 (中国标准时间) - 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Iwhale</span>
+</div>
+
+<div class="powered-by">
+<i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">
+  本站访客数:<span id="busuanzi_value_site_uv"></span>
+</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+
+<script type="text/javascript" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script>
+<script type="text/javascript" src="//7u2ss1.com1.z0.glb.clouddn.com/love.js"></script>
+
+<a href="https://github.com/flyEn"><img style="position: absolute; top: 0; left: 0; border: 0;" src="https://camo.githubusercontent.com/c6625ac1f3ee0a12250227cf83ce904423abf351/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f6c6566745f677261795f3664366436642e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_left_gray_6d6d6d.png"></a>
+</body>
+</html>
