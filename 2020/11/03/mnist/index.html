@@ -114,12 +114,12 @@
 
 
 
-<meta name="description" content="123title: 通过MNIST场景实现理解机器学习date: 2019-05-12 10:34:09tags: 机器学习 通过MNIST场景实现理解机器学习本文为自己整理的技术分享。">
+<meta name="description" content="123title: 通过MNIST场景实现理解机器学习date: 2019-05-12 10:34:09tags: 机器学习 本文为自己整理的技术分享。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="flyEn&#39;blog">
 <meta property="og:url" content="http://flyen.github.io/2020/11/03/mnist/index.html">
 <meta property="og:site_name" content="flyEn&#39;blog">
-<meta property="og:description" content="123title: 通过MNIST场景实现理解机器学习date: 2019-05-12 10:34:09tags: 机器学习 通过MNIST场景实现理解机器学习本文为自己整理的技术分享。">
+<meta property="og:description" content="123title: 通过MNIST场景实现理解机器学习date: 2019-05-12 10:34:09tags: 机器学习 本文为自己整理的技术分享。">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://flyen.github.io/2020/11/03/mnist/image-20201103103745211.png">
 <meta property="og:image" content="http://flyen.github.io/2020/11/03/mnist/image-20201103103811167.png">
@@ -138,10 +138,10 @@
 <meta property="og:image" content="http://flyen.github.io/2020/11/03/mnist/image-20201103104426182.png">
 <meta property="og:image" content="http://flyen.github.io/2020/11/03/mnist/image-20201103104441003.png">
 <meta property="og:image" content="http://flyen.github.io/2020/11/03/mnist/image-20201103104459498.png">
-<meta property="og:updated_time" content="2020-11-03T04:02:43.972Z">
+<meta property="og:updated_time" content="2020-11-03T04:33:48.836Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="flyEn&#39;blog">
-<meta name="twitter:description" content="123title: 通过MNIST场景实现理解机器学习date: 2019-05-12 10:34:09tags: 机器学习 通过MNIST场景实现理解机器学习本文为自己整理的技术分享。">
+<meta name="twitter:description" content="123title: 通过MNIST场景实现理解机器学习date: 2019-05-12 10:34:09tags: 机器学习 本文为自己整理的技术分享。">
 <meta name="twitter:image" content="http://flyen.github.io/2020/11/03/mnist/image-20201103103745211.png">
 
 
@@ -385,7 +385,7 @@
 
       
         <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">title: 通过MNIST场景实现理解机器学习</span><br><span class="line">date: 2019-05-12 10:34:09</span><br><span class="line">tags: 机器学习</span><br></pre></td></tr></table></figure>
-<h2 id="通过MNIST场景实现理解机器学习"><a href="#通过MNIST场景实现理解机器学习" class="headerlink" title="通过MNIST场景实现理解机器学习"></a>通过MNIST场景实现理解机器学习</h2><p>本文为自己整理的技术分享。</p>
+<p>本文为自己整理的技术分享。</p>
 <a id="more"></a>
 <h3 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h3><p><strong>机器学习</strong>是在不直接针对问题进行编程的情况下，赋予计算机学习能力的一个研究领域。</p>
 <p>在维基百科，定义如下</p>
@@ -654,7 +654,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#通过MNIST场景实现理解机器学习"><span class="nav-number">1.</span> <span class="nav-text">通过MNIST场景实现理解机器学习</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#概念"><span class="nav-number">1.1.</span> <span class="nav-text">概念</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#分类"><span class="nav-number">1.2.</span> <span class="nav-text">分类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#经典算法"><span class="nav-number">1.3.</span> <span class="nav-text">经典算法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#场景"><span class="nav-number">1.4.</span> <span class="nav-text">场景</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实现原理"><span class="nav-number">1.5.</span> <span class="nav-text">实现原理</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#softmax回归"><span class="nav-number">1.5.1.</span> <span class="nav-text">softmax回归</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#具体例子"><span class="nav-number">1.5.2.</span> <span class="nav-text">具体例子</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#训练模型"><span class="nav-number">1.6.</span> <span class="nav-text">训练模型</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#代价函数："><span class="nav-number">1.6.1.</span> <span class="nav-text">代价函数：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#优化算法："><span class="nav-number">1.6.2.</span> <span class="nav-text">优化算法：</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#总结"><span class="nav-number">1.7.</span> <span class="nav-text">总结</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#概念"><span class="nav-number">1.</span> <span class="nav-text">概念</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#分类"><span class="nav-number">2.</span> <span class="nav-text">分类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#经典算法"><span class="nav-number">3.</span> <span class="nav-text">经典算法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#场景"><span class="nav-number">4.</span> <span class="nav-text">场景</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实现原理"><span class="nav-number">5.</span> <span class="nav-text">实现原理</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#softmax回归"><span class="nav-number">5.1.</span> <span class="nav-text">softmax回归</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#具体例子"><span class="nav-number">5.2.</span> <span class="nav-text">具体例子</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#训练模型"><span class="nav-number">6.</span> <span class="nav-text">训练模型</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#代价函数："><span class="nav-number">6.1.</span> <span class="nav-text">代价函数：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#优化算法："><span class="nav-number">6.2.</span> <span class="nav-text">优化算法：</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#总结"><span class="nav-number">7.</span> <span class="nav-text">总结</span></a></li></ol></div>
             
 
           </div>
