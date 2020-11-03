@@ -1,0 +1,771 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+<script>
+    (function(){
+        if(''){
+            if (prompt('请输入文章密码') !== ''){
+                alert('密码错误！');
+                history.back();
+            }
+        }
+    })();
+</script>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Microsoft YaHei:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|Lobster Two:300,300italic,400,400italic,700,700italic|PT Mono:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="java," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="期望：能够通过编写某种模板，把PDF的大概样子确定下来，然后把数据和模板做一次整合，得到最终的结果，生成PDF导出。最终方案：freemarker + flying-saucer-pdf + iText">
+<meta name="keywords" content="java">
+<meta property="og:type" content="article">
+<meta property="og:title" content="PDF报告生成方案">
+<meta property="og:url" content="http://flyen.github.io/2020/11/03/pdf生成/index.html">
+<meta property="og:site_name" content="flyEn&#39;blog">
+<meta property="og:description" content="期望：能够通过编写某种模板，把PDF的大概样子确定下来，然后把数据和模板做一次整合，得到最终的结果，生成PDF导出。最终方案：freemarker + flying-saucer-pdf + iText">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://flyen.github.io/2020/11/03/pdf生成/1588864775087.png">
+<meta property="og:image" content="http://flyen.github.io/2020/11/03/pdf生成/1588866157636.png">
+<meta property="og:updated_time" content="2020-11-03T04:43:32.089Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="PDF报告生成方案">
+<meta name="twitter:description" content="期望：能够通过编写某种模板，把PDF的大概样子确定下来，然后把数据和模板做一次整合，得到最终的结果，生成PDF导出。最终方案：freemarker + flying-saucer-pdf + iText">
+<meta name="twitter:image" content="http://flyen.github.io/2020/11/03/pdf生成/1588864775087.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://flyen.github.io/2020/11/03/pdf生成/"/>
+
+
+
+
+
+  <title> PDF报告生成方案 | flyEn'blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">flyEn'blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+    
+      <p class="site-subtitle"></p>
+    
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://flyen.github.io/2020/11/03/pdf生成/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="Iwhale">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/avatar.png">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="flyEn'blog">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="flyEn'blog" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                PDF报告生成方案
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-11-03T12:42:11+08:00">
+                2020-11-03
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><strong>期望</strong>：能够通过编写某种模板，把PDF的大概样子确定下来，然后把数据和模板做一次整合，得到最终的结果，生成PDF导出。<br><strong>最终方案</strong>：freemarker + <strong>flying-saucer-pdf</strong> + iText</p>
+<a id="more"></a>
+<blockquote>
+<p>iText是著名的开放源码的站点sourceforge一个项目，是用于生成PDF文档的一个java类库。通过iText不仅可以生成PDF或rtf的文档，而且可以将XML、Html文件转化为PDF文件。但iText html转PDF对中文和css的支持都不是很好，后来调研到了flying-saucer-pdf这个工具库，用它生成pdf解决了大部分的问题。它依赖于<strong>iText</strong>实现。</p>
+</blockquote>
+<ol>
+<li>图片显示问题。</li>
+<li>中文显示问题，css样式问题。</li>
+<li>表格跨行问题。</li>
+</ol>
+<h3 id="关于Flying-Saucer"><a href="#关于Flying-Saucer" class="headerlink" title="关于Flying Saucer"></a>关于Flying Saucer</h3><p><strong>Flying Saucer</strong>是一个纯Java开源项目库，它使用CSS2.1进行布局渲染呈现格式良好的XML或XHTML，导出到Swing面板、PDF或图像。</p>
+<blockquote>
+<p>New releases of Flying Saucer are distributed through Maven. The available artifacts are:<br>org.xhtmlrenderer:flying-saucer-core - Core library and Java2D rendering<br>org.xhtmlrenderer:flying-saucer-pdf - PDF output using iText 2.x<br>org.xhtmlrenderer:flying-saucer-pdf-itext5 - PDF output using iText 5.x<br>org.xhtmlrenderer:flying-saucer-pdf-openpdf - PDF output using OpenPDF<br>org.xhtmlrenderer:flying-saucer-swt - SWT output<br>org.xhtmlrenderer:flying-saucer-log4j - Logging plugin for log4j</p>
+</blockquote>
+<p>GitHub：<a href="https://github.com/flyingsaucerproject/flyingsaucer" target="_blank" rel="noopener">https://github.com/flyingsaucerproject/flyingsaucer</a></p>
+<h3 id="流程实现："><a href="#流程实现：" class="headerlink" title="流程实现："></a>流程实现：</h3><h4 id="1-build-gradle"><a href="#1-build-gradle" class="headerlink" title="1. build.gradle"></a>1. build.gradle</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">compile(<span class="string">'org.freemarker:freemarker:2.3.28'</span>)</span><br><span class="line">compile(<span class="string">'org.xhtmlrenderer:flying-saucer-pdf:9.1.16'</span>)</span><br></pre></td></tr></table></figure>
+<h4 id="2-编写Freemarker模板（或者使用其他模板引擎），打造HTML，绘制出PDF的模板。"><a href="#2-编写Freemarker模板（或者使用其他模板引擎），打造HTML，绘制出PDF的模板。" class="headerlink" title="2. 编写Freemarker模板（或者使用其他模板引擎），打造HTML，绘制出PDF的模板。"></a>2. 编写Freemarker模板（或者使用其他模板引擎），打造HTML，绘制出PDF的模板。</h4><ul>
+<li><strong>css渲染</strong>：<br>用css控制- ①图片、PDF模块防断裂 ②PDF纸张大小、方向、换页、<strong>page模型边距设置</strong>。</li>
+</ul>
+<blockquote>
+<p>分页媒体格式模型中，文档被转移到一个或多个页面框。<br>该页框是映射到一个矩形平面。<br>这大致类似于css盒子模型:<br><img src="//flyen.github.io/2020/11/03/pdf生成/1588864775087.png" alt="Alt text"><br><a href="https://www.w3.org/TR/css-page-3/" target="_blank" rel="noopener">CSS Paged Media Module Level 3</a></p>
+</blockquote>
+<ul>
+<li><strong>freemarker模板语言</strong><br><img src="//flyen.github.io/2020/11/03/pdf生成/1588866157636.png" alt="Alt text"><br>介绍和语法：<a href="http://www.kerneler.com/freemarker2.3.23/index.html" target="_blank" rel="noopener">FreeMarker手册</a></li>
+</ul>
+<h4 id="3-引入Freemarker的引擎，将数据和模板使用引擎生成最终的内容-htmlStr-。"><a href="#3-引入Freemarker的引擎，将数据和模板使用引擎生成最终的内容-htmlStr-。" class="headerlink" title="3. 引入Freemarker的引擎，将数据和模板使用引擎生成最终的内容(htmlStr)。"></a>3. 引入Freemarker的引擎，将数据和模板使用引擎生成最终的内容(htmlStr)。</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * freemarker 引擎渲染 html</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> dataMap     传入 html 模板的 Map 数据</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> ftlDir      html 模板文件存放包的相对路径(相对于resources路径的包路径) eg: /templates</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> ftlFile     html 模板文件名  eg: pdf_export_demo.ftl</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">freemarkerRender</span><span class="params">(Object dataMap, String ftlDir, String ftlFile)</span> </span>&#123;</span><br><span class="line">    Writer out = <span class="keyword">new</span> StringWriter();</span><br><span class="line">    configuration.setDefaultEncoding(<span class="string">"UTF-8"</span>);</span><br><span class="line">    configuration.setTemplateExceptionHandler(TemplateExceptionHandler.RETHROW_HANDLER);</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        configuration.setClassForTemplateLoading(PDFUtil.class, ftlDir);</span><br><span class="line">        configuration.setLogTemplateExceptions(<span class="keyword">false</span>);</span><br><span class="line">        configuration.setWrapUncheckedExceptions(<span class="keyword">true</span>);</span><br><span class="line">        Template template = configuration.getTemplate(ftlFile);</span><br><span class="line">        template.process(dataMap, out);</span><br><span class="line">        out.flush();</span><br><span class="line">        <span class="keyword">return</span> out.toString();</span><br><span class="line">    &#125; <span class="keyword">catch</span> (IOException | TemplateException e) &#123;</span><br><span class="line">        e.printStackTrace();</span><br><span class="line">        log.error(<span class="string">"pdf模板资源文件载入失败"</span>, e);</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">"pdf模板资源文件载入失败"</span>, e);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>关于资源文件路径问题</strong>：<br>用类加载器去找资源文件下的路径<br>其实这个方法是根据类加载路径来判断的，最终会执行以下代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">FreemarkerUtil.class.getClassLoader().getResource(<span class="string">"/template/"</span>);</span><br></pre></td></tr></table></figure>
+<p>这里注意一下<code>第二个参数</code>需要以 <code>&quot;/&quot;</code>开头。<br>Freemarker提供了3种加载模板目录的方法。 它使用Configuration类加载模板：<br>3种方法分别是：</p>
+<ol>
+<li>public void setClassForTemplateLoading(Class clazz, String pathPrefix);  –基于类路径</li>
+<li>public void setDirectoryForTemplateLoading(File dir) throws IOException;  –基于文件系统</li>
+<li>public void setServletContextForTemplateLoading(Object servletContext, String path);   –Servlet Context</li>
+</ol>
+<h4 id="4-利用ITextRenderer解析生成的HTML模板，创建PDF。"><a href="#4-利用ITextRenderer解析生成的HTML模板，创建PDF。" class="headerlink" title="4. 利用ITextRenderer解析生成的HTML模板，创建PDF。"></a>4. 利用ITextRenderer解析生成的HTML模板，创建PDF。</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">   * 使用 iText 生成 PDF 文档</span></span><br><span class="line"><span class="comment">   *</span></span><br><span class="line"><span class="comment">   * <span class="doctag">@param</span> htmlTmpStr html 模板文件字符串</span></span><br><span class="line"><span class="comment">   * <span class="doctag">@param</span> fontFile   所需字体文件(相对路径+文件名)</span></span><br><span class="line"><span class="comment">   */</span></span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">byte</span>[] createPDF(String htmlTmpStr, String fontFile) &#123;</span><br><span class="line">      ByteArrayOutputStream outputStream;</span><br><span class="line">      <span class="keyword">byte</span>[] result;</span><br><span class="line">      <span class="keyword">try</span> &#123;</span><br><span class="line">          outputStream = <span class="keyword">new</span> ByteArrayOutputStream();</span><br><span class="line">          ITextFontResolver fontResolver = renderer.getFontResolver();</span><br><span class="line"></span><br><span class="line">          <span class="comment">// 解决中文支持问题,需要所需字体(ttc)文件</span></span><br><span class="line">          fontResolver.addFont(fontFile, BaseFont.IDENTITY_H, BaseFont.NOT_EMBEDDED);</span><br><span class="line">          renderer.setDocumentFromString(htmlTmpStr);</span><br><span class="line">          renderer.layout();</span><br><span class="line">          renderer.createPDF(outputStream);</span><br><span class="line">          result = outputStream.toByteArray();</span><br><span class="line">          outputStream.flush();</span><br><span class="line">          outputStream.close();</span><br><span class="line">      &#125; <span class="keyword">catch</span> (DocumentException | IOException e) &#123;</span><br><span class="line">          e.printStackTrace();</span><br><span class="line">          log.error(<span class="string">"pdf生成失败"</span>, e);</span><br><span class="line">          <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">"pdf生成失败"</span>, e);</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">return</span> result;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+<p><strong>相关问题：</strong></p>
+<ul>
+<li>关于中文不换行的问题<br>在flying-saucer-pdf-itext5的9.0.6及以下版本，中文是不会换行的。</li>
+<li>关于中文字体问题<br>使用itext转pdf是需要安装中文字体库的，不然中文显示不出来，在itext里面有多种引入字体的方式，其中html通过字符串转pdf的，使用以下方式引入字体库。并且在前端样式中加入font-family:SimSun;，即可显示中文。</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">ITextFontResolver fontResolver = renderer.getFontResolver();</span><br><span class="line"></span><br><span class="line"><span class="comment">// 解决中文支持问题,需要所需字体(ttc)文件</span></span><br><span class="line">fontResolver.addFont(fontFile, BaseFont.IDENTITY_H, BaseFont.NOT_EMBEDDED);</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>遇到项目build打包成jar，资源路径无法找到的问题。<br>本地可通过<code>new ClassPathResource(pdfFont).getPath();</code>获取资源文件的全路径。但是jar包里是无法进入jar包内查找文件路径。</p>
+</blockquote>
+<ul>
+<li>关于纸张大小、换页<br>指定纸张大小为a4横向排版、并且边距为0的样式：<code>@page{size:297mm 210mm;margin:0;padding:0;margin:0}</code>，<br>换页样式：</li>
+</ul>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.index</span> &#123;</span><br><span class="line">       <span class="comment">/* 后面内容归到下一页 */</span></span><br><span class="line">       <span class="attribute">page-break-after</span>: always;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>关于引入的css样式是否需要加绝对路径问题<br>很多时候，前端的样式引入是可能用相对路径的，但pdf转换的时候是必须用绝对路径的，那就要么让前端把根路径加上，又或者我们在程序里面把link标签拎出来遍历给它们加上根路径，但其实还有一种方式，也就是flying-saucer-pdf提供的一个方法<code>renderer.setDocumentFromString(html,baseUrl)</code>也是能达到效果，不需要我们事先加好根路径。</p>
+</li>
+<li><p>解决图片相对路径问题<br><code>renderer.getSharedContext().setBaseURL(&quot;http://localhost:8080&quot;);</code></p>
+</li>
+<li>其他问题<br>该转换方式的html必须是静态化的，该转换方式对html的检查非常严格，必须使用闭合的标签，否则报错。</li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/java/" rel="tag"># java</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/11/03/效率技巧/" rel="next" title="效率工作方案合集">
+                <i class="fa fa-chevron-left"></i> 效率工作方案合集
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.png"
+               alt="Iwhale" />
+          <p class="site-author-name" itemprop="name">Iwhale</p>
+          <p class="site-description motion-element" itemprop="description">Dream, Such as whales to the sea.</p>
+        </div>
+        <nav class="site-state motion-element">
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">38</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">10</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">24</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/flyEn" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/p/1005055406757796/home" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#关于Flying-Saucer"><span class="nav-number">1.</span> <span class="nav-text">关于Flying Saucer</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#流程实现："><span class="nav-number">2.</span> <span class="nav-text">流程实现：</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-build-gradle"><span class="nav-number">2.1.</span> <span class="nav-text">1. build.gradle</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-编写Freemarker模板（或者使用其他模板引擎），打造HTML，绘制出PDF的模板。"><span class="nav-number">2.2.</span> <span class="nav-text">2. 编写Freemarker模板（或者使用其他模板引擎），打造HTML，绘制出PDF的模板。</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-引入Freemarker的引擎，将数据和模板使用引擎生成最终的内容-htmlStr-。"><span class="nav-number">2.3.</span> <span class="nav-text">3. 引入Freemarker的引擎，将数据和模板使用引擎生成最终的内容(htmlStr)。</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-利用ITextRenderer解析生成的HTML模板，创建PDF。"><span class="nav-number">2.4.</span> <span class="nav-text">4. 利用ITextRenderer解析生成的HTML模板，创建PDF。</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright" >
+  
+  &copy;  Thu Jan 05 2017 08:00:00 GMT+0800 (中国标准时间) - 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Iwhale</span>
+</div>
+
+<div class="powered-by">
+<i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">
+  本站访客数:<span id="busuanzi_value_site_uv"></span>
+</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+
+<script type="text/javascript" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script>
+<script type="text/javascript" src="//7u2ss1.com1.z0.glb.clouddn.com/love.js"></script>
+
+<a href="https://github.com/flyEn"><img style="position: absolute; top: 0; left: 0; border: 0;" src="https://camo.githubusercontent.com/c6625ac1f3ee0a12250227cf83ce904423abf351/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f6c6566745f677261795f3664366436642e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_left_gray_6d6d6d.png"></a>
+</body>
+</html>

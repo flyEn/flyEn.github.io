@@ -1,0 +1,817 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+<script>
+    (function(){
+        if(''){
+            if (prompt('请输入文章密码') !== ''){
+                alert('密码错误！');
+                history.back();
+            }
+        }
+    })();
+</script>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Microsoft YaHei:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|Lobster Two:300,300italic,400,400italic,700,700italic|PT Mono:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="设计模式," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="本文为看《Head First设计模式》书后整理的技术分享第二篇。 并结合发布订阅模式作比较和总结。">
+<meta name="keywords" content="设计模式">
+<meta property="og:type" content="article">
+<meta property="og:title" content="设计模式（二）观察者模式">
+<meta property="og:url" content="http://flyen.github.io/2020/11/02/观察者模式/index.html">
+<meta property="og:site_name" content="flyEn&#39;blog">
+<meta property="og:description" content="本文为看《Head First设计模式》书后整理的技术分享第二篇。 并结合发布订阅模式作比较和总结。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://flyen.github.io/2020/11/02/观察者模式/57a0c6a10001c6d708190539.png">
+<meta property="og:image" content="http://flyen.github.io/2020/11/02/观察者模式/image-20200709152429928.png">
+<meta property="og:image" content="http://flyen.github.io/2020/11/02/观察者模式/57a0d4db0001998708520542.png">
+<meta property="og:image" content="http://flyen.github.io/2020/11/02/观察者模式/image-20200709164555084.png">
+<meta property="og:updated_time" content="2020-11-03T05:00:05.981Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="设计模式（二）观察者模式">
+<meta name="twitter:description" content="本文为看《Head First设计模式》书后整理的技术分享第二篇。 并结合发布订阅模式作比较和总结。">
+<meta name="twitter:image" content="http://flyen.github.io/2020/11/02/观察者模式/57a0c6a10001c6d708190539.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://flyen.github.io/2020/11/02/观察者模式/"/>
+
+
+
+
+
+  <title> 设计模式（二）观察者模式 | flyEn'blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">flyEn'blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+    
+      <p class="site-subtitle"></p>
+    
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://flyen.github.io/2020/11/02/观察者模式/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="Iwhale">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/avatar.png">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="flyEn'blog">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="flyEn'blog" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                设计模式（二）观察者模式
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-11-02T12:56:04+08:00">
+                2020-11-02
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>本文为看《Head First设计模式》书后整理的技术分享第二篇。</p>
+<p>并结合发布订阅模式作比较和总结。</p>
+<a id="more"></a>
+<h2 id="观察者模式"><a href="#观察者模式" class="headerlink" title="观察者模式"></a>观察者模式</h2><p>这个模式可以帮你的对象知悉现况，不会错过该对象感兴趣的事。对象甚至在运行时可决定是否要继续被通知。</p>
+<h3 id="设计原则"><a href="#设计原则" class="headerlink" title="设计原则"></a>设计原则</h3><ul>
+<li>为了交互对象之间<strong>松耦合设计</strong>而努力。</li>
+</ul>
+<h3 id="举例"><a href="#举例" class="headerlink" title="举例"></a>举例</h3><p>书中以一个例子来展开观察者模式。</p>
+<p>👉<strong>Internet气象观测站</strong>：一个WeatherData对象负责追踪目前的天气状况（温度、湿度、气压）。我们希望建立一个应用，有三种布告板，分别显示目前的状况、气象统计及简单的预报。当WeatherObject对象获得最新的测量数据时，三种布告板必须实时更新。</p>
+<p>而且，这是一个<u>可以扩展</u>的气象站，Weather-O-Rama气象站希望公布一组API，好让其他开发人员可以写出自己的气象布告板，并插入此应用中。</p>
+<p><strong>气象监测应用的概况</strong></p>
+<p>此系统中的三个部分是气象站（获取实际气象数据的物理装置）、WeatherData对象（汇总来自气象站的数据）和布告板（目前状态、气象统计、天气预报等）。</p>
+<p>我们看一看刚开始WeatherData初步设想到的：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">WeatherData</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getTemperature</span><span class="params">()</span></span>&#123;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getHumidity</span><span class="params">()</span></span>&#123;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getPressure</span><span class="params">()</span></span>&#123;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">measurementsChanged</span><span class="params">()</span></span>&#123;</span><br><span class="line">      <span class="comment">//一旦气象测量更新，此方法会被调用</span></span><br><span class="line">      <span class="keyword">float</span> temp = getTemperature();</span><br><span class="line">      <span class="keyword">float</span> humidity = getHumidity();</span><br><span class="line">      <span class="keyword">float</span> pressure = getPressure();</span><br><span class="line">      currentConditionsDisplay.update(temp, humidity, pressure);</span><br><span class="line">      statisticsDisplay.update(temp, humidity, pressure);</span><br><span class="line">      forecastDisplay.update(temp, humidity, pressure);</span><br><span class="line">    &#125;</span><br><span class="line">  	<span class="comment">// 这里是其他WeatherData方法</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>由上面这个设计会出现的以下<u>几个问题</u>：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">currentConditionsDisplay.update(temp, humidity, pressure);</span><br><span class="line">statisticsDisplay.update(temp, humidity, pressure);</span><br><span class="line">forecastDisplay.update(temp, humidity, pressure);</span><br></pre></td></tr></table></figure>
+<p>这三个方法针对具体实现编程，不针对接口编程，会导致我们以后再增加或删除布告板必须修改WeatherData类。</p>
+<p><strong>认识观察者模式</strong></p>
+<p>我们先来看观察者模式，然后再回来看如何将此模式应用到气象观察站。</p>
+<blockquote>
+<p> 我们看看报纸和杂志的订阅是怎么回事。</p>
+<ol>
+<li>报社的业务就是出版报纸；</li>
+<li>向某家报社订阅报纸，只要他们有新报纸出版，就会给你送来，只要你是他们的订订户，你就会一直收到报纸。</li>
+<li>当你不想再看报纸的时候，取消订阅，他们就不会再送新报纸来。</li>
+<li>只要报社还在运营，就会一直有人（或单位）向他们订阅报纸或取消订阅报纸。</li>
+</ol>
+</blockquote>
+<p>其实观察者模式可以理解成 <strong>出版者+订阅者=观察者模式</strong>。</p>
+<p>如果你了解了报纸的订阅，其实就知道观察者模式是怎么回事了，只是名称不太一样：出版者改为“主题”，订阅者改为“观察者”。</p>
+<p><strong>观察者模式</strong> 定义了对象之间的一对多依赖，这样一来，当<u>一个对象改变状态</u>时，它的所有<u>依赖者</u>都会受到通知并自动更新。</p>
+<p><img src="//flyen.github.io/2020/11/02/观察者模式/57a0c6a10001c6d708190539.png" alt="定义观察者模式：类图"></p>
+<p><strong>松耦合的威力</strong></p>
+<p>当两个对象之间<strong>松耦合</strong>，他们依然可以互通，但是不太清楚彼此的细节。</p>
+<p>观察者模式提供了一种对象设计，让主题和观察者之间松耦合。</p>
+<p>关于观察者的一切，主题只知道观察者实现了某个接口（也就是Observer接口），主题不需要知道观察者的具体类是谁，做了什么或其他任何细节。任何时候我们都可以增加新的观察者。因为主题唯一依赖的东西是实现Observer接口的对象列表，所以我们可以<u>随时增加</u>观察者。事实上，<u>在运行时</u>我们甚至可以用新的观察者代替现用的观察者，主题不会受到任何影响。同样的，也可以<u>随时删除</u>某主题的一些观察者。</p>
+<p>有新类型的观察者出现时，主题的代码不需修改，假如我们有个新的具体类需要当观察者，我们不需要为了兼容新类型而修改主题代码。所以要做的就只是在新类里实现观察者接口，之后注册为观察者即可。</p>
+<p>🌟<strong>第四个设计原则：<code>为了交互对象之间松耦合设计而努力</code></strong></p>
+<p>回过头我们可以重新设计气象站了。</p>
+<p><img src="//flyen.github.io/2020/11/02/观察者模式/image-20200709152429928.png" alt="image-20200709152429928"></p>
+<p><strong>实现气象站代码</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//主题接口</span></span><br><span class="line"><span class="class"><span class="keyword">interface</span> <span class="title">Subject</span></span>&#123;</span><br><span class="line">    <span class="comment">//注册观察者</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">registerObserver</span><span class="params">(Observer o)</span></span>;</span><br><span class="line">    <span class="comment">//删除观察者</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">removeObserver</span><span class="params">(Observer o)</span></span>;</span><br><span class="line">    <span class="comment">//当主题状态改变时，这个方法会被调用，以通知所有的观察者</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">notifyObserver</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">interface</span> <span class="title">Observer</span> </span>&#123;</span><br><span class="line">    <span class="comment">//当气象观测值改变时，主题会把这些状态值当作方法的参数，传送给观察者</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">update</span><span class="params">(<span class="keyword">float</span> temp,<span class="keyword">float</span> humidity,<span class="keyword">float</span> pressure)</span></span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">interface</span> <span class="title">DisplayElement</span></span>&#123;</span><br><span class="line">    <span class="comment">//当布告板需要显示时，调用此方法</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">display</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>在WeatherData中实现主题接口</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">WeatherData</span> <span class="keyword">implements</span> <span class="title">Subject</span></span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> ArrayList&lt;Observer&gt; observers;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">float</span> temperature;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">float</span> humidity;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">float</span> pressure;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">WeatherData</span><span class="params">()</span></span>&#123;</span><br><span class="line">        observers=<span class="keyword">new</span> ArrayList&lt;Observer&gt;();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">registerObserver</span><span class="params">(Observer o)</span> </span>&#123;</span><br><span class="line">        observers.add(o);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">removeObserver</span><span class="params">(Observer o)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> i=observers.indexOf(o);</span><br><span class="line">        <span class="keyword">if</span>(i&gt;=<span class="number">0</span>)&#123;</span><br><span class="line">            observers.remove(i);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">notifyObserver</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">for</span>(Observer observer:observers)&#123;</span><br><span class="line">            observer.update(temperature,humidity,pressure);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//当从气象站得到更新观测值时，我们通知观察者</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">measurementsChanged</span><span class="params">()</span></span>&#123;</span><br><span class="line">        notifyObserver();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setMeasurements</span><span class="params">(<span class="keyword">float</span> temperature,<span class="keyword">float</span> humidity,<span class="keyword">float</span> pressure)</span></span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.temperature=temperature;</span><br><span class="line">        <span class="keyword">this</span>.humidity=humidity;</span><br><span class="line">        <span class="keyword">this</span>.pressure=pressure;</span><br><span class="line">        measurementsChanged();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//WeatherData的其他方法</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>建立布告板</strong></p>
+<p>其中一个布告板：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">CurrentConditionDisplay</span> <span class="keyword">implements</span> <span class="title">Observer</span>,<span class="title">DisplayElement</span></span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">float</span> temperature;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">float</span> humidity;</span><br><span class="line">    <span class="keyword">private</span> Subject weatherData;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">CurrentConditionDisplay</span><span class="params">(Subject weatherData)</span></span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.weatherData=weatherData;</span><br><span class="line">        weatherData.registerObserver(<span class="keyword">this</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">display</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"数据"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">update</span><span class="params">(<span class="keyword">float</span> temp, <span class="keyword">float</span> humidity, <span class="keyword">float</span> pressure)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.temperature=temp;</span><br><span class="line">        <span class="keyword">this</span>.humidity=humidity;</span><br><span class="line">        display();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>使用Java中内置的观察者模式</strong></p>
+<p>在java api有内置的观察者模式。java.util包内包含最基本的Observer接口和Observable类。</p>
+<p><img src="//flyen.github.io/2020/11/02/观察者模式/57a0d4db0001998708520542.png" alt="img"></p>
+<p><strong>Java内置的观察者模式如何运作</strong></p>
+<p>WeatherData现在扩展自Observable类，并继承到一些增加、删除、通知观察者的方法。</p>
+<p><strong>如何把对象变成观察者</strong></p>
+<p>实现观察者接口（Java.util.Observer），如何调用任何Observable对象的addObserver()方法，不想再当观察者时，调用deleteObserver()方法即可。</p>
+<p><strong>重写WeatherData</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">WeatherDataTWO</span> <span class="keyword">extends</span> <span class="title">Observable</span></span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">float</span> temperature;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">float</span> humidity;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">float</span> pressure;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">WeatherDataTWO</span><span class="params">()</span></span>&#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">measurementsChanged</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="comment">//在调用notifyObservers（）之前，要先调用setChanged（）来指示状态已经改变</span></span><br><span class="line">        setChanged();</span><br><span class="line">        <span class="comment">//我们没有调用notifyObservers传送数据对象，表示我们采用的做法是拉。</span></span><br><span class="line">        notifyObservers();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setMeasurements</span><span class="params">(<span class="keyword">float</span> temperature,<span class="keyword">float</span> humidity,<span class="keyword">float</span> pressure)</span></span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.temperature=temperature;</span><br><span class="line">        <span class="keyword">this</span>.humidity=humidity;</span><br><span class="line">        <span class="keyword">this</span>.pressure=pressure;</span><br><span class="line">        measurementsChanged();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">float</span> <span class="title">getTemperature</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> temperature;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">float</span> <span class="title">getHumidity</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> humidity;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">float</span> <span class="title">getPressure</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> pressure;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>可观察者要如何送出通知：</p>
+<ol>
+<li><p>先调用setChanged()方法，标记状态已经改变的事实。（可有更多的弹性，可以控制推送更新的频率）</p>
+</li>
+<li><p>然后调用两种notifyObservers()方法中的一个 <code>notifyObservers()</code>（pull）、<code>notifyObservers(Object arg)</code>（push）</p>
+</li>
+</ol>
+<p><strong>重写布告板</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">CurrentConditionsDisplay</span> <span class="keyword">implements</span> <span class="title">java</span>.<span class="title">util</span>.<span class="title">Observer</span>,<span class="title">DisplayElement</span></span>&#123;</span><br><span class="line"></span><br><span class="line">    Observable observable;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">float</span> temperature;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">float</span> humidity;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">CurrentConditionsDisplay</span><span class="params">(Observable observable)</span></span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.observable=observable;</span><br><span class="line">        observable.addObserver(<span class="keyword">this</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">display</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"数据"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">update</span><span class="params">(Observable o, Object arg)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(o <span class="keyword">instanceof</span>  WeatherDataTWO)&#123;</span><br><span class="line">            WeatherDataTWO weatherDataTWO= (WeatherDataTWO) o;</span><br><span class="line">            <span class="keyword">this</span>.temperature=weatherDataTWO.getTemperature();</span><br><span class="line">            <span class="keyword">this</span>.humidity=weatherDataTWO.getHumidity();</span><br><span class="line">            display();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>Java内置观察者的局限：</p>
+<p>Observable是一个类而不是一个接口，你必须设计一个类来继承它。如果某个类想同时具有Observable类和另一个超类的行为时就完了，java不支持多重继承。所以有时候需要自己实现一整套观察者模式。</p>
+</blockquote>
+<h3 id="总结定义"><a href="#总结定义" class="headerlink" title="总结定义"></a>总结定义</h3><p><strong>观察者模式</strong> 定义了对象之间的一对多依赖，这样一来，当<u>一个对象改变状态</u>时，它的所有<u>依赖者</u>都会受到通知并自动更新。</p>
+<h3 id="观察者模式和发布订阅模式"><a href="#观察者模式和发布订阅模式" class="headerlink" title="观察者模式和发布订阅模式"></a>观察者模式和发布订阅模式</h3><h4 id="区别"><a href="#区别" class="headerlink" title="区别"></a>区别</h4><p>我之前以为发布订阅模式里的Publisher就是观察者模式里的Subject，而Subscriber就是Observer。Publisher变化时，就主动去通知Subscriber。</p>
+<p>**在发布订阅模式里，发布者并不会直接通知订阅者，发布者和订阅者互不感知。</p>
+<p>他们通过第三者，也就是经纪人(Broker)来实现调度的。</p>
+<p><img src="//flyen.github.io/2020/11/02/观察者模式/image-20200709164555084.png" alt="image-20200709164555084"></p>
+<p>发布者只需要告诉Broker，我要发消息，注册topic是AAA；订阅者只需告诉Broker，我要订阅topic是AAA的消息；</p>
+<p>于是，当Broker收到发布者发来消息，并且topic是AAA时，就会把消息推给订阅了topic是AAA的订阅者。</p>
+<p><strong>也就是说，发布订阅模式里，发布者和订阅者，不是松耦合，而是完全解耦的。</strong></p>
+<h4 id="发布订阅模式简单代码结构"><a href="#发布订阅模式简单代码结构" class="headerlink" title="发布订阅模式简单代码结构"></a>发布订阅模式简单代码结构</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">PubSub</span> </span>&#123;</span><br><span class="line">    PubSub() &#123;</span><br><span class="line">        <span class="keyword">this</span>.subscribers = &#123;&#125;</span><br><span class="line">    &#125;</span><br><span class="line">    subscribe(type, fn) &#123;</span><br><span class="line">        <span class="keyword">if</span> (!Object.prototype.hasOwnProperty.call(<span class="keyword">this</span>.subscribers, type)) &#123;</span><br><span class="line">          <span class="keyword">this</span>.subscribers[type] = [];</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">this</span>.subscribers[type].push(fn);</span><br><span class="line">    &#125;</span><br><span class="line">    unsubscribe(type, fn) &#123;</span><br><span class="line">        let listeners = <span class="keyword">this</span>.subscribers[type];</span><br><span class="line">        <span class="keyword">if</span> (!listeners || !listeners.length) <span class="keyword">return</span>;</span><br><span class="line">        <span class="keyword">this</span>.subscribers[type] = listeners.filter(v =&gt; v !== fn);</span><br><span class="line">    &#125;</span><br><span class="line">    publish(type, ...args) &#123;</span><br><span class="line">        let listeners = <span class="keyword">this</span>.subscribers[type];</span><br><span class="line">        <span class="keyword">if</span> (!listeners || !listeners.length) <span class="keyword">return</span>;</span><br><span class="line">        listeners.forEach(fn =&gt; fn(...args));        </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">let ob = <span class="keyword">new</span> PubSub();</span><br><span class="line">ob.subscribe(<span class="string">'add'</span>, (val) =&gt; console.log(val));</span><br><span class="line">ob.publish(<span class="string">'add'</span>, <span class="number">1</span>);</span><br></pre></td></tr></table></figure>
+<p>由上面代码可以看出，发布订阅模式统一由调度中心处理，消除了发布者和订阅者之间的依赖。</p>
+<h4 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h4><p>从表面上看：</p>
+<ul>
+<li>观察者模式里，只有两个角色 —— 观察者 + 被观察者</li>
+<li>而发布订阅模式里，却不仅仅只有发布者和订阅者两个角色，还有一个经纪人Broker</li>
+</ul>
+<p>从更深层次看：</p>
+<ul>
+<li>观察者和被观察者，是松耦合的关系</li>
+<li>发布者和订阅者，则完全解耦</li>
+</ul>
+<p>从使用层面看：</p>
+<ul>
+<li>观察者模式，多用于单个应用内部；</li>
+<li>发布订阅模式，则更多的是一种跨应用的模式，比如我们常用的消息中间件。</li>
+</ul>
+<h3 id="应用场景"><a href="#应用场景" class="headerlink" title="应用场景"></a>应用场景</h3><p>比如按钮监听、vue的数据双向绑定、kafka消息队列、Redis、zookeeper…</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/设计模式/" rel="tag"># 设计模式</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/11/02/策略模式/" rel="next" title="设计模式（一）策略模式">
+                <i class="fa fa-chevron-left"></i> 设计模式（一）策略模式
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/11/02/装饰者模式/" rel="prev" title="设计模式（三）装饰者模式">
+                设计模式（三）装饰者模式 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.png"
+               alt="Iwhale" />
+          <p class="site-author-name" itemprop="name">Iwhale</p>
+          <p class="site-description motion-element" itemprop="description">Dream, Such as whales to the sea.</p>
+        </div>
+        <nav class="site-state motion-element">
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">38</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">10</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">24</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/flyEn" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/p/1005055406757796/home" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#观察者模式"><span class="nav-number">1.</span> <span class="nav-text">观察者模式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#设计原则"><span class="nav-number">1.1.</span> <span class="nav-text">设计原则</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#举例"><span class="nav-number">1.2.</span> <span class="nav-text">举例</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#总结定义"><span class="nav-number">1.3.</span> <span class="nav-text">总结定义</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#观察者模式和发布订阅模式"><span class="nav-number">1.4.</span> <span class="nav-text">观察者模式和发布订阅模式</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#区别"><span class="nav-number">1.4.1.</span> <span class="nav-text">区别</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#发布订阅模式简单代码结构"><span class="nav-number">1.4.2.</span> <span class="nav-text">发布订阅模式简单代码结构</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#总结"><span class="nav-number">1.4.3.</span> <span class="nav-text">总结</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#应用场景"><span class="nav-number">1.5.</span> <span class="nav-text">应用场景</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright" >
+  
+  &copy;  Thu Jan 05 2017 08:00:00 GMT+0800 (中国标准时间) - 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Iwhale</span>
+</div>
+
+<div class="powered-by">
+<i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">
+  本站访客数:<span id="busuanzi_value_site_uv"></span>
+</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+
+<script type="text/javascript" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script>
+<script type="text/javascript" src="//7u2ss1.com1.z0.glb.clouddn.com/love.js"></script>
+
+<a href="https://github.com/flyEn"><img style="position: absolute; top: 0; left: 0; border: 0;" src="https://camo.githubusercontent.com/c6625ac1f3ee0a12250227cf83ce904423abf351/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f6c6566745f677261795f3664366436642e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_left_gray_6d6d6d.png"></a>
+</body>
+</html>
