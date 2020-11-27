@@ -114,13 +114,13 @@
 
 
 
-<meta name="description" content="本文为自己整理的技术分享，参考敖丙公众号文章总结。">
+<meta name="description" content="本文为自己整理的技术分享，参考敖丙公众号文章总结。 在自己之前刚开始写Python的时候，经常会出现循环依赖的报错，后来用Spring之后，发现这个问题不会发生，所以也对此比较好奇。">
 <meta name="keywords" content="spring">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Spring中的循环依赖">
 <meta property="og:url" content="http://flyen.github.io/2020/08/03/spring循环依赖/index.html">
 <meta property="og:site_name" content="flyEn&#39;blog">
-<meta property="og:description" content="本文为自己整理的技术分享，参考敖丙公众号文章总结。">
+<meta property="og:description" content="本文为自己整理的技术分享，参考敖丙公众号文章总结。 在自己之前刚开始写Python的时候，经常会出现循环依赖的报错，后来用Spring之后，发现这个问题不会发生，所以也对此比较好奇。">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://flyen.github.io/2020/08/03/spring循环依赖/image-20200820110928091.png">
 <meta property="og:image" content="http://flyen.github.io/2020/08/03/spring循环依赖/image-20200820140008755.png">
@@ -132,10 +132,10 @@
 <meta property="og:image" content="http://flyen.github.io/2020/08/03/spring循环依赖/image-20200820202340238.png">
 <meta property="og:image" content="http://flyen.github.io/2020/08/03/spring循环依赖/image-20200820204038906.png">
 <meta property="og:image" content="http://flyen.github.io/2020/08/03/spring循环依赖/image-20200820204052230.png">
-<meta property="og:updated_time" content="2020-11-03T04:54:20.657Z">
+<meta property="og:updated_time" content="2020-11-05T02:19:43.169Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Spring中的循环依赖">
-<meta name="twitter:description" content="本文为自己整理的技术分享，参考敖丙公众号文章总结。">
+<meta name="twitter:description" content="本文为自己整理的技术分享，参考敖丙公众号文章总结。 在自己之前刚开始写Python的时候，经常会出现循环依赖的报错，后来用Spring之后，发现这个问题不会发生，所以也对此比较好奇。">
 <meta name="twitter:image" content="http://flyen.github.io/2020/08/03/spring循环依赖/image-20200820110928091.png">
 
 
@@ -379,6 +379,7 @@
 
       
         <p>本文为自己整理的技术分享，参考敖丙公众号文章总结。</p>
+<p>在自己之前刚开始写Python的时候，经常会出现循环依赖的报错，后来用Spring之后，发现这个问题不会发生，所以也对此比较好奇。</p>
 <a id="more"></a>
 <h3 id="什么是循环依赖？"><a href="#什么是循环依赖？" class="headerlink" title="什么是循环依赖？"></a>什么是循环依赖？</h3><p>从字面上来理解就是A依赖B的同时B也依赖了A，就像下面这样：</p>
 <p><img src="//flyen.github.io/2020/08/03/spring循环依赖/image-20200820110928091.png" alt="image-20200820110928091"></p>
@@ -392,7 +393,7 @@
 <li>依赖注入的方式不能全是构造器注入的方式</li>
 </ol>
 <p>其中第一点应该很好理解，那第二点什么意思呢？我们可以看下面代码：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">@Component</span><br><span class="line">public class A &#123;</span><br><span class="line">// @Autowired</span><br><span class="line">// private B b;</span><br><span class="line"> public A(B b) &#123;</span><br><span class="line"></span><br><span class="line"> &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">@Component</span><br><span class="line">public class B &#123;</span><br><span class="line"></span><br><span class="line">// @Autowired</span><br><span class="line">// private A a;</span><br><span class="line"></span><br><span class="line"> public B(A a)&#123;</span><br><span class="line"></span><br><span class="line"> &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">A</span> </span>&#123;</span><br><span class="line"><span class="comment">// @Autowired</span></span><br><span class="line"><span class="comment">// private B b;</span></span><br><span class="line"> <span class="function"><span class="keyword">public</span> <span class="title">A</span><span class="params">(B b)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line"> &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">B</span> </span>&#123;</span><br><span class="line"></span><br><span class="line"><span class="comment">// @Autowired</span></span><br><span class="line"><span class="comment">// private A a;</span></span><br><span class="line"></span><br><span class="line"> <span class="function"><span class="keyword">public</span> <span class="title">B</span><span class="params">(A a)</span></span>&#123;</span><br><span class="line"></span><br><span class="line"> &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>在上面的例子中，A中注入B的方式是通过构造器，B中注入A的方式也是通过构造器，这个时候循环依赖是无法被解决的，如果项目中有两个这样相互依赖的Bean，在启动时就会报出以下错误：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Caused by: org.springframework.beans.factory.BeanCurrentlyInCreationException: Error creating bean with name <span class="string">'a'</span>: Requested bean is currently in creation: Is there an unresolvable circular reference?</span><br></pre></td></tr></table></figure>
 <p>为了测试循环依赖的解决情况和注入方式的关系，我们做如下四种情况的测试：</p>
