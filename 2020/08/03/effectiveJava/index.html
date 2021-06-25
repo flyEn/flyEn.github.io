@@ -1,0 +1,815 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+<script>
+    (function(){
+        if(''){
+            if (prompt('请输入文章密码') !== ''){
+                alert('密码错误！');
+                history.back();
+            }
+        }
+    })();
+</script>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Microsoft YaHei:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|Lobster Two:300,300italic,400,400italic,700,700italic|PT Mono:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="java," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="Effective Java本文为阅读《Effective Java》书籍的笔记摘录。">
+<meta name="keywords" content="java">
+<meta property="og:type" content="article">
+<meta property="og:title" content="effectiveJava">
+<meta property="og:url" content="http://flyen.github.io/2020/08/03/effectiveJava/index.html">
+<meta property="og:site_name" content="flyEn&#39;blog">
+<meta property="og:description" content="Effective Java本文为阅读《Effective Java》书籍的笔记摘录。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2021-06-25T07:51:31.741Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="effectiveJava">
+<meta name="twitter:description" content="Effective Java本文为阅读《Effective Java》书籍的笔记摘录。">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://flyen.github.io/2020/08/03/effectiveJava/"/>
+
+
+
+
+
+  <title> effectiveJava | flyEn'blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">flyEn'blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+    
+      <p class="site-subtitle"></p>
+    
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://flyen.github.io/2020/08/03/effectiveJava/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="Iwhale">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/avatar.png">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="flyEn'blog">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="flyEn'blog" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                effectiveJava
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-08-03T15:50:08+08:00">
+                2020-08-03
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="Effective-Java"><a href="#Effective-Java" class="headerlink" title="Effective Java"></a>Effective Java</h1><p>本文为阅读《Effective Java》书籍的笔记摘录。</p>
+<a id="more"></a>
+<h2 id="创建和销毁对象"><a href="#创建和销毁对象" class="headerlink" title="创建和销毁对象"></a>创建和销毁对象</h2><h3 id="1-多用静态工厂方法"><a href="#1-多用静态工厂方法" class="headerlink" title="1. 多用静态工厂方法"></a>1. 多用静态工厂方法</h3><p><strong>优点：</strong></p>
+<ul>
+<li><p>有名称——<strong>可读性高</strong></p>
+</li>
+<li><p>不必每次调用都创建一个新对象——<strong>性能</strong></p>
+</li>
+<li><p>可返回任何子类型对象——<strong>灵活性高</strong></p>
+</li>
+<li><p>返回对象的类可随着每次调用而变化（取决于参数值）</p>
+<blockquote>
+<p>比如EnumSet没有公有的构造器，只有静态工厂方法。在OpenJDK中，它们返回两种子类之一的一个实例，具体取决于底层枚举类型的大小。</p>
+</blockquote>
+</li>
+<li><p>返回的对象所属的类，可以在编写时不存在。</p>
+</li>
+</ul>
+<p><strong>缺点：</strong></p>
+<ul>
+<li>如果不包含public/protected的构造器，就不能被子类化。</li>
+<li>很难被发现</li>
+</ul>
+<h4 id="可读性高"><a href="#可读性高" class="headerlink" title="可读性高"></a>可读性高</h4><blockquote>
+<p>惯用名称：</p>
+<p>from、of、valueOf、instance、getInstance、create、newInstance、get<em>Type</em>、new<em>Type</em>、<em>type</em>（type-子类名）</p>
+</blockquote>
+<h4 id="性能高"><a href="#性能高" class="headerlink" title="性能高"></a>性能高</h4><p>在某些情况下，可以事先进行实例化一些对象，调用时直接调用即可，不需要进行改变。比如Boolean。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">Boolean</span> <span class="keyword">implements</span> <span class="title">Serializable</span>, <span class="title">Comparable</span>&lt;<span class="title">Boolean</span>&gt; </span>&#123;</span><br><span class="line">    <span class="comment">// 预先设置两个对象</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> Boolean TRUE = <span class="keyword">new</span> Boolean(<span class="keyword">true</span>);</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> Boolean FALSE = <span class="keyword">new</span> Boolean(<span class="keyword">false</span>);</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Boolean</span><span class="params">(<span class="keyword">boolean</span> var1)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.value = var1;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Boolean</span><span class="params">(String var1)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>(parseBoolean(var1));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 工厂方法</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Boolean <span class="title">valueOf</span><span class="params">(<span class="keyword">boolean</span> var0)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> var0?TRUE:FALSE; <span class="comment">// 返回预先设置的对象，而不是创建对象</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 工厂方法</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Boolean <span class="title">valueOf</span><span class="params">(String var0)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> parseBoolean(var0)?TRUE:FALSE;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// ... other code</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="灵活性高"><a href="#灵活性高" class="headerlink" title="灵活性高"></a>灵活性高</h4><p>可根据具体情况，返回子类。相当于更强大的工厂。直接从父类获取到子类。尤其适用于工具类（提供各种API）。例子：Collections。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Collections</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 私有，典型工厂</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="title">Collections</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> List EMPTY_LIST = <span class="keyword">new</span> EmptyList&lt;&gt;();</span><br><span class="line">    <span class="comment">// 工厂方法</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> &lt;T&gt; <span class="function">List&lt;T&gt; <span class="title">emptyList</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> (List&lt;T&gt;) EMPTY_LIST;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">EmptyList</span>&lt;<span class="title">E</span>&gt; <span class="keyword">extends</span> <span class="title">AbstractList</span>&lt;<span class="title">E</span>&gt; <span class="keyword">implements</span> <span class="title">RandomAccess</span>, <span class="title">Serializable</span> </span>&#123;</span><br><span class="line">    <span class="comment">// code</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 工厂方法</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> &lt;E&gt; <span class="function">List&lt;E&gt; <span class="title">checkedList</span><span class="params">(List&lt;E&gt; list, Class&lt;E&gt; type)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 根据具体情况，获取相应子类</span></span><br><span class="line">        <span class="keyword">return</span> (list <span class="keyword">instanceof</span> RandomAccess ?</span><br><span class="line">                <span class="keyword">new</span> CheckedRandomAccessList&lt;&gt;(list, type) :</span><br><span class="line">                <span class="keyword">new</span> CheckedList&lt;&gt;(list, type));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 子类1</span></span><br><span class="line">    <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">CheckedRandomAccessList</span>&lt;<span class="title">E</span>&gt; <span class="keyword">extends</span> <span class="title">CheckedList</span>&lt;<span class="title">E</span>&gt; <span class="keyword">implements</span> <span class="title">RandomAccess</span> </span>&#123;</span><br><span class="line">        CheckedRandomAccessList(List&lt;E&gt; list, Class&lt;E&gt; type) &#123;</span><br><span class="line">            <span class="keyword">super</span>(list, type);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">public</span> List&lt;E&gt; <span class="title">subList</span><span class="params">(<span class="keyword">int</span> fromIndex, <span class="keyword">int</span> toIndex)</span> </span>&#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">new</span> CheckedRandomAccessList&lt;&gt;(</span><br><span class="line">                    list.subList(fromIndex, toIndex), type);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 子类2</span></span><br><span class="line">    <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">CheckedList</span>&lt;<span class="title">E</span>&gt; <span class="keyword">extends</span> <span class="title">CheckedCollection</span>&lt;<span class="title">E</span>&gt; <span class="keyword">implements</span> <span class="title">List</span>&lt;<span class="title">E</span>&gt; </span>&#123;</span><br><span class="line">    <span class="comment">// code</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="2-多个构造器参数时应考虑用Builder模式"><a href="#2-多个构造器参数时应考虑用Builder模式" class="headerlink" title="2. 多个构造器参数时应考虑用Builder模式"></a>2. 多个构造器参数时应考虑用Builder模式</h3><h4 id="第一种方式：重叠构造器-模式"><a href="#第一种方式：重叠构造器-模式" class="headerlink" title="第一种方式：重叠构造器 模式"></a><strong>第一种方式</strong>：<em>重叠构造器</em> 模式</h4><p>在这种模式下，提供的第一个构造器只有必要的参数，第二个有一个可选参数，第三个有两个可选参数，以此类推，最后一个包含所有参数。</p>
+<blockquote>
+<p>可行，但是有许多参数时，代码难编写并且可读性较差。</p>
+</blockquote>
+<h4 id="第二种方式：JavaBeans-模式"><a href="#第二种方式：JavaBeans-模式" class="headerlink" title="第二种方式：JavaBeans 模式"></a><strong>第二种方式</strong>：<em>JavaBeans</em> 模式</h4><p>在这种模式下，先调用一个无参构造器创建对象，再调用setter方法来设置每个参数。</p>
+<blockquote>
+<p>创建实例容易，可读性也提升，但是<strong>对象不能做到不可变</strong>。在构造过程中JavaBeans可能处于不一致的状态，需要多花精力去<u>确保它的线程安全</u>。</p>
+</blockquote>
+<h4 id="第三种方式：Builder-模式-（多个构造参数时推荐）"><a href="#第三种方式：Builder-模式-（多个构造参数时推荐）" class="headerlink" title="第三种方式：Builder 模式 （多个构造参数时推荐）"></a><strong>第三种方式</strong>：<em>Builder</em> 模式 （多个构造参数时推荐）</h4><p>它不直接生成最后的对象，而是利用必要的参数调用构造器，得到一个builder对象。然后使用者在builder对象上调用setter的方法，来设置相关可选参数。最后使用者调用无参的build方法来<strong>生成通常是不可变的对象</strong>。</p>
+<blockquote>
+<p>灵活，容易编写，可读性强，模拟了具名的可选参数，也适用于<strong>类层次结构</strong>(抽象-具类)。</p>
+<p>一般只有在有很多参数的时候才使用（也会稍微有额外性能的开销）</p>
+</blockquote>
+<p>👉举例：</p>
+<p>比如一个类表示包装食品外面显示的营养成分标签。几个域是必需的：每份的含量、每份的卡路里；还有很多可选域：总脂肪量、饱和脂肪量、转化脂肪、胆固醇、钠等。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// builder Pattern</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">NutritionFacts</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">int</span> serving;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">int</span> calories;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">int</span> fat;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">int</span> sodium;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">int</span> carbohydrate;</span><br><span class="line"></span><br><span class="line">  	<span class="comment">// 私有构造器（通过内部builder对象构造）</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="title">NutritionFacts</span><span class="params">(Builder builder)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.serving = builder.serving;</span><br><span class="line">        <span class="keyword">this</span>.calories = builder.calories;</span><br><span class="line">        <span class="keyword">this</span>.fat = builder.fat;</span><br><span class="line">        <span class="keyword">this</span>.sodium = builder.sodium;</span><br><span class="line">        <span class="keyword">this</span>.carbohydrate = builder.carbohydrate;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">Builder</span> </span>&#123;</span><br><span class="line">        <span class="comment">// required parameters</span></span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">int</span> serving;</span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">int</span> calories;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// Optional parameters</span></span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">int</span> fat;</span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">int</span> sodium;</span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">int</span> carbohydrate;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="title">Builder</span><span class="params">(<span class="keyword">int</span> serving, <span class="keyword">int</span> calories)</span></span>&#123;</span><br><span class="line">            <span class="keyword">this</span>.serving = serving;</span><br><span class="line">            <span class="keyword">this</span>.calories = calories;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">public</span> Builder <span class="title">fat</span><span class="params">(<span class="keyword">int</span> val)</span></span>&#123;</span><br><span class="line">            fat = val;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">this</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">public</span> Builder <span class="title">sodium</span><span class="params">(<span class="keyword">int</span> val)</span></span>&#123;</span><br><span class="line">            sodium = val;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">this</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">public</span> Builder <span class="title">carbohydrate</span><span class="params">(<span class="keyword">int</span> val)</span></span>&#123;</span><br><span class="line">            carbohydrate = val;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">this</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">public</span> NutritionFacts <span class="title">build</span><span class="params">()</span> </span>&#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">new</span> NutritionFacts(<span class="keyword">this</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">		<span class="comment">// 流式API，可随意选择可选参数进行build</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        NutritionFacts nutritionFacts = <span class="keyword">new</span> NutritionFacts.Builder(<span class="number">240</span>, <span class="number">120</span>).fat(<span class="number">10</span>).sodium(<span class="number">35</span>).carbohydrate(<span class="number">12</span>).build();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="3-用私有化构造器或枚举类型强化singleton"><a href="#3-用私有化构造器或枚举类型强化singleton" class="headerlink" title="3. 用私有化构造器或枚举类型强化singleton"></a>3. 用私有化构造器或枚举类型强化singleton</h3><p>singleton指最多会被实例化一次的类。通常情况下，以前的做法是没有问题的。但是在某些高级情况下，通过使用反射的相关知识访问private的构造函数，破坏singleton。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Elvis</span></span>&#123;</span><br><span class="line">    <span class="comment">// 注意，公有final对象</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> Elvis INSTANCE = <span class="keyword">new</span> Elvis();</span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="title">Elvis</span><span class="params">()</span></span>&#123;&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>另一种情况，在序列化的过程中，反序列化得到的对象已经不再是以前的对象（破坏了singleton），这种情况下，可以通过单元素枚举型处理。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">enum</span> Elvis&#123;</span><br><span class="line">    INSTANCE;</span><br><span class="line">    <span class="comment">// some methods</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>### </p>
+<h3 id="4-通过私有化构造器强化不可实例化的能力"><a href="#4-通过私有化构造器强化不可实例化的能力" class="headerlink" title="4. 通过私有化构造器强化不可实例化的能力"></a>4. 通过私有化构造器强化不可实例化的能力</h3><p>有一些工具类，仅仅是提供一些能力，自己本身不具备任何属性，所以，不适合提供构造函数。然而，缺失构造函数编译器会自动添加上一个无参的构造器。所以，需要提供一个私有化的构造函数。为了防止在类内部误用，再加上一个保护措施和注释。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Util</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="title">Util</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="comment">// 抛出异常，防止内部误调用</span></span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> AssertionError();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>弊端是无法对该类进行继承。</p>
+<h3 id="5-避免创建不必要的对象"><a href="#5-避免创建不必要的对象" class="headerlink" title="5. 避免创建不必要的对象"></a>5. 避免创建不必要的对象</h3><ul>
+<li>对象的重用</li>
+<li>昂贵的对象，使用对象池</li>
+<li>廉价的对象，慎用对象池。</li>
+</ul>
+<p>现代JVM对廉价对象的创建和销毁非常快，此时不适于使用对象池。</p>
+<h3 id="6-消除过期的对象引用"><a href="#6-消除过期的对象引用" class="headerlink" title="6. 消除过期的对象引用"></a>6. 消除过期的对象引用</h3><p>以下三种情况可能会造成内存泄露：</p>
+<ul>
+<li>自己管理的内存（数组长度减小后，pop出的对象容易导致内存泄漏）</li>
+<li>缓存</li>
+<li>监听和回调</li>
+</ul>
+<h4 id="自己管理的内存"><a href="#自己管理的内存" class="headerlink" title="自己管理的内存"></a><strong>自己管理的内存</strong></h4><p>对于自己管理的内存要小心，比如：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Stack</span></span>&#123;</span><br><span class="line">    <span class="keyword">private</span> Object[] elements;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> size = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> DEFAULT_INITIAL_CAPACITY = <span class="number">16</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Stack</span><span class="params">()</span></span>&#123;</span><br><span class="line">         elements = <span class="keyword">new</span> Object[DEFAULT_INITIAL_CAPACITY];</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">push</span><span class="params">(Object e)</span></span>&#123;</span><br><span class="line">        ensureCapacity();</span><br><span class="line">        elements[size++]=e; <span class="comment">// allocate新的堆内存和栈内存</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Object <span class="title">pop</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(size==<span class="number">0</span>) <span class="keyword">throw</span> <span class="keyword">new</span> EmptyStackException();</span><br><span class="line">        <span class="keyword">return</span> element[--size]; <span class="comment">// pop出element[size]，该对象不再有效。内存泄漏原因。</span></span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">ensureCapacity</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(elements.length==size)</span><br><span class="line">            elements = Arrays.copyOf(elements, <span class="number">2</span>*size+<span class="number">1</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>弹出的对象不再有效，但JVM不知道，所以会一直保持该对象，造成内存泄露。</p>
+<p>解决：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> Object <span class="title">pop</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(size==<span class="number">0</span>) <span class="keyword">throw</span> <span class="keyword">new</span> EmptyStackException();</span><br><span class="line">        elements[size] = <span class="keyword">null</span>; <span class="comment">// 等待回收</span></span><br><span class="line">        <span class="keyword">return</span> element[--size];</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<h4 id="缓存"><a href="#缓存" class="headerlink" title="缓存"></a><strong>缓存</strong></h4><p>缓存的对象容易被程序员遗忘，需要设置机制来维护缓存，例如不定期回收不再使用的缓存（使用定时器）。某些情况下，使用WeakHashMap可以达到缓存回收的功效。注，只有缓存依赖于外部环境，而不是依赖于值时，WeakHashMap才有效。</p>
+<h4 id="监听或回调"><a href="#监听或回调" class="headerlink" title="监听或回调"></a><strong>监听或回调</strong></h4><p>使用监听和回调要记住取消注册。确保回收的最好的实现是使用弱引用（weak reference），例如，只将他们保存成WeakHashMap的键。</p>
+<h3 id="7-避免显示调用GC"><a href="#7-避免显示调用GC" class="headerlink" title="7. 避免显示调用GC"></a>7. 避免显示调用GC</h3><p>Java的GC有强大的回收机制，可以简单的记住：不要显示调用finalizer。可以这样理解：</p>
+<p>jvm是针对具体的硬件设计的，然而程序却不是针对具体硬件设计的，所以，java代码无法很好的解决gc问题（因为他具有平台差异化）。另外，finalizer的性能开销也非常大，从这个角度上考虑也不应该使用它。</p>
+<h3 id="8-避免equals方法请遵守通用约定"><a href="#8-避免equals方法请遵守通用约定" class="headerlink" title="8. 避免equals方法请遵守通用约定"></a>8. 避免equals方法请遵守通用约定</h3><ul>
+<li>自反性。  x.equals(x) == true</li>
+<li>对称性。 当前仅当<strong>y.equals(x)==true</strong>时，<strong>x.equals(y)==true</strong></li>
+<li>传递性。  if(x.equals(y)&amp;&amp;y.equals(z))，y.equals(z)==true</li>
+<li>一致性。</li>
+<li>非空性。 x.equals(null)==false</li>
+</ul>
+<h3 id="9-覆盖equals方法时总要覆盖hashCode"><a href="#9-覆盖equals方法时总要覆盖hashCode" class="headerlink" title="9. 覆盖equals方法时总要覆盖hashCode"></a>9. 覆盖equals方法时总要覆盖hashCode</h3><p>为了保证基于散列的集合使用该类（HashMap、HashSet、HashTable），同时，也是object.hashCode的通用约定，覆盖equals方法时，必须覆盖hashCode。</p>
+<h3 id="10-始终覆盖toString"><a href="#10-始终覆盖toString" class="headerlink" title="10.始终覆盖toString"></a>10.始终覆盖toString</h3><p>Object的toString方法的通用约定是该对象的描述。注意覆盖时，如果有格式，请备注或者严格按照格式返回。</p>
+<h3 id="11-谨慎覆盖clone"><a href="#11-谨慎覆盖clone" class="headerlink" title="11. 谨慎覆盖clone"></a>11. 谨慎覆盖clone</h3><h3 id="12-考虑实现Comparable接口"><a href="#12-考虑实现Comparable接口" class="headerlink" title="12. 考虑实现Comparable接口"></a>12. 考虑实现Comparable接口</h3><h3 id="13-使类和成员的可访问性最小化"><a href="#13-使类和成员的可访问性最小化" class="headerlink" title="13. 使类和成员的可访问性最小化"></a>13. 使类和成员的可访问性最小化</h3><p>目的是解耦。简单来讲，使用修饰符的优先级从大到小，private&gt;protected&gt;default(缺省)&gt;public。如果在设计之初，设计为private修饰符后，在之后的编码过程如果不得不扩大其作用于，应该先检查是否设计的确如此。</p>
+<p>子类覆盖超类，不允许访问级别低于超类的访问级别。（超类的protected，子类覆盖后不能改为default）。</p>
+<p>成员变量决不允许是公有的。一旦设置为公有，则放弃了对他处理的能力。这种类并不是线程安全的。即使是final的，也不允许。除非希望通过public static final来暴露常量。成员变量总是需要使用setter和getter来维护。有一个例外：长度非零的数组。这是安全漏洞的一个根源。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> Object <span class="title">pop</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(size==<span class="number">0</span>) <span class="keyword">throw</span> <span class="keyword">new</span> EmptyStackException();</span><br><span class="line">        elements[size] = <span class="keyword">null</span>; <span class="comment">// 等待回收</span></span><br><span class="line">        <span class="keyword">return</span> element[--size];</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>改进</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> Thing[] PRIVATE_VALUES = &#123;...&#125;</span><br><span class="line"><span class="comment">// 此时获取到的才是“常量”</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> List&lt;Thing&gt; VALUS = </span><br><span class="line">    Collections.unmodifiableList(Arrays.asList(PRIVATE_VALUES))</span><br></pre></td></tr></table></figure>
+<p>另一种：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> Thing[] PRIVATE_VALUES = &#123;...&#125;</span><br><span class="line"><span class="comment">// 此时获取到的才是“常量”</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> Thing[] values()&#123;</span><br><span class="line">    <span class="keyword">return</span> PRIVATE_VALUES.clone();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="14-在公有类中使用访问方法而非公有成员变量（类似13）"><a href="#14-在公有类中使用访问方法而非公有成员变量（类似13）" class="headerlink" title="14.在公有类中使用访问方法而非公有成员变量（类似13）"></a>14.在公有类中使用访问方法而非公有成员变量（类似13）</h3><h3 id="15-使可变性最小化"><a href="#15-使可变性最小化" class="headerlink" title="15. 使可变性最小化"></a>15. 使可变性最小化</h3><h3 id="16-复合优先于继承"><a href="#16-复合优先于继承" class="headerlink" title="16. 复合优先于继承"></a>16. 复合优先于继承</h3><p>继承有利于代码复用，但是尽可能不要进行跨包的继承。包内的继承是优秀的设计方式，一个包里的文件处在同一个程序员的控制之下。但是继承有其局限性：子类依赖于超类。超类一旦发生更改，将可能破坏子类。并且，如果超类是有缺陷的，子类也会得“遗传病”。</p>
+<p>复合，即不扩展已有的类，而是在的类中新增一个现有类的。相当于现有类作为一个组建存在于新类中。如此，将只会用到需要用到的东西，而不表现现有类所有的方法和成员变量。新类也可以称为“包装类”，也就是设计模式中的Decorate模式。</p>
+<h3 id="17-要么就为继承而设计，并提供文档说明，要么就禁止继承"><a href="#17-要么就为继承而设计，并提供文档说明，要么就禁止继承" class="headerlink" title="17. 要么就为继承而设计，并提供文档说明，要么就禁止继承"></a>17. 要么就为继承而设计，并提供文档说明，要么就禁止继承</h3><h3 id="18-接口优于抽象类"><a href="#18-接口优于抽象类" class="headerlink" title="18.接口优于抽象类"></a>18.接口优于抽象类</h3><h3 id="19-接口只用于定义类型"><a href="#19-接口只用于定义类型" class="headerlink" title="19.接口只用于定义类型"></a>19.接口只用于定义类型</h3><h3 id="20-类层次优先于标签类"><a href="#20-类层次优先于标签类" class="headerlink" title="20.类层次优先于标签类"></a>20.类层次优先于标签类</h3><h3 id="21-用函数对象表示策略"><a href="#21-用函数对象表示策略" class="headerlink" title="21.用函数对象表示策略"></a>21.用函数对象表示策略</h3><p>函数参数可以传入类似listener的对象，目的是使用listener中的方法。如果使用匿名的参数，每一次调用会创建新的对象。可以将listener声明为成员变量，每次都复用同一个对象，并且可以使用静态域（static变量）。比如String类的CASE_INSENSITIVE_ORDER域。</p>
+<h3 id="22-优先考虑静态类成员"><a href="#22-优先考虑静态类成员" class="headerlink" title="22.优先考虑静态类成员"></a>22.优先考虑静态类成员</h3><p>嵌套类的目的应该只是为了他的外围类提供服务，如果以后还可能用于其他环境中，则应该设计为顶层类。静态类相当于一个普通的外部类，只是恰好声明在了一个类内部。通常的用户是：Calculator.Operation.PLUS等。和普通类的区别只是，在PLUS前，有了2个前缀，来表明其含义。而非静态类必须存在于外部类对象中。不要手动在外部创建一个内部非静态类对象，创建的过程是：instance.New MemberClass()。这非常奇怪。</p>
+<p>如果成员类不需要访问外围类，则需要添加static，是他成为静态成员类，否则每个实例都将包含一个额外指向外围对象的引用。将会影响垃圾回收机制。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/java/" rel="tag"># java</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/08/03/spring循环依赖/" rel="next" title="Spring中的循环依赖">
+                <i class="fa fa-chevron-left"></i> Spring中的循环依赖
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/11/02/策略模式/" rel="prev" title="设计模式（一）策略模式">
+                设计模式（一）策略模式 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.png"
+               alt="Iwhale" />
+          <p class="site-author-name" itemprop="name">Iwhale</p>
+          <p class="site-description motion-element" itemprop="description">Dream, Such as whales to the sea.</p>
+        </div>
+        <nav class="site-state motion-element">
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">45</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">10</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">27</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/flyEn" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/p/1005055406757796/home" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Effective-Java"><span class="nav-number">1.</span> <span class="nav-text">Effective Java</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#创建和销毁对象"><span class="nav-number">1.1.</span> <span class="nav-text">创建和销毁对象</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-多用静态工厂方法"><span class="nav-number">1.1.1.</span> <span class="nav-text">1. 多用静态工厂方法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#可读性高"><span class="nav-number">1.1.1.1.</span> <span class="nav-text">可读性高</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#性能高"><span class="nav-number">1.1.1.2.</span> <span class="nav-text">性能高</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#灵活性高"><span class="nav-number">1.1.1.3.</span> <span class="nav-text">灵活性高</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-多个构造器参数时应考虑用Builder模式"><span class="nav-number">1.1.2.</span> <span class="nav-text">2. 多个构造器参数时应考虑用Builder模式</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#第一种方式：重叠构造器-模式"><span class="nav-number">1.1.2.1.</span> <span class="nav-text">第一种方式：重叠构造器 模式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#第二种方式：JavaBeans-模式"><span class="nav-number">1.1.2.2.</span> <span class="nav-text">第二种方式：JavaBeans 模式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#第三种方式：Builder-模式-（多个构造参数时推荐）"><span class="nav-number">1.1.2.3.</span> <span class="nav-text">第三种方式：Builder 模式 （多个构造参数时推荐）</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-用私有化构造器或枚举类型强化singleton"><span class="nav-number">1.1.3.</span> <span class="nav-text">3. 用私有化构造器或枚举类型强化singleton</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-通过私有化构造器强化不可实例化的能力"><span class="nav-number">1.1.4.</span> <span class="nav-text">4. 通过私有化构造器强化不可实例化的能力</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-避免创建不必要的对象"><span class="nav-number">1.1.5.</span> <span class="nav-text">5. 避免创建不必要的对象</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-消除过期的对象引用"><span class="nav-number">1.1.6.</span> <span class="nav-text">6. 消除过期的对象引用</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#自己管理的内存"><span class="nav-number">1.1.6.1.</span> <span class="nav-text">自己管理的内存</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#缓存"><span class="nav-number">1.1.6.2.</span> <span class="nav-text">缓存</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#监听或回调"><span class="nav-number">1.1.6.3.</span> <span class="nav-text">监听或回调</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-避免显示调用GC"><span class="nav-number">1.1.7.</span> <span class="nav-text">7. 避免显示调用GC</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8-避免equals方法请遵守通用约定"><span class="nav-number">1.1.8.</span> <span class="nav-text">8. 避免equals方法请遵守通用约定</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#9-覆盖equals方法时总要覆盖hashCode"><span class="nav-number">1.1.9.</span> <span class="nav-text">9. 覆盖equals方法时总要覆盖hashCode</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#10-始终覆盖toString"><span class="nav-number">1.1.10.</span> <span class="nav-text">10.始终覆盖toString</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#11-谨慎覆盖clone"><span class="nav-number">1.1.11.</span> <span class="nav-text">11. 谨慎覆盖clone</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#12-考虑实现Comparable接口"><span class="nav-number">1.1.12.</span> <span class="nav-text">12. 考虑实现Comparable接口</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#13-使类和成员的可访问性最小化"><span class="nav-number">1.1.13.</span> <span class="nav-text">13. 使类和成员的可访问性最小化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#14-在公有类中使用访问方法而非公有成员变量（类似13）"><span class="nav-number">1.1.14.</span> <span class="nav-text">14.在公有类中使用访问方法而非公有成员变量（类似13）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#15-使可变性最小化"><span class="nav-number">1.1.15.</span> <span class="nav-text">15. 使可变性最小化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#16-复合优先于继承"><span class="nav-number">1.1.16.</span> <span class="nav-text">16. 复合优先于继承</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#17-要么就为继承而设计，并提供文档说明，要么就禁止继承"><span class="nav-number">1.1.17.</span> <span class="nav-text">17. 要么就为继承而设计，并提供文档说明，要么就禁止继承</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#18-接口优于抽象类"><span class="nav-number">1.1.18.</span> <span class="nav-text">18.接口优于抽象类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#19-接口只用于定义类型"><span class="nav-number">1.1.19.</span> <span class="nav-text">19.接口只用于定义类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#20-类层次优先于标签类"><span class="nav-number">1.1.20.</span> <span class="nav-text">20.类层次优先于标签类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#21-用函数对象表示策略"><span class="nav-number">1.1.21.</span> <span class="nav-text">21.用函数对象表示策略</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#22-优先考虑静态类成员"><span class="nav-number">1.1.22.</span> <span class="nav-text">22.优先考虑静态类成员</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright" >
+  
+  &copy;  Thu Jan 05 2017 08:00:00 GMT+0800 (中国标准时间) - 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Iwhale</span>
+</div>
+
+<div class="powered-by">
+<i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">
+  本站访客数:<span id="busuanzi_value_site_uv"></span>
+</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+
+<script type="text/javascript" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script>
+<script type="text/javascript" src="//7u2ss1.com1.z0.glb.clouddn.com/love.js"></script>
+
+<a href="https://github.com/flyEn"><img style="position: absolute; top: 0; left: 0; border: 0;" src="https://camo.githubusercontent.com/c6625ac1f3ee0a12250227cf83ce904423abf351/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f6c6566745f677261795f3664366436642e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_left_gray_6d6d6d.png"></a>
+</body>
+</html>
