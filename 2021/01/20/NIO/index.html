@@ -114,13 +114,13 @@
 
 
 
-<meta name="description" content="Redis、Zookeeper、Netty，游戏服务器等其实底层就是IO通信程序">
+<meta name="description" content="BIO/NIORedis、Zookeeper、Netty，游戏服务器等其实底层就是IO通信程序">
 <meta name="keywords" content="nio">
 <meta property="og:type" content="article">
 <meta property="og:title" content="学习笔记2-NIO与Netty线程模型">
 <meta property="og:url" content="http://flyen.github.io/2021/01/20/NIO/index.html">
 <meta property="og:site_name" content="flyEn&#39;blog">
-<meta property="og:description" content="Redis、Zookeeper、Netty，游戏服务器等其实底层就是IO通信程序">
+<meta property="og:description" content="BIO/NIORedis、Zookeeper、Netty，游戏服务器等其实底层就是IO通信程序">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://flyen.github.io/2021/01/20/NIO/image-20210525095246907.png">
 <meta property="og:image" content="http://flyen.github.io/2021/01/20/NIO/image-20210525110609168.png">
@@ -136,10 +136,10 @@
 <meta property="og:image" content="http://flyen.github.io/2021/01/20/NIO/image-20210525194949063.png">
 <meta property="og:image" content="http://flyen.github.io/2021/01/20/NIO/image-20210525195101328.png">
 <meta property="og:image" content="http://flyen.github.io/2021/01/20/NIO/image-20210526123336878.png">
-<meta property="og:updated_time" content="2021-06-25T07:22:26.581Z">
+<meta property="og:updated_time" content="2021-06-25T07:25:27.066Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="学习笔记2-NIO与Netty线程模型">
-<meta name="twitter:description" content="Redis、Zookeeper、Netty，游戏服务器等其实底层就是IO通信程序">
+<meta name="twitter:description" content="BIO/NIORedis、Zookeeper、Netty，游戏服务器等其实底层就是IO通信程序">
 <meta name="twitter:image" content="http://flyen.github.io/2021/01/20/NIO/image-20210525095246907.png">
 
 
@@ -382,7 +382,7 @@
       
 
       
-        <p>Redis、Zookeeper、Netty，游戏服务器等其实底层就是IO通信程序</p>
+        <h2 id="BIO-NIO"><a href="#BIO-NIO" class="headerlink" title="BIO/NIO"></a>BIO/NIO</h2><p>Redis、Zookeeper、Netty，游戏服务器等其实底层就是IO通信程序</p>
 <p><img src="//flyen.github.io/2021/01/20/NIO/image-20210525095246907.png" alt="image-20210525095246907"></p>
 <a id="more"></a>
 <p>J2SE</p>
@@ -694,7 +694,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#BIO：阻塞IO（Blocking-IO）"><span class="nav-number">1.</span> <span class="nav-text">BIO：阻塞IO（Blocking IO）</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#BIO阻塞模型图"><span class="nav-number">1.1.</span> <span class="nav-text">BIO阻塞模型图</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#NIO：非阻塞IO（non-block-IO-new-IO）"><span class="nav-number">2.</span> <span class="nav-text">NIO：非阻塞IO（non block IO/ new IO）</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#多路复用器——selector"><span class="nav-number">2.1.</span> <span class="nav-text">多路复用器——selector</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#NIO线程模型图"><span class="nav-number">2.2.</span> <span class="nav-text">NIO线程模型图</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#selector、epoll"><span class="nav-number">2.3.</span> <span class="nav-text">selector、epoll</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#select、poll、epoll模型的区别"><span class="nav-number">2.4.</span> <span class="nav-text">select、poll、epoll模型的区别</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#redis的底层线程模型"><span class="nav-number"></span> <span class="nav-text">redis的底层线程模型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Netty主从Reactor高并发线程模型"><span class="nav-number"></span> <span class="nav-text">Netty主从Reactor高并发线程模型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#响应式编程"><span class="nav-number">1.</span> <span class="nav-text">响应式编程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Netty集群"><span class="nav-number">2.</span> <span class="nav-text">Netty集群</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#BIO-NIO"><span class="nav-number">1.</span> <span class="nav-text">BIO/NIO</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#BIO：阻塞IO（Blocking-IO）"><span class="nav-number">1.1.</span> <span class="nav-text">BIO：阻塞IO（Blocking IO）</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#BIO阻塞模型图"><span class="nav-number">1.1.1.</span> <span class="nav-text">BIO阻塞模型图</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#NIO：非阻塞IO（non-block-IO-new-IO）"><span class="nav-number">1.2.</span> <span class="nav-text">NIO：非阻塞IO（non block IO/ new IO）</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#多路复用器——selector"><span class="nav-number">1.2.1.</span> <span class="nav-text">多路复用器——selector</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#NIO线程模型图"><span class="nav-number">1.2.2.</span> <span class="nav-text">NIO线程模型图</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#selector、epoll"><span class="nav-number">1.2.3.</span> <span class="nav-text">selector、epoll</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#select、poll、epoll模型的区别"><span class="nav-number">1.2.4.</span> <span class="nav-text">select、poll、epoll模型的区别</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#redis的底层线程模型"><span class="nav-number">2.</span> <span class="nav-text">redis的底层线程模型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Netty主从Reactor高并发线程模型"><span class="nav-number">3.</span> <span class="nav-text">Netty主从Reactor高并发线程模型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#响应式编程"><span class="nav-number">3.1.</span> <span class="nav-text">响应式编程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Netty集群"><span class="nav-number">3.2.</span> <span class="nav-text">Netty集群</span></a></li></ol></li></ol></div>
             
 
           </div>
