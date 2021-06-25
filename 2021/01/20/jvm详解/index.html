@@ -1,0 +1,879 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+<script>
+    (function(){
+        if(''){
+            if (prompt('请输入文章密码') !== ''){
+                alert('密码错误！');
+                history.back();
+            }
+        }
+    })();
+</script>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Microsoft YaHei:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|Lobster Two:300,300italic,400,400italic,700,700italic|PT Mono:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta property="og:type" content="article">
+<meta property="og:title" content="学习笔记1-JVM性能调优">
+<meta property="og:url" content="http://flyen.github.io/2021/01/20/jvm详解/index.html">
+<meta property="og:site_name" content="flyEn&#39;blog">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://flyen.github.io/2021/01/20/jvm详解/image-20210426131152957.png">
+<meta property="og:image" content="http://flyen.github.io/2021/01/20/jvm详解/image-20210426131938797.png">
+<meta property="og:image" content="http://flyen.github.io/2021/01/20/jvm详解/image-20210426155941086.png">
+<meta property="og:image" content="http://flyen.github.io/2021/01/20/jvm详解/image-20210526102657831.png">
+<meta property="og:image" content="http://flyen.github.io/2021/01/20/jvm详解/image-20210526103510753.png">
+<meta property="og:image" content="http://flyen.github.io/2021/01/20/jvm详解/image-20210426135703937.png">
+<meta property="og:image" content="http://flyen.github.io/2021/01/20/jvm详解/image-20210426141158173.png">
+<meta property="og:image" content="http://flyen.github.io/2021/01/20/jvm详解/image-20210426141458244.png">
+<meta property="og:image" content="http://flyen.github.io/2021/01/20/jvm详解/image-20210426160131331.png">
+<meta property="og:image" content="http://flyen.github.io/2021/01/20/jvm详解/image-20210426195604129.png">
+<meta property="og:image" content="http://flyen.github.io/2021/01/20/jvm详解/image-20210426195737537.png">
+<meta property="og:image" content="http://flyen.github.io/2021/01/20/jvm详解/image-20210426192836042.png">
+<meta property="og:image" content="http://flyen.github.io/2021/01/20/jvm详解/image-20210426194647262.png">
+<meta property="og:image" content="http://flyen.github.io/2021/01/20/jvm详解/image-20210526103829136.png">
+<meta property="og:image" content="http://flyen.github.io/2021/01/20/jvm详解/image-20210526101048649.png">
+<meta property="og:image" content="http://flyen.github.io/2021/01/20/jvm详解/image-20210426184442015.png">
+<meta property="og:image" content="http://flyen.github.io/2021/01/20/jvm详解/image-20210426185717702.png">
+<meta property="og:updated_time" content="2021-06-25T07:10:11.952Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="学习笔记1-JVM性能调优">
+<meta name="twitter:image" content="http://flyen.github.io/2021/01/20/jvm详解/image-20210426131152957.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://flyen.github.io/2021/01/20/jvm详解/"/>
+
+
+
+
+
+  <title> 学习笔记1-JVM性能调优 | flyEn'blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">flyEn'blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+    
+      <p class="site-subtitle"></p>
+    
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://flyen.github.io/2021/01/20/jvm详解/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="Iwhale">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/avatar.png">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="flyEn'blog">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="flyEn'blog" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                学习笔记1-JVM性能调优
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2021-01-20T14:28:46+08:00">
+                2021-01-20
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><img src="//flyen.github.io/2021/01/20/jvm详解/image-20210426131152957.png" alt="image-20210426131152957" style="zoom:50%;"><br><a id="more"></a></p>
+<p>Java语言特性：</p>
+<p>跨平台：代码一次编写，到处运行。</p>
+<p>本来在不同操作系统要开发不同的汇编代码，对java语言来说不需要，写一份Java代码在各平台都可以运行。</p>
+<p>跨平台怎么实现：</p>
+<p>字节码文件都会放到JVM中去运行，通过Java虚拟机帮我们最终生成基于不同操作系统平台的二进制机器码。</p>
+<p>因为不同平台底层计算机可执行的指令集都不一样。</p>
+<p>总结：<strong>Java虚拟机从软件层面屏蔽不同操作系统在底层硬件与指令上的区别。</strong></p>
+<blockquote>
+<p>不同平台下载不同的JDK，Java虚拟机是JDK的组成部分。</p>
+</blockquote>
+<h3 id="JVM组成部分"><a href="#JVM组成部分" class="headerlink" title="JVM组成部分"></a>JVM组成部分</h3><p><img src="//flyen.github.io/2021/01/20/jvm详解/image-20210426131938797.png" alt="image-20210426131938797"></p>
+<p><img src="//flyen.github.io/2021/01/20/jvm详解/image-20210426155941086.png" alt="image-20210426155941086"></p>
+<p><img src="//flyen.github.io/2021/01/20/jvm详解/image-20210526102657831.png" alt="image-20210526102657831"></p>
+<p><img src="//flyen.github.io/2021/01/20/jvm详解/image-20210526103510753.png" alt="image-20210526103510753"></p>
+<h4 id="栈（线程栈-虚拟机栈VM-Stack）"><a href="#栈（线程栈-虚拟机栈VM-Stack）" class="headerlink" title="栈（线程栈/虚拟机栈VM Stack）"></a>栈（线程栈/虚拟机栈VM Stack）</h4><p>所有的都是内存区域，放数据。</p>
+<p><strong>栈（线程栈）</strong>：程序运行时候的局部变量。</p>
+<p>分配专属的运行空间（需要内存空间来存放局部变量）</p>
+<p>内部有些组件：</p>
+<p><strong>栈帧</strong></p>
+<p>栈帧内存空间：只要有个方法开始运行，给它分配方法对应的栈帧内存空间。</p>
+<p><u>为什么要用栈这种数据结构来存储我们内部的栈帧内存空间？</u></p>
+<blockquote>
+<p>因为它跟我们程序方法嵌套调用的前后执行顺序是非常相匹配的。</p>
+<p>先调用的方法先分配内存，后调用的方法后分配内存，后调用的先结束（先销毁），先调用的后结束。</p>
+</blockquote>
+<p>栈FILO：先进后出</p>
+<p><img src="//flyen.github.io/2021/01/20/jvm详解/image-20210426135703937.png" alt="image-20210426135703937" style="zoom:50%;"></p>
+<p><strong>字节码文件探究</strong>：</p>
+<p><code>javap</code> 命令：</p>
+<p><img src="//flyen.github.io/2021/01/20/jvm详解/image-20210426141158173.png" alt="image-20210426141158173"></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">javap -c Math.class &gt; math.txt</span><br></pre></td></tr></table></figure>
+<p><img src="//flyen.github.io/2021/01/20/jvm详解/image-20210426141458244.png" alt="image-20210426141458244"></p>
+<p>这两个字节码文件是一样的。但是右边的可读性更高。</p>
+<p>都是JVM底层执行的代码。</p>
+<p>越底层的语言代码量会越多，高级语言帮我们屏蔽了很多底层的细节。</p>
+<blockquote>
+<p>Oracle官方网站有对这些class代码解释的命令手册。</p>
+</blockquote>
+<h4 id="程序计数器"><a href="#程序计数器" class="headerlink" title="程序计数器"></a>程序计数器</h4><p>程序计数器是<strong>每一块线程</strong>都独有的。（专属的内存空间）</p>
+<p>当前线程执行字节码的行号指示器。</p>
+<p>用来放当前线程正在运行或者马上要运行的<strong>代码的行号</strong>。</p>
+<p>（实际上是这行代码在方法区中的内存地址）</p>
+<blockquote>
+<p><u>为什么用它？</u></p>
+<p>比如正在执行某一行代码时，有个更高优先级的线程出现了，把CPU的时间片抢过去了，<strong>当前线程被挂起</strong>，当那个线程执行完，CPU才会切回当前这个线程<strong>继续执行</strong>，可以根据这个值知道继续在哪行代码之后执行。</p>
+</blockquote>
+<p>字节码文件实际上是加载到<strong>方法区（元空间）</strong>的。</p>
+<blockquote>
+<p><u>程序计数器的值是怎么修改的？</u></p>
+<p>随着java代码的运行不断的作修改，是由<strong>字节码执行引擎</strong>去修改的。</p>
+</blockquote>
+<p><strong>操作数栈：</strong></p>
+<p>程序在运行过程中，操作数在操作过程中临时存放的一块内存空间。</p>
+<p>运算完就不需要了。</p>
+<p><strong>动态链接</strong></p>
+<p>把一些符号引用转变为直接引用。</p>
+<p>main方法内调用computer方法，程序在运行过程中，调到computer方法，可以通过<em>动态链接</em>去到方法区里去找到这个方法的代码。</p>
+<p><strong>方法出口</strong></p>
+<p>调用computer方法完了会把结果存储在方法出口。</p>
+<h4 id="方法区（元空间）"><a href="#方法区（元空间）" class="headerlink" title="方法区（元空间）"></a>方法区（元空间）</h4><p>存放常量+静态变量+类信息</p>
+<p><strong>对象放在堆</strong></p>
+<p>所以方法区会访问 堆</p>
+<h4 id="本地方法栈"><a href="#本地方法栈" class="headerlink" title="本地方法栈"></a>本地方法栈</h4><p>native修饰的方法是本地方法。</p>
+<p>比如main线程里，加了一行 <code>new Thread().start();</code></p>
+<p>里 <code>start0</code> 就是本地方法。</p>
+<p>main方法在运行过程中，有本地方法就需要用本地方法栈来分配内存空间。</p>
+<h4 id="堆"><a href="#堆" class="headerlink" title="堆"></a>堆</h4><p><img src="//flyen.github.io/2021/01/20/jvm详解/image-20210426160131331.png" alt="image-20210426160131331"></p>
+<p>Eden园区和survivor区，老年代。</p>
+<p>8:1:1的比例 。</p>
+<p>new出来的对象，优先放在eden园区。</p>
+<p> <strong>minor GC</strong>（回收整个年轻代）</p>
+<p>放不下的时候，<u>字节码执行引擎</u>在后台开启一个线程，垃圾收集线程，收集垃圾对象。</p>
+<p><u>垃圾收集的时候会运用到一个算法(找垃圾)</u>：<strong>可达性分析算法</strong></p>
+<p>GC ROOT根节点：线程栈的本地变量、静态变量、本地方法栈的变量等等。</p>
+<p>首先找出所有的GC ROOT变量。（user, math …）</p>
+<p>比如找到math对象，假设math还有成员变量引用了其他对象，再往下找，直到找到最后一个对象没有成员变量引用其他对象了，结束。整个引用链上的所有对象打上”非垃圾“的标签，其余未标记的是垃圾对象。</p>
+<p>把这些对象复制到<strong>survivor区</strong>，其他Eden园区中的对象把清空。</p>
+<p>这些对象每经历了一次<strong>minor GC</strong>，如果没有被回收的话，会挪右边一次，每挪一次，<em>分代年龄就会加1</em>。当对象分带年龄达到了15的话，会被复制到老年代里去。（还有其他情况：对象太大，前面的放不下；前面满了）</p>
+<p><u>如果老年代放满了之后：</u> <strong>full gc</strong></p>
+<p>对整个堆的所有区域做垃圾收集。</p>
+<p>如果没有什么垃圾可以收集，之后再有新对象进来（OOM内存溢出）</p>
+<h3 id="调优"><a href="#调优" class="headerlink" title="调优"></a>调优</h3><p>调优最重要的减少<strong>full GC</strong></p>
+<p>为什么？——stop the World（STW）</p>
+<p>full GC的时候会<strong>停掉用户线程</strong>。</p>
+<p>对吞吐量和性能影响很大。</p>
+<blockquote>
+<p><u><em>既然会影响很大，为什么要设计STW机制？</em></u></p>
+<p>假设没有STW机制，产生了Full GC了，找垃圾找完所有的GC ROOT，都标记了“非垃圾”对象，GC线程没结束用户线程已经结束了，在所有的内存空间都会被释放掉，意味着又变成“垃圾了”。索性在full gc线程过程中先停掉，之后再恢复。不能让我们的对象一会是垃圾一会不是垃圾。</p>
+</blockquote>
+<ol>
+<li>使用-XX:UseSerialGC, 新生代使用Serial GC，老年代自动使用Serial Old GC</li>
+</ol>
+<p><u>对频繁fullGC的时候如何调优？</u></p>
+<p><img src="//flyen.github.io/2021/01/20/jvm详解/image-20210426195604129.png" alt="image-20210426195604129"></p>
+<p><img src="//flyen.github.io/2021/01/20/jvm详解/image-20210426195737537.png" alt="image-20210426195737537"></p>
+<p>8个G：java虚拟机4-5G（堆3G、元空间1-2G），1-2G操作系统。</p>
+<p>堆：老年代 2G，年轻代1G</p>
+<p>假设每个订单对象假设1KB （所有成员变量占用的空间之和+对象头+对象补齐）</p>
+<p>下单还涉及其他对象，如库存、优惠券、积分等我们放大20倍</p>
+<p>(300KB*20)/秒对象生成</p>
+<p>可能同时还有其他操作，如订单查询等 再放大10倍</p>
+<p>(300KB<em>20</em>10)/秒</p>
+<p>每秒生成60MB对象，1秒后都变成垃圾对象。</p>
+<p><img src="//flyen.github.io/2021/01/20/jvm详解/image-20210426192836042.png" alt="image-20210426192836042"></p>
+<p><img src="//flyen.github.io/2021/01/20/jvm详解/image-20210426194647262.png" alt="image-20210426194647262"></p>
+<p>14s的时候，前面的12-13秒的在做minor gc的时候结束，被回收。</p>
+<p>最后1-2s的部分线程还没结束，被挂起了。会复制到survivor区。</p>
+<p>很有可能不一定会放到survivor区，会直接放到老年代。</p>
+<blockquote>
+<p><u>什么对象会进入老年代？</u></p>
+<ol>
+<li>大对象直接进入老年代</li>
+<li>分代年龄到一定程度（15岁，CMS回收器默认6岁，不同垃圾回收器稍微不同）</li>
+</ol>
+</blockquote>
+<p><u>对象动态年龄判断：</u></p>
+<p>一批对象的总大小大于这块survivor区域内存大小的50%（-XX:TargetSurvivorRatio可以指定），（对象动态年龄机制）那么此时<strong>大于等于</strong>这批对象年龄最大值的对象，就直接进入老年代了。</p>
+<p>所以在做minor gc的时候将“非垃圾”对象放到survivor区域的时候触发了对象动态年龄机制，直接放了一批到老年代。</p>
+<p>4/5分钟老年代放满了，触发full GC。</p>
+<blockquote>
+<p><em><u>能否对JVM调优，让其几乎不发生full GC？</u></em></p>
+<p>Old：1G；eden：1.6G；S0/S1：200M</p>
+</blockquote>
+<p><img src="//flyen.github.io/2021/01/20/jvm详解/image-20210526103829136.png" alt="image-20210526103829136"></p>
+<blockquote>
+<p>那对单机超高并发（几十万并发）的系统怎么调优呢？</p>
+<p>kafka、Racket MQ</p>
+<p>需要大内存CPU比较多的系统才扛得住。（单机32G/64G以上起步，才可能抗的住这么高的并发）</p>
+<p>比如分配：Old：1G；Eden：30G；s0/s2：200M</p>
+<p>但是对于这种，<u>在minor gc上就要进行调优了</u>，如果不调一次也回收太多可能要回收几秒钟，在这个过程中，用户线程会超时。</p>
+<p>遍历30G的eden区，至少要2-3s。客户端发消息的过程中，做了minor GC，会停顿超时了。</p>
+<p>可以让垃圾收集器边收集垃圾边回收，不一定需要等到30G空间放满了才触发mnior GC，比如说可以等到2G空间放满了就收集，收集一部分区域，也就是大概300ms的时间。可以使用一些比较合适的垃圾收集器。</p>
+<p>CMS垃圾收集器：最普通的</p>
+<p><strong>G1垃圾收集器</strong> -XX:+UseG1GC 如果对那种大内存的回收可以做到部分回收，可以让一次GC的时间尽可能的短（STW的时间，客户停顿时间不至于太长）。</p>
+<p>通过设置 -XX:MaxGCPauseMills：目标停顿时间。</p>
+</blockquote>
+<h3 id="垃圾收集器"><a href="#垃圾收集器" class="headerlink" title="垃圾收集器"></a>垃圾收集器</h3><p><img src="//flyen.github.io/2021/01/20/jvm详解/image-20210526101048649.png" alt="image-20210526101048649"></p>
+<h3 id="调优诊断优化工具"><a href="#调优诊断优化工具" class="headerlink" title="调优诊断优化工具"></a>调优诊断优化工具</h3><p>JVM调优工具：<code>jvisualvm</code></p>
+<p>阿里巴巴开源的工具：<code>Arthas</code></p>
+<p>官网文档：<a href="http://arthas.gitee.io/" target="_blank" rel="noopener">http://arthas.gitee.io/</a></p>
+<p><img src="//flyen.github.io/2021/01/20/jvm详解/image-20210426184442015.png" alt="image-20210426184442015"></p>
+<p>命令：</p>
+<ul>
+<li>dashboard</li>
+<li>thread 8</li>
+<li>jad com.tuling.jvm.ArthasTest 反编译代码</li>
+</ul>
+<p><img src="//flyen.github.io/2021/01/20/jvm详解/image-20210426185717702.png" alt="image-20210426185717702"></p>
+<p>异常关闭查看进程：jps</p>
+<p>资料：</p>
+<p>[美团技术博客]</p>
+<p><a href="https://tech.meituan.com/2020/11/12/java-9-cms-gc.html" target="_blank" rel="noopener">https://tech.meituan.com/2020/11/12/java-9-cms-gc.html</a></p>
+<p><a href="https://tech.meituan.com/2020/08/06/new-zgc-practice-in-meituan.html" target="_blank" rel="noopener">https://tech.meituan.com/2020/08/06/new-zgc-practice-in-meituan.html</a></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/11/27/mysql索引/" rel="next" title="MySQL索引+数据结构">
+                <i class="fa fa-chevron-left"></i> MySQL索引+数据结构
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2021/01/20/NIO/" rel="prev" title="学习笔记2-NIO与Netty线程模型">
+                学习笔记2-NIO与Netty线程模型 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.png"
+               alt="Iwhale" />
+          <p class="site-author-name" itemprop="name">Iwhale</p>
+          <p class="site-description motion-element" itemprop="description">Dream, Such as whales to the sea.</p>
+        </div>
+        <nav class="site-state motion-element">
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">42</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">10</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">26</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/flyEn" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/p/1005055406757796/home" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#JVM组成部分"><span class="nav-number">1.</span> <span class="nav-text">JVM组成部分</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#栈（线程栈-虚拟机栈VM-Stack）"><span class="nav-number">1.1.</span> <span class="nav-text">栈（线程栈/虚拟机栈VM Stack）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#程序计数器"><span class="nav-number">1.2.</span> <span class="nav-text">程序计数器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#方法区（元空间）"><span class="nav-number">1.3.</span> <span class="nav-text">方法区（元空间）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#本地方法栈"><span class="nav-number">1.4.</span> <span class="nav-text">本地方法栈</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#堆"><span class="nav-number">1.5.</span> <span class="nav-text">堆</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#调优"><span class="nav-number">2.</span> <span class="nav-text">调优</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#垃圾收集器"><span class="nav-number">3.</span> <span class="nav-text">垃圾收集器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#调优诊断优化工具"><span class="nav-number">4.</span> <span class="nav-text">调优诊断优化工具</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright" >
+  
+  &copy;  Thu Jan 05 2017 08:00:00 GMT+0800 (中国标准时间) - 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Iwhale</span>
+</div>
+
+<div class="powered-by">
+<i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">
+  本站访客数:<span id="busuanzi_value_site_uv"></span>
+</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+
+<script type="text/javascript" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script>
+<script type="text/javascript" src="//7u2ss1.com1.z0.glb.clouddn.com/love.js"></script>
+
+<a href="https://github.com/flyEn"><img style="position: absolute; top: 0; left: 0; border: 0;" src="https://camo.githubusercontent.com/c6625ac1f3ee0a12250227cf83ce904423abf351/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f6c6566745f677261795f3664366436642e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_left_gray_6d6d6d.png"></a>
+</body>
+</html>
