@@ -114,12 +114,12 @@
 
 
 
-<meta name="description" content="线上问题排查本文为自己前段时间解决线上的两个疑难问题，而后复盘整理的一次技术分享。  内存泄漏之线程泄漏 WebClient连接池问题  技术背景：Java、Spring Webflux、Reactor">
+<meta name="description" content="本文为自己前段时间解决线上的两个疑难问题，而后复盘整理的一次技术分享。  内存泄漏之线程泄漏 WebClient连接池问题  技术背景：Java、Spring Webflux、Reactor">
 <meta property="og:type" content="article">
-<meta property="og:title" content="线上问题排查">
+<meta property="og:title" content="线上问题排查复盘">
 <meta property="og:url" content="http://flyen.github.io/2021/11/16/线上问题排查/index.html">
 <meta property="og:site_name" content="flyEn&#39;blog">
-<meta property="og:description" content="线上问题排查本文为自己前段时间解决线上的两个疑难问题，而后复盘整理的一次技术分享。  内存泄漏之线程泄漏 WebClient连接池问题  技术背景：Java、Spring Webflux、Reactor">
+<meta property="og:description" content="本文为自己前段时间解决线上的两个疑难问题，而后复盘整理的一次技术分享。  内存泄漏之线程泄漏 WebClient连接池问题  技术背景：Java、Spring Webflux、Reactor">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://flyen.github.io/2021/11/16/线上问题排查/image-20211112111844772.png">
 <meta property="og:image" content="http://flyen.github.io/2021/11/16/线上问题排查/image-20211112111910069.png">
@@ -140,10 +140,10 @@
 <meta property="og:image" content="http://flyen.github.io/2021/11/16/线上问题排查/image-20211110110401242.png">
 <meta property="og:image" content="http://flyen.github.io/2021/11/16/线上问题排查/image-20211110110557287.png">
 <meta property="og:image" content="http://flyen.github.io/2021/11/16/线上问题排查/image-20211110110645454.png">
-<meta property="og:updated_time" content="2021-11-16T05:51:24.292Z">
+<meta property="og:updated_time" content="2021-11-16T06:03:42.047Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="线上问题排查">
-<meta name="twitter:description" content="线上问题排查本文为自己前段时间解决线上的两个疑难问题，而后复盘整理的一次技术分享。  内存泄漏之线程泄漏 WebClient连接池问题  技术背景：Java、Spring Webflux、Reactor">
+<meta name="twitter:title" content="线上问题排查复盘">
+<meta name="twitter:description" content="本文为自己前段时间解决线上的两个疑难问题，而后复盘整理的一次技术分享。  内存泄漏之线程泄漏 WebClient连接池问题  技术背景：Java、Spring Webflux、Reactor">
 <meta name="twitter:image" content="http://flyen.github.io/2021/11/16/线上问题排查/image-20211112111844772.png">
 
 
@@ -178,7 +178,7 @@
 
 
 
-  <title> 线上问题排查 | flyEn'blog </title>
+  <title> 线上问题排查复盘 | flyEn'blog </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -335,7 +335,7 @@
             
             
               
-                线上问题排查
+                线上问题排查复盘
               
             
           </h1>
@@ -386,7 +386,7 @@
       
 
       
-        <h2 id="线上问题排查"><a href="#线上问题排查" class="headerlink" title="线上问题排查"></a>线上问题排查</h2><p>本文为自己前段时间解决线上的两个疑难问题，而后复盘整理的一次技术分享。</p>
+        <p>本文为自己前段时间解决线上的两个疑难问题，而后复盘整理的一次技术分享。</p>
 <ol>
 <li>内存泄漏之线程泄漏</li>
 <li>WebClient连接池问题</li>
@@ -477,11 +477,10 @@
 <p><img src="//flyen.github.io/2021/11/16/线上问题排查/image-20211109153630433.png" alt="image-20211109153630433"></p>
 <p>然后去Chrome查了下，关键词：<code>boundedElastic Threads park</code></p>
 <blockquote>
-<p>网上也有类似的问题：<a href="https://stackoverflow.com/questions/65262816/webflux-lots-of-boundedelastic-evictor-timed-waiting" target="_blank" rel="noopener">https://stackoverflow.com/questions/65262816/webflux-lots-of-boundedelastic-evictor-timed-waiting</a></p>
-<p>最后，确认是框架的bug。</p>
-<p><a href="https://github.com/spring-projects/spring-framework/issues/26263" target="_blank" rel="noopener">https://github.com/spring-projects/spring-framework/issues/26263</a></p>
+<p>网上也有类似的问题：<br><a href="https://stackoverflow.com/questions/65262816/webflux-lots-of-boundedelastic-evictor-timed-waiting" target="_blank" rel="noopener">https://stackoverflow.com/questions/65262816/webflux-lots-of-boundedelastic-evictor-timed-waiting</a></p>
+<p>最后，确认是框架的bug。<br><a href="https://github.com/spring-projects/spring-framework/issues/26263" target="_blank" rel="noopener">https://github.com/spring-projects/spring-framework/issues/26263</a></p>
 </blockquote>
-<p>框架内部：<a href="https://github.com/spring-projects/spring-framework/blob/499be70a717b8d20c544bc2eac4fe5dacedc7f28/spring-web/src/main/java/org/springframework/http/codec/support/ServerDefaultCodecsImpl.java#L72" target="_blank" rel="noopener">spring-framework/spring-web/src/main/java/org/springframework/http/codec/support/ServerDefaultCodecsImpl.java</a></p>
+<p>框架内部：<br><a href="https://github.com/spring-projects/spring-framework/blob/499be70a717b8d20c544bc2eac4fe5dacedc7f28/spring-web/src/main/java/org/springframework/http/codec/support/ServerDefaultCodecsImpl.java#L72" target="_blank" rel="noopener">spring-framework/spring-web/src/main/java/org/springframework/http/codec/support/ServerDefaultCodecsImpl.java</a></p>
 <p>服务端的消息解码器，内部有个方法：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">extendTypedReaders</span><span class="params">(List&lt;HttpMessageReader&lt;?&gt;&gt; typedReaders)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">if</span> (<span class="keyword">this</span>.multipartReader != <span class="keyword">null</span>) &#123;</span><br><span class="line">		addCodec(typedReaders, <span class="keyword">this</span>.multipartReader);</span><br><span class="line">		<span class="keyword">return</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	DefaultPartHttpMessageReader partReader = <span class="keyword">new</span> DefaultPartHttpMessageReader(); <span class="comment">// 这一行</span></span><br><span class="line">	addCodec(typedReaders, partReader);</span><br><span class="line">	addCodec(typedReaders, <span class="keyword">new</span> MultipartHttpMessageReader(partReader));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>读取消息数据的时候，new一个<code>DefaultPartHttpMessageReader()</code>实例，而</p>
@@ -525,23 +524,12 @@
 <p>相关命令：</p>
 <p><code>jcmd 1 Dump.java &lt;dump_file_name&gt;</code>，生成<code>.dump</code>后缀的dump文件。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&gt; `jcmd &lt;pid&gt; GC.heap_dump dump.hprof` 等价于 `jmap -dump:live,format=b,file=dump.hprof &lt;pid&gt;`</span><br><span class="line">&gt; `jcmd &lt;pid&gt; GC.heap_dump -all dump.hprof` 等价于 `jmap -dump:format=b,file=dump.hprof &lt;pid&gt;`</span><br><span class="line">&gt;</span><br></pre></td></tr></table></figure>
-</blockquote>
-<p>&gt;</p>
-<blockquote>
-<p>监控：<code>docker stats</code> </p>
-<p>查看：<code>docker service ls</code></p>
-<p>下载dump文件：<code>docker exec -it de8712e06efe jcmd 1 Dump.java sandbox2-11101022.dump</code></p>
-<p>容器里复制到外面服务器：<code>docker cp d63a1830a3d2:sandbox2-11081057.dump .</code></p>
-<p>将服务器下的某文件下载到本地：<code>scp sandbox2:/root/sandbox2-11081057.dump ~/Downloads</code></p>
-<p>下载arthas至容器并运行：</p>
-<p><code>docker exec -it  ${containerId} sh-c &quot;wget https://arthas.aliyun.com/arthas-boot.jar &amp;&amp; java -jar arthas-boot.jar&quot;</code></p>
-<p>或者已经下载下来，直接运行：<code>java -jar arthas-boot.jar</code></p>
-<p>或者直接放入项目的Dockerfile中，build构建容器的时候自动下载。</p>
+<p>监控：<code>docker stats</code><br>查看：<code>docker service ls</code></p>
+<p>下载dump文件：<code>docker exec -it de8712e06efe jcmd 1 Dump.java sandbox2-11101022.dump</code><br>容器里复制到外面服务器：<code>docker cp d63a1830a3d2:sandbox2-11081057.dump .</code><br>将服务器下的某文件下载到本地：<code>scp sandbox2:/root/sandbox2-11081057.dump ~/Downloads</code></p>
+<p>下载arthas至容器并运行：<br><code>docker exec -it  ${containerId} sh-c &quot;wget https://arthas.aliyun.com/arthas-boot.jar &amp;&amp; java -jar arthas-boot.jar&quot;</code><br>或者已经下载下来，直接运行：<code>java -jar arthas-boot.jar</code><br>或者直接放入项目的Dockerfile中，build构建容器的时候自动下载。</p>
 <p>arthas文档： <a href="https://arthas.gitee.io/advanced-use.html" target="_blank" rel="noopener">https://arthas.gitee.io/advanced-use.html</a> </p>
 </blockquote>
-<h2 id="2-Connection-reset-by-peer"><a href="#2-Connection-reset-by-peer" class="headerlink" title="2. Connection reset by peer"></a>2. Connection reset by peer</h2><blockquote>
-<p>readAddress(..) failed: Connection reset by peer; nested exception is io.netty.channel.unix.Errors$NativeIoException: readAddress(..) failed: Connection reset by peer</p>
-</blockquote>
+<h2 id="2-Connection-reset-by-peer"><a href="#2-Connection-reset-by-peer" class="headerlink" title="2. Connection reset by peer"></a>2. Connection reset by peer</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">readAddress(..) failed: Connection reset by peer; nested exception is io.netty.channel.unix.Errors$NativeIoException: readAddress(..) failed: Connection reset by peer</span><br></pre></td></tr></table></figure>
 <p>之前webclient进行服务间调用的时候，会偶现这个问题。</p>
 <p>一般情况下都是在 隔了比较长一段时间，没有去访问的时候会报错。</p>
 <p>上半年的时候为了解决这个问题，open的服务间调用直接砍掉了，改成了service内部调用。</p>
@@ -759,7 +747,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#线上问题排查"><span class="nav-number">1.</span> <span class="nav-text">线上问题排查</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-open服务内存溢出频繁重启"><span class="nav-number">2.</span> <span class="nav-text">1. open服务内存溢出频繁重启</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Schedulers-elastic"><span class="nav-number">2.1.</span> <span class="nav-text">Schedulers.elastic()</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Schedulers-newParallel"><span class="nav-number">2.2.</span> <span class="nav-text">Schedulers.newParallel()</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第一次改动"><span class="nav-number">2.3.</span> <span class="nav-text">第一次改动</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#测试结果"><span class="nav-number">2.3.1.</span> <span class="nav-text">测试结果</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#application-x-www-form-urlencoded"><span class="nav-number">2.4.</span> <span class="nav-text">application/x-www-form-urlencoded</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第二次改动"><span class="nav-number">2.5.</span> <span class="nav-text">第二次改动</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#测试结果-1"><span class="nav-number">2.5.1.</span> <span class="nav-text">测试结果</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#总结"><span class="nav-number">2.6.</span> <span class="nav-text">总结</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-Connection-reset-by-peer"><span class="nav-number">3.</span> <span class="nav-text">2. Connection reset by peer</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-open服务内存溢出频繁重启"><span class="nav-number">1.</span> <span class="nav-text">1. open服务内存溢出频繁重启</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Schedulers-elastic"><span class="nav-number">1.1.</span> <span class="nav-text">Schedulers.elastic()</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Schedulers-newParallel"><span class="nav-number">1.2.</span> <span class="nav-text">Schedulers.newParallel()</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第一次改动"><span class="nav-number">1.3.</span> <span class="nav-text">第一次改动</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#测试结果"><span class="nav-number">1.3.1.</span> <span class="nav-text">测试结果</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#application-x-www-form-urlencoded"><span class="nav-number">1.4.</span> <span class="nav-text">application/x-www-form-urlencoded</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第二次改动"><span class="nav-number">1.5.</span> <span class="nav-text">第二次改动</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#测试结果-1"><span class="nav-number">1.5.1.</span> <span class="nav-text">测试结果</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#总结"><span class="nav-number">1.6.</span> <span class="nav-text">总结</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-Connection-reset-by-peer"><span class="nav-number">2.</span> <span class="nav-text">2. Connection reset by peer</span></a></li></ol></div>
             
 
           </div>
