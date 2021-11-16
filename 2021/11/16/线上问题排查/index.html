@@ -140,7 +140,7 @@
 <meta property="og:image" content="http://flyen.github.io/2021/11/16/线上问题排查/image-20211110110401242.png">
 <meta property="og:image" content="http://flyen.github.io/2021/11/16/线上问题排查/image-20211110110557287.png">
 <meta property="og:image" content="http://flyen.github.io/2021/11/16/线上问题排查/image-20211110110645454.png">
-<meta property="og:updated_time" content="2021-11-16T06:03:42.047Z">
+<meta property="og:updated_time" content="2021-11-16T06:29:54.660Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="线上问题排查复盘">
 <meta name="twitter:description" content="本文为自己前段时间解决线上的两个疑难问题，而后复盘整理的一次技术分享。  内存泄漏之线程泄漏 WebClient连接池问题  技术背景：Java、Spring Webflux、Reactor">
@@ -494,7 +494,7 @@
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="meta">@EnableWebFlux</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">WebConfig</span> <span class="keyword">implements</span> <span class="title">WebFluxConfigurer</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">configureHttpMessageCodecs</span><span class="params">(ServerCodecConfigurer configurer)</span> </span>&#123;</span><br><span class="line">        DefaultPartHttpMessageReader multipartReader = <span class="keyword">new</span> DefaultPartHttpMessageReader();</span><br><span class="line">        configurer.defaultCodecs().multipartReader(multipartReader);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>如果这样修改的话，还是有所弊端吧，这样的话这个实例是跟着open服务启动就已经创建出来了，可能不一定是被用到，但是如果是在线程内部创建的话，是跟着线程的生命周期进行创建并销毁的。</p>
 <p>但最后还是通过升级了Spring框架版本来解决这个问题：从<strong>2.4.1 升到了 2.4.7</strong>。</p>
-<h4 id="测试结果-1"><a href="#测试结果-1" class="headerlink" title="测试结果"></a>测试结果</h4><p>改完之后压测了遍 <u>百度的接口</u>：（9:59-10:16，18分钟）</p>
+<h4 id="测试结果-1"><a href="#测试结果-1" class="headerlink" title="测试结果"></a>测试结果</h4><p>改完之后上到沙箱测了遍 <u>百度的接口</u>：（总并发数200，每秒20，9:59-10:16，18分钟）</p>
 <p>压测前：<strong>内存 738.1MB</strong>。线程数没看，基本上70/80的样子。</p>
 <p><img src="//flyen.github.io/2021/11/16/线上问题排查/image-20211110100036900.png" alt="image-20211110100036900"></p>
 <p>压测完：<strong>内存833.8M，线程数124</strong>。（过了10多分钟再看内存已经降到800M了）</p>
@@ -503,7 +503,7 @@
 <p>分析压测完的dump文件：121个线程。</p>
 <p><img src="//flyen.github.io/2021/11/16/线上问题排查/image-20211110103444921.png" alt="image-20211110103444921"></p>
 <p><img src="//flyen.github.io/2021/11/16/线上问题排查/image-20211110103525625.png" alt="image-20211110103525625"></p>
-<p><strong>压测报告：RPS-19.8</strong></p>
+<p><strong>压测报告：</strong></p>
 <p><img src="//flyen.github.io/2021/11/16/线上问题排查/image-20211110103847720.png" alt="image-20211110103847720"></p>
 <p><img src="//flyen.github.io/2021/11/16/线上问题排查/image-20211110103942395.png" alt="image-20211110103942395"></p>
 <p>也压了一遍 <u>腾讯的接口</u> （10:32-10.42，10分钟）。</p>
@@ -516,6 +516,7 @@
 <p>总并发数1000，每秒启动100，压完，<strong>内存1.072G，线程125</strong>，报告如下：<strong>RPS-73.1</strong></p>
 <p><img src="//flyen.github.io/2021/11/16/线上问题排查/image-20211110110557287.png" alt="image-20211110110557287"></p>
 <p><img src="//flyen.github.io/2021/11/16/线上问题排查/image-20211110110645454.png" alt="image-20211110110645454"></p>
+<p>问题已解决。</p>
 <h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><ol>
 <li>对于调度器、线程池的了解加深，避免随意使用 <code>`newSingle()</code>、<code>newElastic()</code>和<code>newParallel()</code>等方法。</li>
 <li>线上性能监控 、内存泄漏的问题排查、dump文件的分析经验。jdk自带的调优工具(<code>jps/jmap/jcmd</code>等)及啊arthas监控使用、熟悉使用visualvm 、MAT、或者其他在线分析工具。</li>
