@@ -1,0 +1,839 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+<script>
+    (function(){
+        if(''){
+            if (prompt('请输入文章密码') !== ''){
+                alert('密码错误！');
+                history.back();
+            }
+        }
+    })();
+</script>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Microsoft YaHei:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|Lobster Two:300,300italic,400,400italic,700,700italic|PT Mono:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="mongodb," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="本文记录了mongodb执行计划的各个参数及使用注意。 执行计划MongoDB Query Plans 官方文档：https://docs.mongodb.com/v3.6/core/query-plans/#query-plans">
+<meta name="keywords" content="mongodb">
+<meta property="og:type" content="article">
+<meta property="og:title" content="mongodb执行计划详解">
+<meta property="og:url" content="http://flyen.github.io/2021/01/19/mongodb-query-plan/index.html">
+<meta property="og:site_name" content="flyEn&#39;blog">
+<meta property="og:description" content="本文记录了mongodb执行计划的各个参数及使用注意。 执行计划MongoDB Query Plans 官方文档：https://docs.mongodb.com/v3.6/core/query-plans/#query-plans">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://flyen.github.io/2021/01/19/mongodb-query-plan/query-planner-diagram.bakedsvg.svg">
+<meta property="og:updated_time" content="2021-11-26T06:59:37.418Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="mongodb执行计划详解">
+<meta name="twitter:description" content="本文记录了mongodb执行计划的各个参数及使用注意。 执行计划MongoDB Query Plans 官方文档：https://docs.mongodb.com/v3.6/core/query-plans/#query-plans">
+<meta name="twitter:image" content="http://flyen.github.io/2021/01/19/mongodb-query-plan/query-planner-diagram.bakedsvg.svg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://flyen.github.io/2021/01/19/mongodb-query-plan/"/>
+
+
+
+
+
+  <title> mongodb执行计划详解 | flyEn'blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">flyEn'blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+    
+      <p class="site-subtitle"></p>
+    
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://flyen.github.io/2021/01/19/mongodb-query-plan/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="Iwhale">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/avatar.png">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="flyEn'blog">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="flyEn'blog" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                mongodb执行计划详解
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2021-01-19T14:34:44+08:00">
+                2021-01-19
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>本文记录了mongodb执行计划的各个参数及使用注意。</p>
+<h2 id="执行计划"><a href="#执行计划" class="headerlink" title="执行计划"></a>执行计划</h2><p>MongoDB Query Plans 官方文档：<a href="https://docs.mongodb.com/v3.6/core/query-plans/#query-plans" target="_blank" rel="noopener">https://docs.mongodb.com/v3.6/core/query-plans/#query-plans</a></p>
+<a id="more"></a>
+<p>查询计划逻辑图：</p>
+<p><img src="//flyen.github.io/2021/01/19/mongodb-query-plan/query-planner-diagram.bakedsvg.svg" alt="Diagram of query planner logic"></p>
+<p>MongoDB 3.0之后，explain的返回与使用方法与之前版本有很多变化。</p>
+<p>现版本explain有三种模式：</p>
+<ul>
+<li>queryPlanner（默认模式）：MongoDB运行查询优化器对当前的查询进行<u>评估并选择</u>一个最佳的查询计划。</li>
+<li>executionStats：MongoDB运行查询优化器对当前的查询进行评估并选择一个最佳的查询计划<u>进行执行</u>，在执行完毕后返回这个最佳执行计划执行完成时的<strong>相关统计信息</strong>，对于那些被拒绝的执行计划，不返回其统计信息。</li>
+<li>allPlansExecution：该模式包括上述2种模式的所有信息，即按照最佳的执行计划执行以及列出统计信息，如果存在其他候选计划，也会列出这些候选的执行计划。</li>
+</ul>
+<blockquote>
+<p>比如说 db.trade_order.find().explain()</p>
+<p>不填默认queryPlanner模式，可指定<code>.explain(&quot;executionStats&quot;)</code></p>
+</blockquote>
+<h3 id="queryPlanner"><a href="#queryPlanner" class="headerlink" title="queryPlanner"></a>queryPlanner</h3><p>并不会去真正进行query语句查询，而是针对query语句进行执行计划分析并选出winning plan。</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br></pre></td><td class="code"><pre><span class="line">// db.usertable.find(&#123;"w": 1&#125;).explain("queryPlanner")</span><br><span class="line">// 举个执行计划响应结果的例子:</span><br><span class="line">&#123;</span><br><span class="line">    <span class="attr">"queryPlanner"</span>:&#123;</span><br><span class="line">        <span class="attr">"plannerVersion"</span>:<span class="number">1</span>,</span><br><span class="line">        "namespace":"game_db.game_user", // 该query所查询的表</span><br><span class="line">        "indexFilterSet":false, // 是否应用了index filter</span><br><span class="line">        "parsedQuery":&#123; // 解析查询 查询条件</span><br><span class="line">            "w":&#123;</span><br><span class="line">                "$eq":1</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;,</span><br><span class="line">        "winningPlan":&#123; // 查询优化器针对该query所返回的最优执行计划的详细内容</span><br><span class="line">            "stage":"FETCH", // 最优执行计划的stage，这里返回是FETCH，可以理解为通过返回的index位置去检索具体的文档</span><br><span class="line">            "inputStage":&#123; // explain.queryPlanner.winningPlan.stage的child stage，此处是IXSCAN，表示进行的是index scanning</span><br><span class="line">                "stage":"IXSCAN",  // 索引查找</span><br><span class="line">                "keyPattern":&#123; // 所扫描的index内容，此处是w:1与n:1。</span><br><span class="line">                    "w":1,</span><br><span class="line">                    "n":1</span><br><span class="line">                &#125;,</span><br><span class="line">                "indexName":"w_1_n_1", // winning plan所选用的index。</span><br><span class="line">                "isMultiKey":false, // 本次查询是否使用了多键、复合索引</span><br><span class="line">                "direction":"forward", // 此query的查询顺序，此处是forward，如果用了.sort(&#123;w:-1&#125;)将显示backward。</span><br><span class="line">                "indexBounds":&#123; // winningplan所扫描的索引范围，此处查询条件是w:1,使用的index是w与n的联合索引，故w是[1.0,1.0]而n没有指定在查询条件中，故是[MinKey,MaxKey]。</span><br><span class="line">                    "w":[</span><br><span class="line">                        <span class="string">"[1.0, 1.0]"</span></span><br><span class="line">                    ],</span><br><span class="line">                    "n":[</span><br><span class="line">                        <span class="string">"[MinKey, MaxKey]"</span></span><br><span class="line">                    ]</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;,</span><br><span class="line">        "rejectedPlans":[ // 其他执行计划（非最优而被查询优化器reject的）的详细返回，其中具体信息与winningPlan的返回中意义相同，故不在此赘述。</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="attr">"stage"</span>:<span class="string">"FETCH"</span>,</span><br><span class="line">                <span class="attr">"inputStage"</span>:&#123;</span><br><span class="line">                    <span class="attr">"stage"</span>:<span class="string">"IXSCAN"</span>,</span><br><span class="line">                    <span class="attr">"keyPattern"</span>:&#123;</span><br><span class="line">                        <span class="attr">"w"</span>:<span class="number">1</span>,</span><br><span class="line">                        <span class="attr">"v"</span>:<span class="number">1</span></span><br><span class="line">                    &#125;,</span><br><span class="line">                    <span class="attr">"indexName"</span>:<span class="string">"w_1_v_1"</span>,</span><br><span class="line">                    <span class="attr">"isMultiKey"</span>:<span class="literal">false</span>,</span><br><span class="line">                    <span class="attr">"direction"</span>:<span class="string">"forward"</span>,</span><br><span class="line">                    <span class="attr">"indexBounds"</span>:&#123;</span><br><span class="line">                        <span class="attr">"w"</span>:[</span><br><span class="line">                            <span class="string">"[1.0, 1.0]"</span></span><br><span class="line">                        ],</span><br><span class="line">                        <span class="attr">"v"</span>:[</span><br><span class="line">                            <span class="string">"[MinKey, MaxKey]"</span></span><br><span class="line">                        ]</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        ]</span><br><span class="line">      &#125;,</span><br><span class="line">    "serverInfo" : &#123;  // 服务器信息，包含主机名和ip，mongodb的版本等</span><br><span class="line">            "host" : "ALI-SZ-VT-TEST001",</span><br><span class="line">            "port" : 27017,</span><br><span class="line">            "version" : "4.0.5",</span><br><span class="line">            "gitVersion" : "3739429dd92b92d1b0ab120911a23d50bf03c412"</span><br><span class="line">      &#125;,</span><br><span class="line">      "ok" : 1</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上例的执行计划返回结果中，<code>queryPlanner.winningPlan.stage</code>参数，常用的有：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">类型</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><strong>COLLSCAN</strong></td>
+<td>全表扫描</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>IXSCAN</strong></td>
+<td>索引扫描</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>FETCH</strong></td>
+<td>根据索引检索指定的文档</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>SHARD_MERGE</strong></td>
+<td>将各个分片的返回结果进行merge</td>
+</tr>
+<tr>
+<td style="text-align:left">SORT</td>
+<td>表明在内存中进行了排序</td>
+</tr>
+<tr>
+<td style="text-align:left">LIMIT</td>
+<td>使用limit限制返回结果数量</td>
+</tr>
+<tr>
+<td style="text-align:left">SKIP</td>
+<td>使用skip进行跳过</td>
+</tr>
+<tr>
+<td style="text-align:left">IDHACK</td>
+<td>针对_id字段进行查询</td>
+</tr>
+<tr>
+<td style="text-align:left">SHANRDING_FILTER</td>
+<td>通过mongos对分片数据进行查询</td>
+</tr>
+<tr>
+<td style="text-align:left">COUNT</td>
+<td>利用db.coll.explain().count()进行count运算</td>
+</tr>
+<tr>
+<td style="text-align:left">COUNTSCAN</td>
+<td>count不使用用index进行count时的stage返回</td>
+</tr>
+<tr>
+<td style="text-align:left">COUNT_SCAN</td>
+<td>count使用了Index进行count时的stage返回</td>
+</tr>
+<tr>
+<td style="text-align:left">SUBPLA</td>
+<td>未使用到索引的$or查询的stage返回</td>
+</tr>
+<tr>
+<td style="text-align:left">TEXT</td>
+<td>使用全文索引进行查询时候的stage返回</td>
+</tr>
+<tr>
+<td style="text-align:left">PROJECTION</td>
+<td>限定返回字段时候stage的返回</td>
+</tr>
+</tbody>
+</table>
+<p>上表中，加粗部分为最常用的。</p>
+<h3 id="executionStats"><a href="#executionStats" class="headerlink" title="executionStats"></a>executionStats</h3><p>executionStats返回的是最优计划的详细的执行信息。</p>
+<p>注意，必须是executionStats或者allPlansExecution模式中，才返回executionStats结果。</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><span class="line">// 比之上面的，多了一个executionStats返回</span><br><span class="line">"executionStats" : &#123; </span><br><span class="line">	"executionSuccess" : true, // 是否执行成功</span><br><span class="line">	"nReturned" : 2,			// 此query匹配到的文档数</span><br><span class="line">	"executionTimeMillis" : 0,  // 查询计划选择和查询执行所需的总时间,单位：毫秒</span><br><span class="line">	"totalKeysExamined" : 2,    // 扫描的索引条目数</span><br><span class="line">	"totalDocsExamined" : 2,	// 扫描的文档数</span><br><span class="line">	"executionStages" : &#123;	// 最优计划完整的执行信息</span><br><span class="line">		"stage" : "FETCH",  // 根据索引结果扫描具体文档</span><br><span class="line">		"nReturned" : 2,  // 由于是 FETCH，这里的结果跟上面的nReturned结果一致</span><br><span class="line">		"executionTimeMillisEstimate" : 0,</span><br><span class="line">		"works" : 3, // 查询执行阶段执行的“工作单元”的数量。 查询执行阶段将其工作分为小单元。 “工作单位”可能包括检查单个索引键，从集合中提取单个文档，将投影应用于单个文档或执行内部记账</span><br><span class="line">		"advanced" : 2, // 返回到父阶段的结果数</span><br><span class="line">		"needTime" : 0, // 未将中间结果返回给其父级的工作循环数</span><br><span class="line">		"needYield" : 0, // 存储层请求查询系统产生锁定的次数</span><br><span class="line">		"saveState" : 0,</span><br><span class="line">		"restoreState" : 0,</span><br><span class="line">		"isEOF" : 1,		// 执行阶段是否已到达流的结尾</span><br><span class="line">		"invalidates" : 0,</span><br><span class="line">		"docsExamined" : 2,  // 跟totalDocsExamined结果一致</span><br><span class="line">		"alreadyHasObj" : 0,</span><br><span class="line">		"inputStage" : &#123;  // 一个小的工作单元，一个执行计划中，可以有一个或者多个inputStage</span><br><span class="line">			"stage" : "IXSCAN",</span><br><span class="line">			"nReturned" : 2,</span><br><span class="line">			"executionTimeMillisEstimate" : 0,</span><br><span class="line">			"works" : 3,</span><br><span class="line">			"advanced" : 2,</span><br><span class="line">			"needTime" : 0,</span><br><span class="line">			"needYield" : 0,</span><br><span class="line">			"saveState" : 0,</span><br><span class="line">			"restoreState" : 0,</span><br><span class="line">			"isEOF" : 1,</span><br><span class="line">			"invalidates" : 0,</span><br><span class="line">			"keyPattern" : &#123;</span><br><span class="line">				"age" : 1</span><br><span class="line">			&#125;,</span><br><span class="line">			"indexName" : "s4_id1",</span><br><span class="line">			"isMultiKey" : false,</span><br><span class="line">			"multiKeyPaths" : &#123;</span><br><span class="line">				"age" : [ ]</span><br><span class="line">			&#125;,</span><br><span class="line">			"isUnique" : false,</span><br><span class="line">			"isSparse" : false,</span><br><span class="line">			"isPartial" : false,</span><br><span class="line">			"indexVersion" : 2,</span><br><span class="line">			"direction" : "forward",</span><br><span class="line">			"indexBounds" : &#123;</span><br><span class="line">				"age" : [</span><br><span class="line">					<span class="string">"(20.0, inf.0]"</span></span><br><span class="line">				]</span><br><span class="line">			&#125;,</span><br><span class="line">			"keysExamined" : 2,</span><br><span class="line">			"seeks" : 1,</span><br><span class="line">			"dupsTested" : 0,</span><br><span class="line">			"dupsDropped" : 0,</span><br><span class="line">			"seenInvalidated" : 0</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>执行计划的结果是以阶段树的形式呈现，每个阶段将其结果(文档或者索引键)传递给父节点，叶子节点访问集合或者索引，中间节点操纵由子节点产生的文档或者索引键，最后汇总到根节点。</p>
+<h3 id="allPlansExecution"><a href="#allPlansExecution" class="headerlink" title="allPlansExecution"></a>allPlansExecution</h3><p>allPlansExecution模式返回了更为详细的执行计划结果，这里不再赘述。</p>
+<h2 id="IndexFilter"><a href="#IndexFilter" class="headerlink" title="IndexFilter"></a>IndexFilter</h2><p><a href="https://docs.mongodb.com/v3.6/core/query-plans/#index-filters" target="_blank" rel="noopener">https://docs.mongodb.com/v3.6/core/query-plans/#index-filters</a></p>
+<p>索引过滤器(IndexFilter)决定了查询优化器对于某一类型的查询将如何使用index，且仅影响指定的查询类型。</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br></pre></td><td class="code"><pre><span class="line">// 首先，集合 s4 有三个索引</span><br><span class="line">db.s4.getIndexes()</span><br><span class="line">[</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="attr">"v"</span> : <span class="number">2</span>,</span><br><span class="line">		<span class="attr">"key"</span> : &#123;</span><br><span class="line">			<span class="attr">"_id"</span> : <span class="number">1</span></span><br><span class="line">		&#125;,</span><br><span class="line">		"name" : "_id_",  	// MongoDB自动创建的索引</span><br><span class="line">		"ns" : "t1.s4"   // 表名</span><br><span class="line">	&#125;,</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="attr">"v"</span> : <span class="number">2</span>,</span><br><span class="line">		<span class="attr">"key"</span> : &#123;</span><br><span class="line">			<span class="attr">"age"</span> : <span class="number">1</span></span><br><span class="line">		&#125;,</span><br><span class="line">		"name" : "s4_id1",   // 我们手动创建的索引</span><br><span class="line">		"ns" : "t1.s4"</span><br><span class="line">	&#125;,</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="attr">"v"</span> : <span class="number">2</span>,</span><br><span class="line">		<span class="attr">"key"</span> : &#123;</span><br><span class="line">			<span class="attr">"age"</span> : <span class="number">-1</span></span><br><span class="line">		&#125;,</span><br><span class="line">		"name" : "s4_id2",	 // 我们手动创建的索引</span><br><span class="line">		"ns" : "t1.s4"</span><br><span class="line">	&#125;</span><br><span class="line">]</span><br><span class="line"></span><br><span class="line">// 在查询时，MongoDB会自动的帮我们选择使用哪个索引</span><br><span class="line">// 以下两种查询查询优化器都会选择使用 s4_id2 索引</span><br><span class="line">db.s4.explain().find(&#123;"age": &#123;"$gt":18&#125;&#125;)</span><br><span class="line">db.s4.explain().find(&#123;"age": 18&#125;)</span><br><span class="line">&#123;</span><br><span class="line">	<span class="attr">"queryPlanner"</span> : &#123;</span><br><span class="line">		<span class="attr">"plannerVersion"</span> : <span class="number">1</span>,</span><br><span class="line">		<span class="attr">"namespace"</span> : <span class="string">"t1.s4"</span>,</span><br><span class="line">		"indexFilterSet" : false,  // 注意这个值是false</span><br><span class="line">		"parsedQuery" : &#123;</span><br><span class="line">			"age" : &#123;</span><br><span class="line">				"$eq" : 18</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;,</span><br><span class="line">		"winningPlan" : &#123;</span><br><span class="line">			"stage" : "FETCH",</span><br><span class="line">			"inputStage" : &#123;</span><br><span class="line">				"stage" : "IXSCAN",</span><br><span class="line">				"keyPattern" : &#123;</span><br><span class="line">					"age" : -1</span><br><span class="line">				&#125;,</span><br><span class="line">				"indexName" : "s4_id2",  // 查询优化器选择了s4_id2这个索引</span><br><span class="line">				"isMultiKey" : false,</span><br><span class="line">				"multiKeyPaths" : &#123;</span><br><span class="line">					"age" : [ ]</span><br><span class="line">				&#125;,</span><br><span class="line">				"isUnique" : false,</span><br><span class="line">				"isSparse" : false,</span><br><span class="line">				"isPartial" : false,</span><br><span class="line">				"indexVersion" : 2,</span><br><span class="line">				"direction" : "forward",</span><br><span class="line">				"indexBounds" : &#123;</span><br><span class="line">					"age" : [</span><br><span class="line">						<span class="string">"[18.0, 18.0]"</span></span><br><span class="line">					]</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;,</span><br><span class="line">		"rejectedPlans" : [</span><br><span class="line">			&#123;</span><br><span class="line">				<span class="attr">"stage"</span> : <span class="string">"FETCH"</span>,</span><br><span class="line">				<span class="attr">"inputStage"</span> : &#123;</span><br><span class="line">					<span class="attr">"stage"</span> : <span class="string">"IXSCAN"</span>,</span><br><span class="line">					<span class="attr">"keyPattern"</span> : &#123;</span><br><span class="line">						<span class="attr">"age"</span> : <span class="number">1</span></span><br><span class="line">					&#125;,</span><br><span class="line">					"indexName" : "s4_id1",  // 并将s4_id1索引排除</span><br><span class="line">					"isMultiKey" : false,</span><br><span class="line">					"multiKeyPaths" : &#123;</span><br><span class="line">						"age" : [ ]</span><br><span class="line">					&#125;,</span><br><span class="line">					"isUnique" : false,</span><br><span class="line">					"isSparse" : false,</span><br><span class="line">					"isPartial" : false,</span><br><span class="line">					"indexVersion" : 2,</span><br><span class="line">					"direction" : "forward",</span><br><span class="line">					"indexBounds" : &#123;</span><br><span class="line">						"age" : [</span><br><span class="line">							<span class="string">"[18.0, 18.0]"</span></span><br><span class="line">						]</span><br><span class="line">					&#125;</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">		]</span><br><span class="line">	&#125;,</span><br><span class="line">	"serverInfo" : &#123;</span><br><span class="line">		"host" : "cs",</span><br><span class="line">		"port" : 27017,</span><br><span class="line">		"version" : "3.6.12",</span><br><span class="line">		"gitVersion" : "c2b9acad0248ca06b14ef1640734b5d0595b55f1"</span><br><span class="line">	&#125;,</span><br><span class="line">	"ok" : 1</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>那如果有些应用场景下需要特定索引，而不是用查询优化器帮助我们选择的索引，该怎么办？</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line">// 通过 hint 明确指定索引</span><br><span class="line">db.s4.explain().find(&#123;"age": &#123;"$gt":18&#125;&#125;).hint("s4_id1")</span><br><span class="line">&#123;</span><br><span class="line">	<span class="attr">"queryPlanner"</span> : &#123;</span><br><span class="line">		<span class="attr">"plannerVersion"</span> : <span class="number">1</span>,</span><br><span class="line">		<span class="attr">"namespace"</span> : <span class="string">"t1.s4"</span>,</span><br><span class="line">		<span class="attr">"indexFilterSet"</span> : <span class="literal">false</span>,</span><br><span class="line">		<span class="attr">"parsedQuery"</span> : &#123;</span><br><span class="line">			<span class="attr">"age"</span> : &#123;</span><br><span class="line">				<span class="attr">"$gt"</span> : <span class="number">18</span></span><br><span class="line">			&#125;</span><br><span class="line">		&#125;,</span><br><span class="line">		<span class="attr">"winningPlan"</span> : &#123;</span><br><span class="line">			<span class="attr">"stage"</span> : <span class="string">"FETCH"</span>,</span><br><span class="line">			<span class="attr">"inputStage"</span> : &#123;</span><br><span class="line">				<span class="attr">"stage"</span> : <span class="string">"IXSCAN"</span>,</span><br><span class="line">				<span class="attr">"keyPattern"</span> : &#123;</span><br><span class="line">					<span class="attr">"age"</span> : <span class="number">1</span></span><br><span class="line">				&#125;,</span><br><span class="line">				"indexName" : "s4_id1",  // hint告诉查询优化器选择使用指定的索引s4_id1</span><br><span class="line">				"isMultiKey" : false,</span><br><span class="line">				"multiKeyPaths" : &#123;</span><br><span class="line">					"age" : [ ]</span><br><span class="line">				&#125;,</span><br><span class="line">				"isUnique" : false,</span><br><span class="line">				"isSparse" : false,</span><br><span class="line">				"isPartial" : false,</span><br><span class="line">				"indexVersion" : 2,</span><br><span class="line">				"direction" : "forward",</span><br><span class="line">				"indexBounds" : &#123;</span><br><span class="line">					"age" : [</span><br><span class="line">						<span class="string">"(18.0, inf.0]"</span></span><br><span class="line">					]</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;,</span><br><span class="line">		"rejectedPlans" : [ ]</span><br><span class="line">	&#125;,</span><br><span class="line">	"serverInfo" : &#123;</span><br><span class="line">		"host" : "cs",</span><br><span class="line">		"port" : 27017,</span><br><span class="line">		"version" : "3.6.12",</span><br><span class="line">		"gitVersion" : "c2b9acad0248ca06b14ef1640734b5d0595b55f1"</span><br><span class="line">	&#125;,</span><br><span class="line">	"ok" : 1</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>问题解决了。</p>
+<p>但我们还有其他的解决方式，就是提前声明为某一类查询指定特定的索引(索引必须存在)，当有这类查询时，自动使用特定索引，或者从指定的几个索引中选择一个，而不是通过hint显式指定，且不影响其他类型的查询，这就用到了IndexFilter。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 创建IndexFilter</span></span><br><span class="line">db.runCommand(&#123;</span><br><span class="line">    planCacheSetFilter: <span class="string">"s4"</span>,</span><br><span class="line">    query: &#123;<span class="string">"age"</span>: <span class="number">18</span>&#125;,  <span class="comment">// 只要查询类型是 age等于某个值，该IndexFilter就会被应用，并不特指18</span></span><br><span class="line">    <span class="comment">// indexes:[&#123;age: 1&#125;]  // 跟下面一行等价</span></span><br><span class="line">    indexes:[<span class="string">"s4_id1"</span>]  <span class="comment">// 可以有多个备选索引</span></span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<p>上面的IndexFilter的意思是，当查询集合s4时，且查询类型是age等于某个值时(只作用于该类型的查询)，就从<code>indexes</code>数组中选择一个索引，或者从多个备选索引中，选择一个最优的索引，当然，你也可以像示例中一样，只写一个索引<code>s4_id1</code>。</p>
+<p>之后再来执行一次：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 对于查询是 age 等于某个值这种类型的查询，查询优化器都会选择我们指定的IndexFilter</span></span><br><span class="line">db.s4.explain().find(&#123;<span class="string">"age"</span>: <span class="number">18</span>&#125;)</span><br><span class="line">&#123;</span><br><span class="line">	<span class="string">"queryPlanner"</span> : &#123;</span><br><span class="line">		<span class="string">"plannerVersion"</span> : <span class="number">1</span>,</span><br><span class="line">		<span class="string">"namespace"</span> : <span class="string">"t1.s4"</span>,</span><br><span class="line">		<span class="string">"indexFilterSet"</span> : <span class="literal">true</span>,  <span class="comment">// IndexFilter被应用</span></span><br><span class="line">		<span class="string">"parsedQuery"</span> : &#123;</span><br><span class="line">			<span class="string">"age"</span> : &#123;</span><br><span class="line">				<span class="string">"$eq"</span> : <span class="number">18</span></span><br><span class="line">			&#125;</span><br><span class="line">		&#125;,</span><br><span class="line">		<span class="string">"winningPlan"</span> : &#123;</span><br><span class="line">			<span class="string">"stage"</span> : <span class="string">"FETCH"</span>,</span><br><span class="line">			<span class="string">"inputStage"</span> : &#123;</span><br><span class="line">				<span class="string">"stage"</span> : <span class="string">"IXSCAN"</span>,</span><br><span class="line">				<span class="string">"keyPattern"</span> : &#123;</span><br><span class="line">					<span class="string">"age"</span> : <span class="number">1</span></span><br><span class="line">				&#125;,</span><br><span class="line">				<span class="string">"indexName"</span> : <span class="string">"s4_id1"</span>,  <span class="comment">// 使用了IndexFilter指定的索引</span></span><br><span class="line">				<span class="string">"isMultiKey"</span> : <span class="literal">false</span>,</span><br><span class="line">				<span class="string">"multiKeyPaths"</span> : &#123;</span><br><span class="line">					<span class="string">"age"</span> : [ ]</span><br><span class="line">				&#125;,</span><br><span class="line">				<span class="string">"isUnique"</span> : <span class="literal">false</span>,</span><br><span class="line">				<span class="string">"isSparse"</span> : <span class="literal">false</span>,</span><br><span class="line">				<span class="string">"isPartial"</span> : <span class="literal">false</span>,</span><br><span class="line">				<span class="string">"indexVersion"</span> : <span class="number">2</span>,</span><br><span class="line">				<span class="string">"direction"</span> : <span class="string">"forward"</span>,</span><br><span class="line">				<span class="string">"indexBounds"</span> : &#123;</span><br><span class="line">					<span class="string">"age"</span> : [</span><br><span class="line">						<span class="string">"[18.0, 18.0]"</span></span><br><span class="line">					]</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;,</span><br><span class="line">		<span class="string">"rejectedPlans"</span> : [ ]</span><br><span class="line">	&#125;,</span><br><span class="line">	<span class="string">"serverInfo"</span> : &#123;</span><br><span class="line">		<span class="string">"host"</span> : <span class="string">"cs"</span>,</span><br><span class="line">		<span class="string">"port"</span> : <span class="number">27017</span>,</span><br><span class="line">		<span class="string">"version"</span> : <span class="string">"3.6.12"</span>,</span><br><span class="line">		<span class="string">"gitVersion"</span> : <span class="string">"c2b9acad0248ca06b14ef1640734b5d0595b55f1"</span></span><br><span class="line">	&#125;,</span><br><span class="line">	<span class="string">"ok"</span> : <span class="number">1</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>注意，如果某一类型的查询设定了IndexFilter，那么执行时通过hint指定了其他的index，查询优化器将会忽略<strong>hint</strong>所设置index，仍然使用indexfilter中设定的查询计划，也就是下面这种情况：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line">db.s4.explain().find(&#123;<span class="string">"age"</span>: <span class="number">18</span>&#125;).hint(<span class="string">"s4_id2"</span>)  <span class="comment">// 希望在查询时使用 s4_id2 索引</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="string">"queryPlanner"</span> : &#123;</span><br><span class="line">		<span class="string">"plannerVersion"</span> : <span class="number">1</span>,</span><br><span class="line">		<span class="string">"namespace"</span> : <span class="string">"t1.s4"</span>,</span><br><span class="line">		<span class="string">"indexFilterSet"</span> : <span class="literal">true</span>,  <span class="comment">// 创建的indexFilter被应用</span></span><br><span class="line">		<span class="string">"parsedQuery"</span> : &#123;</span><br><span class="line">			<span class="string">"age"</span> : &#123;</span><br><span class="line">				<span class="string">"$eq"</span> : <span class="number">18</span></span><br><span class="line">			&#125;</span><br><span class="line">		&#125;,</span><br><span class="line">		<span class="string">"winningPlan"</span> : &#123;</span><br><span class="line">			<span class="string">"stage"</span> : <span class="string">"FETCH"</span>,</span><br><span class="line">			<span class="string">"inputStage"</span> : &#123;</span><br><span class="line">				<span class="string">"stage"</span> : <span class="string">"IXSCAN"</span>,</span><br><span class="line">				<span class="string">"keyPattern"</span> : &#123;</span><br><span class="line">					<span class="string">"age"</span> : <span class="number">1</span></span><br><span class="line">				&#125;,</span><br><span class="line">				<span class="string">"indexName"</span> : <span class="string">"s4_id1"</span>,  <span class="comment">// 忽略hint指定的s4_id2，选择IndexFilter指定的索引</span></span><br><span class="line">				<span class="string">"isMultiKey"</span> : <span class="literal">false</span>,</span><br><span class="line">				<span class="string">"multiKeyPaths"</span> : &#123;</span><br><span class="line">					<span class="string">"age"</span> : [ ]</span><br><span class="line">				&#125;,</span><br><span class="line">				<span class="string">"isUnique"</span> : <span class="literal">false</span>,</span><br><span class="line">				<span class="string">"isSparse"</span> : <span class="literal">false</span>,</span><br><span class="line">				<span class="string">"isPartial"</span> : <span class="literal">false</span>,</span><br><span class="line">				<span class="string">"indexVersion"</span> : <span class="number">2</span>,</span><br><span class="line">				<span class="string">"direction"</span> : <span class="string">"forward"</span>,</span><br><span class="line">				<span class="string">"indexBounds"</span> : &#123;</span><br><span class="line">					<span class="string">"age"</span> : [</span><br><span class="line">						<span class="string">"[18.0, 18.0]"</span></span><br><span class="line">					]</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;,</span><br><span class="line">		<span class="string">"rejectedPlans"</span> : [ ]</span><br><span class="line">	&#125;,</span><br><span class="line">	<span class="string">"serverInfo"</span> : &#123;</span><br><span class="line">		<span class="string">"host"</span> : <span class="string">"cs"</span>,</span><br><span class="line">		<span class="string">"port"</span> : <span class="number">27017</span>,</span><br><span class="line">		<span class="string">"version"</span> : <span class="string">"3.6.12"</span>,</span><br><span class="line">		<span class="string">"gitVersion"</span> : <span class="string">"c2b9acad0248ca06b14ef1640734b5d0595b55f1"</span></span><br><span class="line">	&#125;,</span><br><span class="line">	<span class="string">"ok"</span> : <span class="number">1</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>另外，IndexFilter不会影响其他类型的查询，如下面的查询类型，查询优化器还是按照原来的规则选择最优计划：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">db.s4.explain().find(&#123;<span class="string">"age"</span>: &#123;<span class="string">"$gt"</span>:<span class="number">18</span>&#125;&#125;)</span><br><span class="line">db.s4.explain().find(&#123;<span class="string">"age"</span>: &#123;<span class="string">"$gt"</span>:<span class="number">18</span>&#125;&#125;).hint(<span class="string">"s4_id1"</span>)</span><br></pre></td></tr></table></figure>
+<p>IndexFilter的其他操作：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">// 查看指定集合中的IndexFilter数组</span><br><span class="line">db.runCommand(&#123;planCacheListFilters: "s4"&#125;)</span><br><span class="line"></span><br><span class="line">// 删除IndexFilter</span><br><span class="line">db.runCommand(&#123;</span><br><span class="line">    planCacheClearFilters: "s4",</span><br><span class="line">    // query: &#123;"age": 18&#125;,  // 对应创建IndexFilter时的注释的那一行</span><br><span class="line">    indexes:["s4_id1"]</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<p>当然，在有些情况下，你删除指定的IndexFilter会失败，终极的解决办法是——重启MongoDB服务。</p>
+<p>小结：</p>
+<ul>
+<li>IndexFilter为指定类型的查询提前设置使用某一个或者从多个备选索引中选择指定索引。</li>
+<li>IndexFilter指定的索引必须存在，如果索引不存在——也没事！全表扫描呗！</li>
+<li>IndexFilter的优先级高于hint，这点是在生产中要注意的。</li>
+<li>IndexFilter一定程度上解决了某些问题，但它使用相对麻烦，谨慎使用！</li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/mongodb/" rel="tag"># mongodb</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/11/27/mysql索引/" rel="next" title="MySQL索引+数据结构">
+                <i class="fa fa-chevron-left"></i> MySQL索引+数据结构
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2021/01/20/jvm详解/" rel="prev" title="学习笔记之JVM性能调优">
+                学习笔记之JVM性能调优 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.png"
+               alt="Iwhale" />
+          <p class="site-author-name" itemprop="name">Iwhale</p>
+          <p class="site-description motion-element" itemprop="description">Dream, Such as whales to the sea.</p>
+        </div>
+        <nav class="site-state motion-element">
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">47</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">10</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">29</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/flyEn" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/p/1005055406757796/home" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#执行计划"><span class="nav-number">1.</span> <span class="nav-text">执行计划</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#queryPlanner"><span class="nav-number">1.1.</span> <span class="nav-text">queryPlanner</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#executionStats"><span class="nav-number">1.2.</span> <span class="nav-text">executionStats</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#allPlansExecution"><span class="nav-number">1.3.</span> <span class="nav-text">allPlansExecution</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#IndexFilter"><span class="nav-number">2.</span> <span class="nav-text">IndexFilter</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright" >
+  
+  &copy;  Thu Jan 05 2017 08:00:00 GMT+0800 (中国标准时间) - 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Iwhale</span>
+</div>
+
+<div class="powered-by">
+<i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">
+  本站访客数:<span id="busuanzi_value_site_uv"></span>
+</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+
+<script type="text/javascript" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script>
+<script type="text/javascript" src="//7u2ss1.com1.z0.glb.clouddn.com/love.js"></script>
+
+<a href="https://github.com/flyEn"><img style="position: absolute; top: 0; left: 0; border: 0;" src="https://camo.githubusercontent.com/c6625ac1f3ee0a12250227cf83ce904423abf351/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f6c6566745f677261795f3664366436642e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_left_gray_6d6d6d.png"></a>
+</body>
+</html>
