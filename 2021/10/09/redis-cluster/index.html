@@ -127,7 +127,7 @@
 <meta property="og:image" content="http://flyen.github.io/2021/10/09/redis-cluster/image-20220110194843451.png">
 <meta property="og:image" content="http://flyen.github.io/2021/10/09/redis-cluster/image-20220114165821994.png">
 <meta property="og:image" content="http://flyen.github.io/2021/10/09/redis-cluster/image-20220111180834411.png">
-<meta property="og:updated_time" content="2022-01-14T09:00:28.683Z">
+<meta property="og:updated_time" content="2022-01-14T09:08:36.127Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="redis docker swarm 集群部署">
 <meta name="twitter:description" content="本文是自己前段时间在一沙箱服务器上进行redis集群部署的一次实践的记录和整理。主要基于docker启动多个容器，搭建了一主多从+哨兵的redis架构模式，如图：">
@@ -494,7 +494,7 @@
 <li><p>主从同步，master和slave节点数据同步   √</p>
 </li>
 <li><p>配置密码是否生效  √</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; keys *</span><br><span class="line">(error) NOAUTH Authentication required.</span><br><span class="line">127.0.0.1:6379&gt; auth jsRedis12989</span><br><span class="line">OK</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; keys *</span><br><span class="line">(error) NOAUTH Authentication required.</span><br><span class="line">127.0.0.1:6379&gt; auth 123456</span><br><span class="line">OK</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>读写分离  √</p>
 <p>slave node 不能写数据。</p>
@@ -553,8 +553,7 @@
 </blockquote>
 </li>
 </ol>
-<h3 id="关于Redis持久化机制"><a href="#关于Redis持久化机制" class="headerlink" title="关于Redis持久化机制"></a>关于Redis持久化机制</h3><p><strong>关于持久化</strong></p>
-<p>redis有两种持久化机制，一种是全量的RDB（Redis Database），一种是增量的AOF（Append Only File）。</p>
+<h3 id="关于Redis持久化机制"><a href="#关于Redis持久化机制" class="headerlink" title="关于Redis持久化机制"></a>关于Redis持久化机制</h3><p>redis有两种持久化机制，一种是全量的RDB（Redis Database），一种是增量的AOF（Append Only File）。</p>
 <p>在默认配置未开启，即<code>appendonly:no</code>的情况下，只会进行RDB。</p>
 <ul>
 <li><p>RDB持久化方式能够在指定的时间间隔对数据进行快照存储，适合数据备份。</p>
