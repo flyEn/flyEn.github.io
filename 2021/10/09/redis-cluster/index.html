@@ -1,0 +1,937 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+<script>
+    (function(){
+        if(''){
+            if (prompt('请输入文章密码') !== ''){
+                alert('密码错误！');
+                history.back();
+            }
+        }
+    })();
+</script>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Microsoft YaHei:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|Lobster Two:300,300italic,400,400italic,700,700italic|PT Mono:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="redis," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="本文是自己前段时间在一沙箱服务器上进行redis集群部署的一次实践的记录和整理。主要基于docker启动多个容器，搭建了一主多从+哨兵的redis架构模式，如图：">
+<meta name="keywords" content="redis">
+<meta property="og:type" content="article">
+<meta property="og:title" content="redis docker swarm 集群部署">
+<meta property="og:url" content="http://flyen.github.io/2021/10/09/redis-cluster/index.html">
+<meta property="og:site_name" content="flyEn&#39;blog">
+<meta property="og:description" content="本文是自己前段时间在一沙箱服务器上进行redis集群部署的一次实践的记录和整理。主要基于docker启动多个容器，搭建了一主多从+哨兵的redis架构模式，如图：">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://flyen.github.io/2021/10/09/redis-cluster/redissentinel-1024x849.png">
+<meta property="og:image" content="http://flyen.github.io/2021/10/09/redis-cluster/image-20220111163415181.png">
+<meta property="og:image" content="http://flyen.github.io/2021/10/09/redis-cluster/image-20220110194843451.png">
+<meta property="og:image" content="http://flyen.github.io/2021/10/09/redis-cluster/image-20220114165821994.png">
+<meta property="og:image" content="http://flyen.github.io/2021/10/09/redis-cluster/image-20220111180834411.png">
+<meta property="og:updated_time" content="2022-01-14T09:00:28.683Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="redis docker swarm 集群部署">
+<meta name="twitter:description" content="本文是自己前段时间在一沙箱服务器上进行redis集群部署的一次实践的记录和整理。主要基于docker启动多个容器，搭建了一主多从+哨兵的redis架构模式，如图：">
+<meta name="twitter:image" content="http://flyen.github.io/2021/10/09/redis-cluster/redissentinel-1024x849.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://flyen.github.io/2021/10/09/redis-cluster/"/>
+
+
+
+
+
+  <title> redis docker swarm 集群部署 | flyEn'blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">flyEn'blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+    
+      <p class="site-subtitle"></p>
+    
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://flyen.github.io/2021/10/09/redis-cluster/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="Iwhale">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/avatar.png">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="flyEn'blog">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="flyEn'blog" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                redis docker swarm 集群部署
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2021-10-09T16:52:49+08:00">
+                2021-10-09
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>本文是自己前段时间在一沙箱服务器上进行redis集群部署的一次实践的记录和整理。<br>主要基于docker启动多个容器，搭建了一主多从+哨兵的redis架构模式，如图：<br><a id="more"></a></p>
+<p><img src="//flyen.github.io/2021/10/09/redis-cluster/redissentinel-1024x849.png" alt="img"></p>
+<p>Redis一主多从模式，配合sentinel哨兵集群来进行监控管理，实现监控和故障转移，从来保证Redis的高可用。</p>
+<p>当然，还有其他升级方案，比如：</p>
+<ul>
+<li><p>多主多从，多个Redis节点间共享数据的Redis集群，进行分区，也是为了解决单机Redis容量有限的问题，提升高并发性。</p>
+<blockquote>
+<p>官方文档说明最小的Redis集群至少需要3个主节点</p>
+<p>既然有3个主节点，那么主节点搭配至少一个从节点，最小的集群为三主三从。</p>
+</blockquote>
+</li>
+</ul>
+<p>以下实践在一台主机上部署，算是<u>单机Redis伪集群架构</u>。</p>
+<p>一般来说，master和slave节点分布在不同服务器上，而sentinel每个redis node的服务器上挂一个，如图：M1主节点、R2从节点、S1/S2/S3 sentinel node。</p>
+<p><img src="//flyen.github.io/2021/10/09/redis-cluster/image-20220111163415181.png" alt="image-20220111163415181" style="zoom:50%;"></p>
+<p>因为如果slave节点和master同一个服务器，仅仅只是相当于实现了redis的多线程而已。而sentinel如果都挂在其中一个redis node的机子上，那么这台服务器挂了之后，sentinel也挂了。使用sentinel集群也是为了保证redis的高可用，避免哨兵节点挂了之后影响redis的使用。</p>
+<p><strong>部署背景</strong>：docker、docker compose、docker swarm</p>
+<p><strong>镜像选用</strong>：bitnami/redis、bitnami/redis-sentinel</p>
+<blockquote>
+<p>用bitnami镜像的考虑：初始化容器方便，提供很多部署时的环境变量，容器启动后动态写入配置文件；优化了镜像的体积，更为小巧…</p>
+</blockquote>
+<h2 id="docker单点模式"><a href="#docker单点模式" class="headerlink" title="docker单点模式"></a>docker单点模式</h2><p>因为之前开发某环境，单点的redis，当时想问下端口号是否能开放出来，以方便本地远程连接Redis数据库。但是被告知，Redis未设密码，之前好像设过一次没有生效…</p>
+<p>我就比较奇怪，去看了看配置，发现docker部署的命令中是未指定配置路径的，以前的redis实际上用的是默认配置启动的，所以之前外部配置修改都不生效。</p>
+<p>如果要指定配置文件，应该在创建service后，指定容器启动后的命令，redis-server /etc/redis/redis.conf。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">docker service create --name redis \</span><br><span class="line">  --network hplus_network \</span><br><span class="line">  --limit-memory 2G \</span><br><span class="line">  --config source=redis-conf-6,target=/etc/redis/redis.conf,mode=0444 \</span><br><span class="line">  --publish 6379:6379 \</span><br><span class="line">  --mount type=volume,source=redis_data,destination=/data \</span><br><span class="line">  --mount type=bind,source=/usr/share/zoneinfo/Asia/Shanghai,destination=/usr/share/zoneinfo/Asia/Shanghai \</span><br><span class="line">  --mount type=bind,source=/etc/localtime,destination=/etc/localtime \</span><br><span class="line">  redis:6.2.1 redis-server /etc/redis/redis.conf</span><br></pre></td></tr></table></figure>
+<p><strong>对上述命令的解释：</strong></p>
+<ul>
+<li><p><code>--name</code>：service 名称</p>
+</li>
+<li><p><code>--network</code>：指定网络</p>
+</li>
+<li><p><code>--limit-memory</code>：限制最大内存</p>
+</li>
+<li><p><code>--config</code>：指定配置文件。</p>
+<p>source：用的是容器外面docker管理的挂载资源，redis-conf-6。</p>
+<p>target：容器内部的配置资源目标路径。</p>
+<p>mode：配置文件权限。</p>
+</li>
+<li><p><code>--mount</code>：其余的就是将挂载资源初始化到容器的操作。</p>
+</li>
+</ul>
+<p><strong>关于挂载：</strong></p>
+<blockquote>
+<ol>
+<li><p>挂载方便在服务器外部修改配置，应用到容器内部。</p>
+</li>
+<li><p>方便数据容灾备份，比如redis数据库在容器下存储的持久化文件。如果不用挂载，容器一销毁，重新启动数据都清空了。</p>
+</li>
+<li>便于初始化容器</li>
+<li>…</li>
+</ol>
+</blockquote>
+<p>查看docker管理的挂载资源：<code>docker volume ls</code></p>
+<p>创建挂载资源（远程）：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">docker volume create --driver local \</span><br><span class="line">  --opt type=nfs \</span><br><span class="line">  --opt o=addr=xxxxxx.cn-hangzhou.nas.aliyuncs.com,rw,vers=4,minorversion=0,rsize=1048576,wsize=1048576,hard,timeo=600,retrans=2,noresvport \</span><br><span class="line">  --opt device=:/sandbox-2/data/redis \</span><br><span class="line">  redis-data</span><br></pre></td></tr></table></figure>
+<p>远程的好处也是省去了数据同步到云端的备份容灾步骤。</p>
+<p>创建挂载资源服务器本地文件路径的话，感觉也没有多少必要，直接通过source写入服务器中文件路径即可。</p>
+<p><strong>修改redis配置文件：</strong></p>
+<ol>
+<li><p>开启redis验证   </p>
+<p>如 ： requirepass 123456</p>
+</li>
+<li><p>允许redis对外连接</p>
+<p>bind 127.0.0.1 改为 bind 0.0.0.1</p>
+</li>
+<li><p>开启redis数据持久化</p>
+<p>appendonly yes</p>
+</li>
+<li><p>daemonize no</p>
+<p>后台守护进程方式启动关闭，会和docker swarm启动容器默认用-d的参数冲突</p>
+<p>protected-mode ye</p>
+</li>
+<li><p>容器启动报错权限不够，需要加<code>--privileged=true</code> 命令(不太安全)，或者指定权限范围<code>mode=444</code></p>
+</li>
+</ol>
+<h2 id="主从-sentinel模式"><a href="#主从-sentinel模式" class="headerlink" title="主从+sentinel模式"></a>主从+sentinel模式</h2><p>1主2从三哨兵的Redis集群模式。</p>
+<p>三种docker compose编排配置文件的配置方式：</p>
+<p>第一种：用 bitnami镜像支持的环境变量初始化容器时动态修改配置文件内容。</p>
+<blockquote>
+<p>通过docker仓库内的对应bitnami/xxx的仓库查看可配置的环境变量进行配置修改</p>
+<p>比如 - REDIS_SENTINEL_PORT_NUMBER=26379</p>
+</blockquote>
+<p>第二种：将外部已修改完毕的配置文件加载进内部路径，再通过指定配置路径进行启动。  </p>
+<p>第三种：直接通过compose.yml里配置脚本命令（ccommand/entrypoint），修改默认的配置。 </p>
+<p>经过试验，我选用了第一种方案，比较简便。</p>
+<h4 id="最后部署步骤"><a href="#最后部署步骤" class="headerlink" title="最后部署步骤"></a><strong>最后部署步骤</strong></h4><ol>
+<li><p>查看docker管理的挂载目录</p>
+<p><code>docker volume ls</code></p>
+</li>
+<li><p>如果未配置挂载盘资源，如下创建一个：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">docker volume create --driver local \</span><br><span class="line">  --opt type=nfs \</span><br><span class="line">  --opt o=addr=xxxxxx.cn-hangzhou.nas.aliyuncs.com,rw,vers=4,minorversion=0,rsize=1048576,wsize=1048576,hard,timeo=600,retrans=2,noresvport \</span><br><span class="line">  --opt device=:/sandbox-3/data/redis \</span><br><span class="line">  redis-master-volume</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>如挂载盘下没有这个目录，则创建对应目录</p>
+</blockquote>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">[root@sandbox-3 mnt]# docker volume inspect redis-master-volume</span><br><span class="line">[</span><br><span class="line">    &#123;</span><br><span class="line">        "CreatedAt": "2022-01-10T17:44:43+08:00",</span><br><span class="line">        "Driver": "local",</span><br><span class="line">        "Labels": &#123;&#125;,</span><br><span class="line">        "Mountpoint": "/var/lib/docker/volumes/redis-master-volume/_data",</span><br><span class="line">        "Name": "redis-master-volume",</span><br><span class="line">        "Options": &#123;</span><br><span class="line">            "device": ":/sandbox-3/data/redis",</span><br><span class="line">            "o": "addr=xxxxx.cn-hangzhou.nas.aliyuncs.com,rw,vers=4,minorversion=0,rsize=1048576,wsize=1048576,hard,timeo=600,retrans=2,noresvport",</span><br><span class="line">            "type": "nfs"</span><br><span class="line">        &#125;,</span><br><span class="line">        "Scope": "local"</span><br><span class="line">    &#125;</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>创建对应文件夹：/data/redis/slave  </p>
+</li>
+<li><p>创建配置文件：docker-compose-redis-sentinel.yml</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">version:</span> <span class="string">'3.9'</span></span><br><span class="line"></span><br><span class="line"><span class="attr">services:</span></span><br><span class="line"><span class="attr">  master:</span></span><br><span class="line"><span class="attr">    image:</span> <span class="string">'bitnami/redis:6.2.1'</span></span><br><span class="line"><span class="attr">    ports:</span></span><br><span class="line"><span class="bullet">      -</span> <span class="string">'6379'</span></span><br><span class="line"><span class="attr">    environment:</span></span><br><span class="line"><span class="bullet">      -</span> REDIS_REPLICATION_MODE=master</span><br><span class="line"><span class="bullet">      -</span> REDIS_PASSWORD=<span class="number">123456</span></span><br><span class="line"><span class="bullet">      -</span> REDIS_AOF_ENABLED=<span class="literal">yes</span></span><br><span class="line"><span class="attr">    networks:</span></span><br><span class="line"><span class="bullet">      -</span> hplus_network</span><br><span class="line"><span class="attr">    volumes:</span></span><br><span class="line"><span class="bullet">      -</span> <span class="string">'redis-master-volume:/bitnami'</span></span><br><span class="line"><span class="bullet">      -</span> <span class="string">"/etc/localtime:/etc/localtime:ro"</span></span><br><span class="line"><span class="bullet">      -</span> <span class="string">"/usr/share/zoneinfo/Asia/Shanghai:/usr/share/zoneinfo/Asia/Shanghai:ro"</span></span><br><span class="line"></span><br><span class="line"><span class="attr">  slave:</span></span><br><span class="line"><span class="attr">    image:</span> <span class="string">'bitnami/redis:6.2.1'</span></span><br><span class="line"><span class="attr">    user:</span> root</span><br><span class="line"><span class="attr">    ports:</span></span><br><span class="line"><span class="bullet">      -</span> <span class="string">'6379'</span></span><br><span class="line"><span class="attr">    depends_on:</span></span><br><span class="line"><span class="bullet">      -</span> redis_master</span><br><span class="line"><span class="attr">    deploy:</span></span><br><span class="line"><span class="attr">      replicas:</span> <span class="number">2</span></span><br><span class="line"><span class="attr">    environment:</span></span><br><span class="line"><span class="bullet">      -</span> REDIS_REPLICATION_MODE=slave</span><br><span class="line"><span class="bullet">      -</span> REDIS_MASTER_HOST=redis_master</span><br><span class="line"><span class="bullet">      -</span> REDIS_MASTER_PORT_NUMBER=<span class="number">6379</span></span><br><span class="line"><span class="bullet">      -</span> REDIS_MASTER_PASSWORD=<span class="number">12345</span></span><br><span class="line"><span class="bullet">      -</span> REDIS_PASSWORD=<span class="number">123456</span></span><br><span class="line"><span class="attr">    networks:</span></span><br><span class="line"><span class="bullet">      -</span> hplus_network</span><br><span class="line"><span class="attr">    volumes:</span></span><br><span class="line"><span class="bullet">      -</span> <span class="string">'/data/redis/slave:/bitnami'</span></span><br><span class="line"><span class="bullet">      -</span> <span class="string">"/etc/localtime:/etc/localtime:ro"</span></span><br><span class="line"><span class="bullet">      -</span> <span class="string">"/usr/share/zoneinfo/Asia/Shanghai:/usr/share/zoneinfo/Asia/Shanghai:ro"</span></span><br><span class="line"></span><br><span class="line"><span class="attr">  sentinel:</span></span><br><span class="line"><span class="attr">    image:</span> <span class="string">'bitnami/redis-sentinel:6.2.1'</span></span><br><span class="line"><span class="attr">    user:</span> root</span><br><span class="line"><span class="attr">    ports:</span></span><br><span class="line"><span class="bullet">      -</span> <span class="string">'26379-26381:26379'</span></span><br><span class="line"><span class="attr">    depends_on:</span></span><br><span class="line"><span class="bullet">      -</span> redis_master</span><br><span class="line"><span class="bullet">      -</span> redis_slave</span><br><span class="line"><span class="attr">    deploy:</span></span><br><span class="line"><span class="attr">      replicas:</span> <span class="number">3</span></span><br><span class="line"><span class="attr">    environment:</span></span><br><span class="line"><span class="bullet">      -</span> REDIS_MASTER_HOST=redis_master</span><br><span class="line"><span class="bullet">      -</span> REDIS_MASTER_PORT_NUMBER=<span class="number">6379</span></span><br><span class="line"><span class="bullet">      -</span> REDIS_MASTER_PASSWORD=<span class="number">123456</span></span><br><span class="line"><span class="bullet">      -</span> REDIS_PASSWORD=<span class="number">123456</span></span><br><span class="line"><span class="attr">    networks:</span></span><br><span class="line"><span class="bullet">      -</span> hplus_network</span><br><span class="line"><span class="attr">    volumes:</span></span><br><span class="line"><span class="bullet">      -</span> <span class="string">"/etc/localtime:/etc/localtime:ro"</span></span><br><span class="line"><span class="bullet">      -</span> <span class="string">"/usr/share/zoneinfo/Asia/Shanghai:/usr/share/zoneinfo/Asia/Shanghai:ro"</span></span><br><span class="line"></span><br><span class="line"><span class="attr">volumes:</span></span><br><span class="line"><span class="attr">  redis-master-volume:</span></span><br><span class="line"><span class="attr">    external:</span> <span class="literal">true</span></span><br><span class="line"><span class="attr">networks:</span></span><br><span class="line"><span class="attr">  hplus_network:</span></span><br><span class="line"><span class="attr">    external:</span></span><br><span class="line"><span class="attr">      name:</span> hplus_network</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>以如下命令启动service</p>
+<p><code>docker stack deploy --compose-file docker-compose-redis-sentinel.yml redis</code></p>
+</li>
+</ol>
+<blockquote>
+<p>sentinel 可能容器启动失败，如下报错：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;</span> [root@sandbox-3 ~]# docker logs ad0090705a64</span><br><span class="line"><span class="meta">&gt;</span> ...</span><br><span class="line"><span class="meta">&gt;</span> redis-sentinel 17:57:01.34 INFO  ==&gt; Initializing Redis Sentinel...</span><br><span class="line"><span class="meta">&gt;</span> chown: cannot access '/bitnami/redis-sentinel': No such file or directory</span><br><span class="line"><span class="meta">&gt;</span></span><br></pre></td></tr></table></figure>
+</blockquote>
+<p>   &gt;</p>
+<blockquote>
+<p>不能访问这个文件夹，也就是说镜像创建的时候将配置文件放在这个文件夹下，但是没有这个路径。</p>
+<p>那就在对应挂载盘路径下，创建下<code>/redis-sentinel</code>这个文件夹，具体路径应该是<code>/data/redis/sentinel/redis-sentinel/conf</code></p>
+<p>重新启动，三个service都启动成功！</p>
+</blockquote>
+<p><strong>关于读写分离：</strong></p>
+<p>Redis主从模式已经实现主从和读写权限控制，至于实现<strong>读写分离</strong>，这个完全是客户端的行为，也就是完全由使用者决定的。</p>
+<h4 id="验证集群是否有效"><a href="#验证集群是否有效" class="headerlink" title="验证集群是否有效"></a>验证集群是否有效</h4><ul>
+<li><p>主从同步，master和slave节点数据同步   √</p>
+</li>
+<li><p>配置密码是否生效  √</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; keys *</span><br><span class="line">(error) NOAUTH Authentication required.</span><br><span class="line">127.0.0.1:6379&gt; auth jsRedis12989</span><br><span class="line">OK</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>读写分离  √</p>
+<p>slave node 不能写数据。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; set a 123</span><br><span class="line">(error) READONLY You can&apos;t write against a read only replica.</span><br><span class="line">127.0.0.1:6379&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>spring 配置生效    √</p>
+<p>进入redis-cli内 输入 monitor，即可实时查看redis请求日志</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; monitor</span><br><span class="line">OK</span><br></pre></td></tr></table></figure>
+<p><img src="//flyen.github.io/2021/10/09/redis-cluster/image-20220110194843451.png" alt="image-20220110194843451"></p>
+</li>
+<li><p>挂载路径是否生效   ×</p>
+<p>修改配置文件：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">volumes:</span><br><span class="line">  redis-master-volume:</span><br><span class="line">    external: true</span><br></pre></td></tr></table></figure>
+<p>修改完，重新创建service，验证阿里云挂载盘目录下已同步到容器目录下的文件。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">[root@dev ~]# cd /mnt/sandbox-3/data/redis/</span><br><span class="line">[root@dev redis]# ls    // 目录下无文件</span><br><span class="line">[root@dev redis]# ls    // 修改完之后</span><br><span class="line">redis</span><br><span class="line">[root@dev redis]# cd redis/</span><br><span class="line">[root@dev redis]# ls</span><br><span class="line">data</span><br><span class="line">[root@dev redis]# cd data/</span><br><span class="line">[root@dev data]# ls</span><br><span class="line">appendonly.aof  dump.rdb</span><br><span class="line">[root@dev data]#</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>因为如果不加这个的话（external: true），在服务启动会自动新建一个挂载名字叫做 <code>redis_redis-master-volume:</code>的挂载资源，并且绑定。</p>
+</blockquote>
+</li>
+<li><p>持久化生效  √</p>
+<p>重启redis，初始化数据到redis内存，完成。</p>
+</li>
+<li><p>master down之后，故障转移，master重新选举   √<br><img src="//flyen.github.io/2021/10/09/redis-cluster/image-20220114165821994.png" alt="image-20220114165821994"></p>
+</li>
+<li><p>故障恢复后，重新成为集群的salve节点。   √</p>
+<p>如果是master故障，docker swarm的监控故障恢复机制是会自动重启的，重启后master依然是正常master node。因为sentinel有个判定master宕机的时长，默认应该是1分钟，默认如果3个sentinel中有2个认为宕机，就会进行选举，选举出一个当master。但重启故障恢复的时间小于1分钟，所以还是master，不会切换。</p>
+</li>
+</ul>
+<h3 id="踩坑记录"><a href="#踩坑记录" class="headerlink" title="踩坑记录"></a>踩坑记录</h3><p>第一次成功连接之后，又修改了docker compose的配置（为了解决的是master node未挂载成功的问题），重新创建service之后，Spring连不通了，报错：</p>
+<p>（后来配置改回来再重启还是不行）</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">reactor.core.Exceptions$ErrorCallbackNotImplemented: org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis; nested exception is io.lettuce.core.RedisConnectionException: Unable to connect to 10.0.1.102:6379</span><br></pre></td></tr></table></figure>
+<p>连接这个IP连不上，IP错误，确实去看了master和slave的node的ip，没有一个对的上的，所以看起来是没有读取成功？？客户端缓存了？请求的还是第一次连接成功的ip？但是没有道理啊。</p>
+<p>经过各方面排查，发现sentinel service的日志：</p>
+<p><img src="//flyen.github.io/2021/10/09/redis-cluster/image-20220111180834411.png" alt="image-20220111180834411"></p>
+<p>确实是因为sentinel内部绑定的master和slave的IP都不对原因导致的，而不是客户端Spring程序的问题。</p>
+<p>查看了sentinel服务其中一个容器内部的sentinel.conf配置文件：</p>
+<p>发现确实是绑的<code>10.0.1.102</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"># Note: master name should not include special characters or spaces.</span><br><span class="line"># The valid charset is A-z 0-9 and the three characters &quot;.-_&quot;.</span><br><span class="line">sentinel monitor mymaster 10.0.1.102 6379 2</span><br><span class="line"></span><br><span class="line"># sentinel auth-pass &lt;master-name&gt; &lt;password&gt;</span><br><span class="line">#</span><br><span class="line"># Set the password to use to authenticate with the master and replicas.</span><br></pre></td></tr></table></figure>
+<p>网上找了一个类似的问题：</p>
+<p><a href="https://github.com/bitnami/charts/issues/1682" target="_blank" rel="noopener">https://github.com/bitnami/charts/issues/1682</a></p>
+<p>有人提出，sentinel有对应两个配置可以开启：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">SENTINEL resolve-hostnames yes</span><br><span class="line">SENTINEL announce-hostnames yes</span><br></pre></td></tr></table></figure>
+<p>查询对应bitnami的redis镜像，支持一个环境变量<code>REDIS_SENTINEL_RESOLVE_HOSTNAMES</code>默认no，改为yes，也就是说开启哨兵主机名支持。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">来自 https://hub.docker.com/r/bitnami/redis-sentinel</span><br><span class="line">REDIS_SENTINEL_RESOLVE_HOSTNAMES: Enables sentinel hostnames support. This is available only for Redis(TM) 6.2 or higher. Default: no.</span><br></pre></td></tr></table></figure>
+<p>试了还是不通，配置文件依然是同样的配方。。。</p>
+<p><strong>想到了挂载盘</strong> 。。。。才恍然</p>
+<p>我照常把容器下的bitnami挂载到主机某个目录下的，sentinel服务的容器生成的目录是放sentinel的配置文件，然后容器每次启动就用挂载盘的第一次服务启动后生成的那个旧文件了，所以就发生了后来就一直调不通的情况了。。。</p>
+<p>解决方法：</p>
+<ol>
+<li><p>把挂载资源去掉，conf配置文件每次启动重新生成，也没必要挂载，挂载只是方便在主机去修改和数据备份。</p>
+</li>
+<li><p>挂载资源配置下加一个<code>nocopy: true</code></p>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">volumes:</span></span><br><span class="line"><span class="attr">  - type:</span> volume</span><br><span class="line"><span class="attr">    source:</span> mydata</span><br><span class="line"><span class="attr">    target:</span> /data</span><br><span class="line"><span class="attr">    volume:</span></span><br><span class="line"><span class="attr">      nocopy:</span> <span class="literal">true</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p> <code>nocopy</code>：flag to disable copying of data from a container when a volume is created</p>
+</blockquote>
+</li>
+</ol>
+<h3 id="关于Redis持久化机制"><a href="#关于Redis持久化机制" class="headerlink" title="关于Redis持久化机制"></a>关于Redis持久化机制</h3><p><strong>关于持久化</strong></p>
+<p>redis有两种持久化机制，一种是全量的RDB（Redis Database），一种是增量的AOF（Append Only File）。</p>
+<p>在默认配置未开启，即<code>appendonly:no</code>的情况下，只会进行RDB。</p>
+<ul>
+<li><p>RDB持久化方式能够在指定的时间间隔对数据进行快照存储，适合数据备份。</p>
+<p>比如也可以每天保存一份数据再传送到远端数据中心，非常使用于容灾恢复。</p>
+</li>
+<li><p>RDB在保存RDB文件时父进程fork出一个子进程，去做数据的持久化工作，RDB持久化方式可以最大化redis的性能。</p>
+</li>
+<li><p>与AOF相比，在恢复大数据集的时候，RDB方式会更快一些。</p>
+</li>
+<li><p>但是如果更在意<strong>丢失的数据最小化</strong>的话，那么更适合AOF的持久化方式。即RDB虽然可以设置每隔5分钟或者更短的时间间隔保存一次，但是这个操作是要保存整个数据集，是非常繁重的工作。所以时间间隔都会设置相对较长，万一意外宕机，可能会丢失一部分数据。</p>
+</li>
+</ul>
+<p>AOF：</p>
+<ul>
+<li>AOF增量同步，也就是记录每次对服务器写的操作。当服务器重启后选择AOF持久化机制的话是会重新执行这些命令，来恢复原始的数据，AOF方式是以redis协议追加保存每次写的操作到文件末尾。Redis还会对AOF文件进行整理重写，以缩减体积，减少初始化时间。</li>
+<li>AOF提供有不同的异步同步策略，比如无fsync,每秒fsync,每次写的时候fsync（默认）。fsync是由后台线程进行处理的,主线程会尽力处理客户端请求，所以性能不太影响，一旦出现故障，最多丢失1秒的数据。</li>
+<li>Redis 可以在 AOF 文件体积变得过大时，自动地在后台对 AOF 进行重写（重写后的新 AOF 文件包含了恢复当前数据集所需的最小命令集合）。</li>
+<li>AOF 文件有序地保存了对数据库执行的所有写入操作， 这些写入操作以 Redis 协议的格式保存， 因此 AOF 文件的内容非常容易被人读懂， 对文件进行分析（parse）也很轻松。所以比如不小心执行了flushall命令，只要AOF文件还没重写，那么只需要停止服务，移除AOF文件末尾的FLUSHALL命令，就可以将数据集恢复到之前的状态。</li>
+<li>AOF与RDB相比，相同数据集，一般AOF文件体积会大许多。</li>
+</ul>
+<h2 id="多主多从的cluster模式"><a href="#多主多从的cluster模式" class="headerlink" title="多主多从的cluster模式"></a>多主多从的cluster模式</h2><p>当使用sentinel模式的时候，客户端就不要直接连接Redis，而是连接sentinel的ip和port，由sentinel来提供具体的可提供服务的Redis实现，这样当master节点挂掉以后，sentinel就会感知并将新的master节点提供给使用者。</p>
+<p>sentinel模式基本可以满足一般生产的需求，具备高可用性。但是当数据量过大到一台服务器存放不下的情况时，主从模式或sentinel模式就不能满足需求了，这个时候需要对存储的数据进行分片，将数据存储到多个Redis实例中。</p>
+<p>cluster的出现是为了解决单机Redis容量有限的问题，将Redis的数据根据一定的规则分配到多台机器。</p>
+<p>未进行配置，后续更新。</p>
+<p>资料：</p>
+<ul>
+<li><p><a href="https://hub.docker.com/r/bitnami/redis" target="_blank" rel="noopener">https://hub.docker.com/r/bitnami/redis</a></p>
+</li>
+<li><p><a href="https://hub.docker.com/r/bitnami/redis-sentinel" target="_blank" rel="noopener">https://hub.docker.com/r/bitnami/redis-sentinel</a></p>
+</li>
+<li><a href="https://docs.docker.com/engine/reference/commandline/service_create/" target="_blank" rel="noopener">https://docs.docker.com/engine/reference/commandline/service_create/</a></li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/redis/" rel="tag"># redis</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2021/01/20/netty实践/" rel="next" title="学习笔记之netty实践及源码剖析">
+                <i class="fa fa-chevron-left"></i> 学习笔记之netty实践及源码剖析
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2021/11/16/线上问题排查/" rel="prev" title="线上问题排查复盘">
+                线上问题排查复盘 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.png"
+               alt="Iwhale" />
+          <p class="site-author-name" itemprop="name">Iwhale</p>
+          <p class="site-description motion-element" itemprop="description">Dream, Such as whales to the sea.</p>
+        </div>
+        <nav class="site-state motion-element">
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">48</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">10</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">30</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/flyEn" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/p/1005055406757796/home" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#docker单点模式"><span class="nav-number">1.</span> <span class="nav-text">docker单点模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#主从-sentinel模式"><span class="nav-number">2.</span> <span class="nav-text">主从+sentinel模式</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#最后部署步骤"><span class="nav-number">2.0.1.</span> <span class="nav-text">最后部署步骤</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#验证集群是否有效"><span class="nav-number">2.0.2.</span> <span class="nav-text">验证集群是否有效</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#踩坑记录"><span class="nav-number">2.1.</span> <span class="nav-text">踩坑记录</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#关于Redis持久化机制"><span class="nav-number">2.2.</span> <span class="nav-text">关于Redis持久化机制</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#多主多从的cluster模式"><span class="nav-number">3.</span> <span class="nav-text">多主多从的cluster模式</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright" >
+  
+  &copy;  Thu Jan 05 2017 08:00:00 GMT+0800 (中国标准时间) - 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Iwhale</span>
+</div>
+
+<div class="powered-by">
+<i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">
+  本站访客数:<span id="busuanzi_value_site_uv"></span>
+</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+
+<script type="text/javascript" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script>
+<script type="text/javascript" src="//7u2ss1.com1.z0.glb.clouddn.com/love.js"></script>
+
+<a href="https://github.com/flyEn"><img style="position: absolute; top: 0; left: 0; border: 0;" src="https://camo.githubusercontent.com/c6625ac1f3ee0a12250227cf83ce904423abf351/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f6c6566745f677261795f3664366436642e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_left_gray_6d6d6d.png"></a>
+</body>
+</html>
